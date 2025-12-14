@@ -1,5 +1,5 @@
 // Order Tracking Screen
-// Track order status by phone number or auto-load for logged in users
+// Shows user's orders (auto-loaded for logged in users, search for guests)
 
 import { useState, useEffect } from 'react'
 import { Search, MapPin, Calendar, Clock, User, Check, Truck, Play, CheckCircle2, XCircle, Home, ClipboardList } from 'lucide-react'
@@ -106,32 +106,34 @@ export default function OrderTracking({ onBack, onNavigate, initialPhone = '' }:
               <div className="flex items-center gap-2 text-sm">
                 <User className="h-4 w-4 text-cyan-600" />
                 <span className="text-cyan-800">
-                  Showing orders for <strong>{user.name}</strong> ({user.phone})
+                  Orders for <strong>{user.name}</strong> ({user.phone})
                 </span>
               </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Phone Search */}
-        <Card>
-          <CardContent className="p-4">
-            <label className="text-sm font-medium mb-2 block">
-              {isAuthenticated ? 'Search another phone number' : 'Enter your phone number'}
-            </label>
-            <div className="flex gap-2">
-              <Input
-                placeholder="050-XXX-XXXX"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="flex-1"
-              />
-              <Button onClick={handleSearch} disabled={!phone}>
-                <Search className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Phone Search - only for guests */}
+        {!isAuthenticated && (
+          <Card>
+            <CardContent className="p-4">
+              <label className="text-sm font-medium mb-2 block">
+                Enter your phone number
+              </label>
+              <div className="flex gap-2">
+                <Input
+                  placeholder="050-XXX-XXXX"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={handleSearch} disabled={!phone}>
+                  <Search className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Search Results */}
         {searchedPhone && !latestOrder && (

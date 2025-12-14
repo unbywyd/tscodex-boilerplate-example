@@ -50,19 +50,58 @@ export default function ElderCarePreview() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 py-6 md:py-8 px-4">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-slate-800 mb-2">ElderCare</h1>
-        <p className="text-slate-600">Elderly Care Services Platform - MVP Prototype</p>
-        <p className="text-sm text-slate-500 mt-2 flex items-center justify-center gap-1">
+      <div className="text-center mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">ElderCare</h1>
+        <p className="text-slate-600 text-sm md:text-base">Elderly Care Services Platform - MVP Prototype</p>
+        <p className="text-xs md:text-sm text-slate-500 mt-2 flex items-center justify-center gap-1">
           <Smartphone className="h-4 w-4" />
-          Open any app on your phone by clicking "Open Standalone"
+          <span className="hidden sm:inline">Open any app on your phone by clicking "Open"</span>
+          <span className="sm:hidden">Tap any app to open</span>
         </p>
       </div>
 
-      {/* Three Apps Side by Side */}
-      <div className="flex flex-wrap justify-center gap-8">
+      {/* Mobile: App Cards / Desktop: MobileFrames */}
+      {/* On mobile (< lg), show compact cards */}
+      <div className="lg:hidden max-w-md mx-auto space-y-3 mb-6">
+        {apps.map(({ id, title, description, path, colorClass }) => (
+          <div
+            key={id}
+            className="bg-white rounded-xl shadow-sm border p-4 flex items-center gap-4"
+          >
+            <div className="flex-1 min-w-0">
+              <h2 className="font-semibold text-slate-800">{title}</h2>
+              <p className="text-sm text-slate-500">{description}</p>
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleCopyLink(id, path)}
+                title="Copy link"
+              >
+                {copiedId === id ? (
+                  <Check className="h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => handleOpenApp(path)}
+                className={colorClass}
+              >
+                <ExternalLink className="h-4 w-4 mr-1.5" />
+                Open
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* On desktop (>= lg), show MobileFrames side by side */}
+      <div className="hidden lg:flex flex-wrap justify-center gap-8">
         {apps.map(({ id, title, description, path, Component }) => (
           <div key={id} className="flex flex-col items-center gap-3">
             <div className="text-center">
@@ -101,8 +140,8 @@ export default function ElderCarePreview() {
         ))}
       </div>
 
-      {/* Direct Links Section */}
-      <div className="max-w-2xl mx-auto mt-12 bg-white rounded-lg shadow-sm border p-6">
+      {/* Direct Links Section - only on desktop */}
+      <div className="hidden md:block max-w-2xl mx-auto mt-12 bg-white rounded-lg shadow-sm border p-6">
         <h3 className="font-semibold text-slate-700 mb-4 flex items-center gap-2">
           <Smartphone className="h-5 w-5" />
           Direct Links for Mobile Testing
@@ -142,7 +181,7 @@ export default function ElderCarePreview() {
       </div>
 
       {/* Footer */}
-      <div className="text-center mt-8 text-sm text-slate-500">
+      <div className="text-center mt-6 md:mt-8 text-xs md:text-sm text-slate-500">
         <p>Prototype built with LLM Boilerplate</p>
         <p className="mt-1">All data is stored locally in your browser</p>
       </div>

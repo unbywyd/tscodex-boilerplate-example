@@ -1,12 +1,12 @@
 // Client Login Screen
-// Full onboarding flow: Phone → OTP → Profile → Address → Permissions → Home
+// Full onboarding flow: Phone → OTP → Profile (name+address) → Permissions → Home
 
 import { useState } from 'react'
-import { Phone, ArrowRight, User, KeyRound, Bell, MapPin, Check, Home } from 'lucide-react'
+import { Phone, ArrowRight, User, Bell, MapPin, Check, Home } from 'lucide-react'
 import {
   Screen, ScreenHeader, ScreenBody, ScreenFooter,
   TopBar, Card, CardContent, Button, Input,
-  Select, Doc, useToast
+  Select, Doc, useToast, OTPInput
 } from '@/components/ui'
 import { useAuth } from '@/hooks/useAuth'
 import { dispatchEvent } from '@/lib/events'
@@ -17,7 +17,7 @@ interface LoginScreenProps {
   onSkip?: () => void
 }
 
-type Step = 'phone' | 'otp' | 'profile' | 'address' | 'permissions'
+type Step = 'phone' | 'otp' | 'profile' | 'permissions'
 
 export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
   const { show } = useToast()
@@ -92,10 +92,6 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
         return
       }
       setError('')
-      setStep('address')
-    } else if (step === 'address') {
-      // Address is optional but encouraged
-      setError('')
       setStep('permissions')
     } else if (step === 'permissions') {
       // Complete login
@@ -124,7 +120,7 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
   }
 
   const renderStepIndicator = () => {
-    const steps = ['phone', 'otp', 'profile', 'address', 'permissions']
+    const steps = ['phone', 'otp', 'profile', 'permissions']
     const currentIndex = steps.indexOf(step)
 
     return (
@@ -171,61 +167,54 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
       <p className="text-sm text-muted-foreground mb-4">
         Code sent to {phone}
       </p>
-      <div className="relative">
-        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="text"
-          inputMode="numeric"
-          placeholder="000000"
-          value={otp}
-          onChange={handleOtpChange}
-          className={`pl-10 text-center text-2xl tracking-[0.5em] font-mono ${error ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-          autoFocus
-        />
+      <OTPInput
+        value={otp}
+        onChange={(value) => { setOtp(value); setError('') }}
+        onComplete={handleContinue}
+        length={6}
+        error={error}
+        autoFocus
+      />
+      <div className="text-center mt-4">
+        <Button
+          variant="link"
+          size="sm"
+          className="p-0 h-auto"
+          onClick={() => {
+            show({ message: 'Code resent!', type: 'success' })
+          }}
+        >
+          Resend code
+        </Button>
       </div>
-      {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
-      <p className="text-xs text-muted-foreground mt-2">
-        {otp.length}/6 digits
-      </p>
-      <Button
-        variant="link"
-        size="sm"
-        className="mt-2 p-0 h-auto"
-        onClick={() => {}}
-      >
-        Resend code
-      </Button>
     </>
   )
 
   const renderProfileStep = () => (
     <>
-      <h2 className="text-lg font-semibold mb-2">What's your name?</h2>
+      <h2 className="text-lg font-semibold mb-2">Tell us about yourself</h2>
       <p className="text-sm text-muted-foreground mb-4">
-        So we know how to address you
-      </p>
-      <div className="relative">
-        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="text"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => { setName(e.target.value); setError('') }}
-          className={`pl-10 ${error ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-          autoFocus
-        />
-      </div>
-      {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
-    </>
-  )
-
-  const renderAddressStep = () => (
-    <>
-      <h2 className="text-lg font-semibold mb-2">Where do you live?</h2>
-      <p className="text-sm text-muted-foreground mb-4">
-        This will be your default address for orders
+        Name is required, address helps us serve you faster
       </p>
       <div className="space-y-3">
+        {/* Name - required */}
+        <div>
+          <label className="text-sm font-medium mb-1.5 block">Your Name *</label>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="How should we call you?"
+              value={name}
+              onChange={(e) => { setName(e.target.value); setError('') }}
+              className={`pl-10 ${error ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+              autoFocus
+            />
+          </div>
+          {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+        </div>
+
+        {/* City - optional */}
         <Select
           label="City"
           placeholder="Select your city"
@@ -233,6 +222,8 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
           onValueChange={setCity}
           options={ISRAELI_CITIES}
         />
+
+        {/* Address - optional */}
         <div>
           <label className="text-sm font-medium mb-1.5 block">Street Address</label>
           <div className="relative">
@@ -248,7 +239,7 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
         </div>
       </div>
       <p className="text-xs text-muted-foreground mt-3">
-        You can skip this and fill it later when placing an order
+        Address is optional - you can fill it later when placing an order
       </p>
     </>
   )
@@ -312,7 +303,6 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
       case 'phone': return 'Send Code'
       case 'otp': return 'Verify'
       case 'profile': return 'Continue'
-      case 'address': return city && address ? 'Continue' : 'Skip for Now'
       case 'permissions': return 'Get Started'
     }
   }
@@ -324,7 +314,7 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
         <TopBar
           title=""
           back={step !== 'phone' ? () => {
-            const steps: Step[] = ['phone', 'otp', 'profile', 'address', 'permissions']
+            const steps: Step[] = ['phone', 'otp', 'profile', 'permissions']
             const currentIndex = steps.indexOf(step)
             if (currentIndex > 0) {
               setStep(steps[currentIndex - 1])
@@ -358,7 +348,6 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
             {step === 'phone' && renderPhoneStep()}
             {step === 'otp' && renderOtpStep()}
             {step === 'profile' && renderProfileStep()}
-            {step === 'address' && renderAddressStep()}
             {step === 'permissions' && renderPermissionsStep()}
           </CardContent>
         </Card>
