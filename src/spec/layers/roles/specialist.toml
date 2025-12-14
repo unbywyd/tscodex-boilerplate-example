@@ -1,0 +1,40 @@
+# Specialist Role
+# Care workers providing services
+
+[role]
+id = "specialist"
+name = "Specialist"
+description = "Care specialists providing elderly care services"
+level = 2
+
+[role.identification]
+method = "phone"
+required = true
+verification = "sms-otp"
+
+[permissions]
+list = [
+  "order:read:assigned",
+  "shift:start",
+  "shift:end",
+  "availability:manage:own"
+]
+
+[role.actions]
+canDo = [
+  "View assigned orders",
+  "Start and end work shifts",
+  "Set weekly availability",
+  "View own shift history"
+]
+cannotDo = [
+  "Create orders",
+  "Assign orders to self",
+  "View other specialists",
+  "Access admin features"
+]
+
+[relations]
+guards = ["authenticated", "specialist-only"]
+routes = ["specialist-home", "specialist-orders", "active-shift", "availability-setup"]
+platforms = ["specialist-app"]

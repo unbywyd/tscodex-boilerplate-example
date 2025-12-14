@@ -1,0 +1,46 @@
+[component]
+id = "specialist-card"
+name = "Specialist Card"
+description = "Displays specialist information with avatar, services, cities and status toggle"
+
+[component.props]
+specialist = "SpecialistEntity"
+onToggleActive = "(id: string, isActive: boolean) => void"
+onDelete = "(id: string) => void"
+onSelect = "(specialist: SpecialistEntity) => void (optional)"
+
+[component.features]
+list = [
+  "Specialist avatar",
+  "Name and contact info",
+  "Service type badges",
+  "City badges",
+  "Active/inactive toggle switch",
+  "Delete action",
+  "Selection mode for assignment"
+]
+
+[component.styling]
+hover = "shadow-md transition"
+inactive = "opacity-60"
+responsive = true
+
+[component.usage]
+code = """
+import { SpecialistCard } from '@prototype/components'
+
+<SpecialistCard
+  specialist={specialist}
+  onToggleActive={(id, active) => toggleStatus(id, active)}
+  onDelete={(id) => removeSpecialist(id)}
+/>
+"""
+
+[relations]
+entities = ["specialist"]
+routes = ["admin-specialists"]
+
+[implementation]
+component = "SpecialistCard"
+file = "src/prototype/components/SpecialistCard.tsx"
+status = "planned"

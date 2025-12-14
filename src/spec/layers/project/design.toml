@@ -1,0 +1,77 @@
+# ElderCare - Design Specifications
+
+[design]
+name = "ElderCare Design System"
+description = "Visual design for elderly care services platform"
+approach = "ui-kit"
+framework = "React with Tailwind CSS"
+
+[design.theme]
+mode = "light"
+primary = "cyan"
+radius = "0.75rem"  # Rounded, friendly appearance
+
+[design.typography]
+fontFamily = "Inter, system-ui, sans-serif"
+monoFamily = "JetBrains Mono, monospace"
+baseSize = "16px"
+headings = { weight = "600", tracking = "tight" }
+largeTouchTargets = true  # Important for elderly users
+
+[design.layout]
+strategy = "mobile-first"
+maxWidth = "100%"
+containerPadding = "1rem"
+headerHeight = "56px"
+spacing = "8px base unit"
+
+[design.components]
+buttonStyle = "rounded"
+buttonSize = "lg"       # Large buttons for accessibility
+cardStyle = "shadow"    # Clear visual hierarchy
+inputStyle = "outlined"
+inputSize = "lg"        # Large inputs
+iconSize = "24px"
+
+[design.accessibility]
+target = "wcag-aa"
+minTouchTarget = "44px"
+fontScaling = true
+highContrast = false
+
+[design.localization]
+primaryLanguage = "he"
+rtlSupport = true
+prototypeLanguage = "en"
+additionalLanguages = ["en"]
+
+[design.palette]
+background = "#f8fafc"   # Slate-50
+foreground = "#1e293b"   # Slate-800
+muted = "#f1f5f9"
+mutedForeground = "#64748b"  # Slate-500
+primary = "#0891b2"      # Cyan-600 - trustworthy, healthcare
+primaryForeground = "#ffffff"
+secondary = "#0d9488"    # Teal-600 - calm, professional
+secondaryForeground = "#ffffff"
+accent = "#f59e0b"       # Amber-500 - warmth, attention
+accentForeground = "#ffffff"
+success = "#22c55e"      # Green-500
+warning = "#f59e0b"      # Amber-500
+destructive = "#ef4444"  # Red-500
+border = "#e2e8f0"
+
+[design.patterns]
+navigation = "bottom-nav"
+forms = "single-column"
+lists = "card-based"
+modals = "bottom-sheet"
+
+[design.principles]
+list = [
+  "Clean and minimal interface",
+  "Large touch targets for accessibility",
+  "Clear visual hierarchy",
+  "Professional healthcare appearance",
+  "Mobile-first responsive design"
+]

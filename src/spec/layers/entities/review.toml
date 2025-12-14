@@ -1,0 +1,53 @@
+# Review Entity
+# Client reviews after service completion
+
+[entity]
+id = "review"
+name = "Review"
+description = "A client review after service completion"
+table = "reviews"
+
+[[fields]]
+name = "id"
+type = "string"
+format = "uuid"
+required = true
+unique = true
+description = "Unique review identifier"
+
+[[fields]]
+name = "orderId"
+type = "relation"
+relatedEntity = "order"
+required = true
+unique = true
+description = "The order being reviewed"
+
+[[fields]]
+name = "rating"
+type = "integer"
+min = 1
+max = 5
+required = true
+description = "Rating from 1 to 5 stars"
+
+[[fields]]
+name = "comment"
+type = "text"
+required = false
+description = "Optional review comment"
+
+[[fields]]
+name = "createdAt"
+type = "datetime"
+required = true
+description = "Review submission timestamp"
+
+[relations]
+order = { entity = "order", type = "one-to-one", field = "orderId" }
+
+[implementation]
+interface = "ReviewEntity"
+file = "src/prototype/factories/index.ts"
+mock = "src/prototype/mocks/reviews.json"
+status = "planned"

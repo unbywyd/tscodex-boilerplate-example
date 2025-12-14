@@ -1,0 +1,32 @@
+# Order Form Route
+# Service order creation form
+
+[route]
+id = "order-form"
+path = "/prototype/client/order"
+title = "New Order"
+
+[page]
+type = "public"
+role = "client"
+
+[page.description]
+summary = "Form to create a new care service order"
+features = [
+  "Phone number input",
+  "Service type selection",
+  "Location input (address, city)",
+  "Date and time selection",
+  "Optional notes"
+]
+
+[relations]
+guards = ["public"]
+roles = ["client"]
+entities = ["order", "service"]
+platforms = ["client-app"]
+
+[implementation]
+component = "OrderForm"
+file = "src/prototype/pages/client/OrderForm.tsx"
+status = "planned"

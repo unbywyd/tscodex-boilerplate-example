@@ -1,0 +1,48 @@
+# Admin Role
+# Company administrators
+
+[role]
+id = "eldercare-admin"
+name = "Administrator"
+description = "Company administrators managing orders and specialists"
+level = 3
+
+[role.identification]
+method = "phone"
+required = true
+verification = "sms-otp"
+
+[permissions]
+list = [
+  "order:read:all",
+  "order:assign",
+  "order:update",
+  "specialist:create",
+  "specialist:read:all",
+  "specialist:update",
+  "specialist:activate",
+  "specialist:deactivate",
+  "availability:read:all",
+  "dashboard:view"
+]
+
+[role.actions]
+canDo = [
+  "View all orders",
+  "Assign specialists to orders",
+  "Create and manage specialists",
+  "Activate/deactivate specialists",
+  "Define specialist service areas",
+  "View dashboard metrics",
+  "View specialist availability"
+]
+cannotDo = [
+  "Delete orders permanently",
+  "Access financial/accounting",
+  "Modify system settings"
+]
+
+[relations]
+guards = ["authenticated", "admin-only"]
+routes = ["admin-dashboard", "admin-orders", "admin-specialists", "specialist-detail", "order-assignment"]
+platforms = ["admin-app"]

@@ -1,0 +1,116 @@
+# Order Entity
+# Care service orders from clients
+
+[entity]
+id = "order"
+name = "Order"
+description = "A care service order from a client"
+table = "orders"
+
+[[fields]]
+name = "id"
+type = "string"
+format = "uuid"
+required = true
+unique = true
+description = "Unique order identifier"
+
+[[fields]]
+name = "phone"
+type = "string"
+format = "phone"
+required = true
+description = "Client phone number (primary identifier)"
+
+[[fields]]
+name = "clientName"
+type = "string"
+required = false
+description = "Client name (optional)"
+
+[[fields]]
+name = "serviceType"
+type = "enum"
+values = ["caregiver", "nurse", "household", "shopping", "escort", "medical"]
+required = true
+description = "Type of care service needed"
+
+[[fields]]
+name = "address"
+type = "string"
+required = true
+description = "Service location address"
+
+[[fields]]
+name = "city"
+type = "string"
+required = true
+description = "City or area in Israel"
+
+[[fields]]
+name = "date"
+type = "datetime"
+required = true
+description = "Requested service date"
+
+[[fields]]
+name = "startTime"
+type = "string"
+format = "time"
+required = true
+description = "Preferred start time"
+
+[[fields]]
+name = "duration"
+type = "integer"
+required = false
+description = "Expected duration in hours (optional)"
+
+[[fields]]
+name = "notes"
+type = "text"
+required = false
+description = "Additional notes or instructions"
+
+[[fields]]
+name = "status"
+type = "enum"
+values = ["created", "reviewing", "assigned", "on_way", "in_progress", "completed", "cancelled"]
+default = "created"
+required = true
+description = "Current order status"
+
+[[fields]]
+name = "specialistId"
+type = "relation"
+relatedEntity = "specialist"
+required = false
+description = "Assigned specialist"
+
+[[fields]]
+name = "actualStart"
+type = "datetime"
+required = false
+description = "Actual work start time"
+
+[[fields]]
+name = "actualEnd"
+type = "datetime"
+required = false
+description = "Actual work end time"
+
+[[fields]]
+name = "createdAt"
+type = "datetime"
+required = true
+description = "Order creation timestamp"
+
+[relations]
+specialist = { entity = "specialist", type = "many-to-one", field = "specialistId" }
+review = { entity = "review", type = "one-to-one", mappedBy = "orderId" }
+
+[implementation]
+interface = "CareOrderEntity"
+file = "src/prototype/factories/index.ts"
+mock = "src/prototype/mocks/orders.json"
+status = "planned"

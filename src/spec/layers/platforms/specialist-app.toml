@@ -1,0 +1,35 @@
+# Specialist Application Platform
+# For care specialists managing their work
+
+[platform]
+id = "specialist-app"
+name = "ElderCare Specialist"
+type = "mobile"
+description = "Mobile app for specialists to manage orders and track work time"
+
+[platform.config]
+baseRoute = "/prototype/specialist"
+theme = "light"
+primaryAction = "Start Shift"
+
+[platform.features]
+core = [
+  "View assigned orders",
+  "Mark work start/end",
+  "Set weekly availability",
+  "View shift history"
+]
+auth = "phone-required"
+
+[platform.navigation]
+type = "bottom-nav"
+items = [
+  { id = "home", icon = "Home", label = "Home" },
+  { id = "orders", icon = "ClipboardList", label = "Orders" },
+  { id = "availability", icon = "Calendar", label = "Availability" }
+]
+
+[relations]
+routes = ["specialist-home", "specialist-orders", "active-shift", "availability-setup"]
+roles = ["specialist"]
+guards = ["authenticated", "specialist-only"]

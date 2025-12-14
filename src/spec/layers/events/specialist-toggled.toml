@@ -1,0 +1,31 @@
+[event]
+id = "specialist.toggled"
+name = "Specialist Status Toggled"
+description = "Admin activated or deactivated a specialist"
+category = "specialist"
+
+[trigger]
+action = "toggle"
+element = "Active switch on specialist card"
+
+[[payload]]
+name = "specialistId"
+type = "string"
+description = "Specialist being toggled"
+
+[[payload]]
+name = "isActive"
+type = "boolean"
+description = "New active status"
+
+[[payload]]
+name = "specialistName"
+type = "string"
+description = "Specialist name for logging"
+
+[backend]
+description = "Updates specialist active status, if deactivated - removes from available pool, cancels pending assignments"
+
+[relations]
+entities = ["specialist"]
+routes = ["admin-specialists"]

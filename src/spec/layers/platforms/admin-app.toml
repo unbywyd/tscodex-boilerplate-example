@@ -1,0 +1,35 @@
+# Admin Application Platform
+# For company administrators
+
+[platform]
+id = "admin-app"
+name = "ElderCare Admin"
+type = "mobile"
+description = "Mobile app for administrators to manage orders and specialists"
+
+[platform.config]
+baseRoute = "/prototype/admin"
+theme = "light"
+primaryAction = "Assign Order"
+
+[platform.features]
+core = [
+  "View all orders",
+  "Assign specialists to orders",
+  "Manage specialists",
+  "View dashboard metrics"
+]
+auth = "required"
+
+[platform.navigation]
+type = "bottom-nav"
+items = [
+  { id = "dashboard", icon = "LayoutDashboard", label = "Dashboard" },
+  { id = "orders", icon = "ClipboardList", label = "Orders" },
+  { id = "specialists", icon = "Users", label = "Specialists" }
+]
+
+[relations]
+routes = ["admin-dashboard", "admin-orders", "admin-specialists", "specialist-detail", "order-assignment"]
+roles = ["admin"]
+guards = ["authenticated", "admin-only"]

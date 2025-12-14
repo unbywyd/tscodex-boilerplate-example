@@ -1,0 +1,43 @@
+[component]
+id = "service-card"
+name = "Service Card"
+description = "Displays a care service option with icon, name and description for selection"
+
+[component.props]
+service = "{ id: string, name: string, description: string, icon: string }"
+onSelect = "(service) => void"
+selected = "boolean (default: false)"
+
+[component.features]
+list = [
+  "Service icon (dynamic from lucide-react)",
+  "Service name",
+  "Short description",
+  "Selection state styling",
+  "Click to select"
+]
+
+[component.styling]
+hover = "border-cyan-300 cursor-pointer"
+selected = "border-cyan-500 bg-cyan-50"
+responsive = true
+
+[component.usage]
+code = """
+import { ServiceCard } from '@prototype/components'
+
+<ServiceCard
+  service={{ id: 'caregiver', name: 'Caregiver', description: '...', icon: 'Heart' }}
+  onSelect={(s) => setSelected(s)}
+  selected={selectedId === 'caregiver'}
+/>
+"""
+
+[relations]
+entities = ["service"]
+routes = ["client-home", "client-order-form"]
+
+[implementation]
+component = "ServiceCard"
+file = "src/prototype/components/ServiceCard.tsx"
+status = "planned"

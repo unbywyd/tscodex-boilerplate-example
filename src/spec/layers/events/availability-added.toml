@@ -1,0 +1,36 @@
+[event]
+id = "availability.added"
+name = "Availability Slot Added"
+description = "Specialist added a new availability time slot"
+category = "availability"
+
+[trigger]
+action = "click"
+element = "Add Slot button in dialog"
+
+[[payload]]
+name = "specialistId"
+type = "string"
+description = "Specialist who added the slot"
+
+[[payload]]
+name = "date"
+type = "string"
+description = "Date of availability"
+
+[[payload]]
+name = "startTime"
+type = "string"
+description = "Slot start time (HH:MM)"
+
+[[payload]]
+name = "endTime"
+type = "string"
+description = "Slot end time (HH:MM)"
+
+[backend]
+description = "Creates availability record, updates specialist calendar, makes slot visible for order assignment"
+
+[relations]
+entities = ["availability", "specialist"]
+routes = ["specialist-availability"]

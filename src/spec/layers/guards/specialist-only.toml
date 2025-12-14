@@ -1,0 +1,19 @@
+# Specialist Only Guard
+# Restricts access to authenticated specialists
+
+[guard]
+id = "specialist-only"
+name = "Specialist Access"
+description = "Allows access only to authenticated specialists"
+
+[access]
+authenticated = true
+roles = ["specialist"]
+
+[redirect]
+unauthenticated = "/login"
+unauthorized = "/unauthorized"
+
+[relations]
+roles = ["specialist"]
+routes = ["specialist-home", "specialist-orders", "active-shift", "availability-setup"]

@@ -1,0 +1,31 @@
+[event]
+id = "shift.started"
+name = "Shift Started"
+description = "Specialist started working on an assigned order"
+category = "shift"
+
+[trigger]
+action = "click"
+element = "Start Shift button"
+
+[[payload]]
+name = "orderId"
+type = "string"
+description = "Order being worked on"
+
+[[payload]]
+name = "specialistId"
+type = "string"
+description = "Specialist who started the shift"
+
+[[payload]]
+name = "startTime"
+type = "string"
+description = "ISO timestamp when shift started"
+
+[backend]
+description = "Updates order status to 'in_progress', records actual start time, notifies client"
+
+[relations]
+entities = ["care-order", "specialist"]
+routes = ["specialist-active-shift"]

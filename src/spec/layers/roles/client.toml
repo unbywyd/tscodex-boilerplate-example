@@ -1,0 +1,41 @@
+# Client Role
+# End users who order care services
+
+[role]
+id = "client"
+name = "Client"
+description = "Family members ordering care services for elderly relatives"
+level = 1
+
+[role.identification]
+method = "phone"
+required = false  # Can order as guest
+verification = "sms-otp"
+
+[permissions]
+list = [
+  "order:create",
+  "order:read:own",
+  "order:track:own",
+  "review:create",
+  "review:read:own"
+]
+
+[role.actions]
+canDo = [
+  "Create new service orders",
+  "View own order history",
+  "Track order status",
+  "Leave reviews after service completion"
+]
+cannotDo = [
+  "View other clients' orders",
+  "Assign specialists",
+  "Manage specialists",
+  "Access admin dashboard"
+]
+
+[relations]
+guards = ["public"]
+routes = ["client-home", "order-form", "order-tracking", "order-history", "review-form"]
+platforms = ["client-app"]

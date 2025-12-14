@@ -1,0 +1,19 @@
+# Admin Only Guard
+# Restricts access to administrators
+
+[guard]
+id = "admin-only"
+name = "Admin Access"
+description = "Allows access only to authenticated administrators"
+
+[access]
+authenticated = true
+roles = ["eldercare-admin"]
+
+[redirect]
+unauthenticated = "/login"
+unauthorized = "/unauthorized"
+
+[relations]
+roles = ["eldercare-admin"]
+routes = ["admin-dashboard", "admin-orders", "admin-specialists", "specialist-detail", "order-assignment"]

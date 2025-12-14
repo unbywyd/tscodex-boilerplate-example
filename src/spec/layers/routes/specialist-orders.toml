@@ -1,0 +1,30 @@
+# Specialist Orders Route
+# List of assigned orders
+
+[route]
+id = "specialist-orders"
+path = "/prototype/specialist/orders"
+title = "My Orders"
+
+[page]
+type = "authenticated"
+role = "specialist"
+
+[page.description]
+summary = "List of orders assigned to the specialist"
+features = [
+  "Assigned orders list",
+  "Order details",
+  "Start shift action"
+]
+
+[relations]
+guards = ["authenticated", "specialist-only"]
+roles = ["specialist"]
+entities = ["order"]
+platforms = ["specialist-app"]
+
+[implementation]
+component = "SpecialistOrders"
+file = "src/prototype/pages/specialist/SpecialistOrders.tsx"
+status = "planned"

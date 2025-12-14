@@ -1,0 +1,360 @@
+/* Import Inter font - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* Markdown content styles */
+.markdown-content {
+  @apply leading-relaxed;
+}
+
+.markdown-content h1 {
+  @apply text-3xl font-bold mb-4 mt-8 first:mt-0 text-foreground;
+}
+
+.markdown-content h2 {
+  @apply text-2xl font-semibold mb-3 mt-6 text-foreground;
+}
+
+.markdown-content h3 {
+  @apply text-xl font-semibold mb-2 mt-4 text-foreground;
+}
+
+.markdown-content p {
+  @apply mb-4 leading-relaxed;
+}
+
+.markdown-content ul {
+  @apply list-disc list-inside mb-4 space-y-1;
+}
+
+.markdown-content ol {
+  @apply list-decimal list-inside mb-4 space-y-1;
+}
+
+.markdown-content code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.markdown-content pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-4 text-muted-foreground;
+}
+
+.markdown-content a {
+  @apply text-primary underline underline-offset-2 hover:no-underline;
+}
+
+.markdown-content table {
+  @apply w-full border-collapse mb-4;
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-border px-3 py-2 text-left;
+}
+
+.markdown-content th {
+  @apply bg-muted font-semibold;
+}
+
+/* TOML content styles */
+.toml-content {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto;
+}
+
+.toml-content pre {
+  @apply m-0 font-mono text-sm;
+}
+
+/* Prisma schema styles - light theme integration */
+.prisma-schema pre[class*="language-"] {
+  @apply bg-muted text-foreground border;
+}
+
+.prisma-schema code[class*="language-"] {
+  @apply text-foreground;
+}
+
+/* Override Prism.js colors for light theme */
+.prisma-schema .token.comment,
+.prisma-schema .token.prolog,
+.prisma-schema .token.doctype,
+.prisma-schema .token.cdata {
+  @apply text-muted-foreground;
+}
+
+.prisma-schema .token.punctuation {
+  @apply text-foreground;
+}
+
+.prisma-schema .token.property,
+.prisma-schema .token.tag,
+.prisma-schema .token.boolean,
+.prisma-schema .token.number,
+.prisma-schema .token.constant,
+.prisma-schema .token.symbol,
+.prisma-schema .token.deleted {
+  @apply text-blue-600 dark:text-blue-400;
+}
+
+.prisma-schema .token.selector,
+.prisma-schema .token.attr-name,
+.prisma-schema .token.string,
+.prisma-schema .token.char,
+.prisma-schema .token.builtin,
+.prisma-schema .token.inserted {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.prisma-schema .token.operator,
+.prisma-schema .token.entity,
+.prisma-schema .token.url,
+.prisma-schema .language-css .token.string,
+.prisma-schema .style .token.string {
+  @apply text-purple-600 dark:text-purple-400;
+}
+
+.prisma-schema .token.atrule,
+.prisma-schema .token.attr-value,
+.prisma-schema .token.keyword {
+  @apply text-primary;
+}
+
+.prisma-schema .token.function,
+.prisma-schema .token.class-name {
+  @apply text-orange-600 dark:text-orange-400;
+}
+
+.prisma-schema .token.regex,
+.prisma-schema .token.important,
+.prisma-schema .token.variable {
+  @apply text-red-600 dark:text-red-400;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  /* Improve touch targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better spacing for mobile */
+  .prose {
+    @apply text-sm;
+  }
+
+  /* Improve table scrolling on mobile */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  /* Better code block wrapping */
+  pre code {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Improve focus states for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better text selection */
+::selection {
+  @apply bg-primary/20 text-foreground;
+}
+
+/* Animated background blobs */
+@keyframes blob-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes blob-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+  66% {
+    transform: translate(40px, -20px) scale(1.1);
+  }
+}
+
+@keyframes blob-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, 40px) scale(1.1);
+  }
+  66% {
+    transform: translate(-40px, -30px) scale(0.9);
+  }
+}
+
+@keyframes blob-4 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-20px, -30px) scale(0.9);
+  }
+  66% {
+    transform: translate(30px, 40px) scale(1.1);
+  }
+}
+
+.animate-blob-1 {
+  animation: blob-1 20s ease-in-out infinite;
+}
+
+.animate-blob-2 {
+  animation: blob-2 25s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-blob-3 {
+  animation: blob-3 22s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.animate-blob-4 {
+  animation: blob-4 18s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Progress bar stripes */
+.bg-stripes {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+}
+
+@keyframes stripes {
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+.animate-stripes {
+  animation: stripes 1s linear infinite;
+}
+
+/* Indeterminate loading bar */
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.animate-indeterminate {
+  animation: indeterminate 1.5s ease-in-out infinite;
+}

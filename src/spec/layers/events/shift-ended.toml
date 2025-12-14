@@ -1,0 +1,31 @@
+[event]
+id = "shift.ended"
+name = "Shift Ended"
+description = "Specialist completed the care session"
+category = "shift"
+
+[trigger]
+action = "click"
+element = "Complete Shift button in confirmation dialog"
+
+[[payload]]
+name = "orderId"
+type = "string"
+description = "Completed order ID"
+
+[[payload]]
+name = "duration"
+type = "number"
+description = "Total shift duration in seconds"
+
+[[payload]]
+name = "endTime"
+type = "string"
+description = "ISO timestamp when shift ended"
+
+[backend]
+description = "Updates order status to 'completed', records actual end time, calculates billing, sends receipt to client"
+
+[relations]
+entities = ["care-order", "specialist"]
+routes = ["specialist-active-shift"]

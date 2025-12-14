@@ -1,0 +1,59 @@
+# Availability Entity
+# Specialist availability slots
+
+[entity]
+id = "availability"
+name = "Availability"
+description = "A specialist's availability time slot"
+table = "availabilities"
+
+[[fields]]
+name = "id"
+type = "string"
+format = "uuid"
+required = true
+unique = true
+description = "Unique availability slot identifier"
+
+[[fields]]
+name = "specialistId"
+type = "relation"
+relatedEntity = "specialist"
+required = true
+description = "Specialist this availability belongs to"
+
+[[fields]]
+name = "date"
+type = "datetime"
+required = true
+description = "Date of availability"
+
+[[fields]]
+name = "startTime"
+type = "string"
+format = "time"
+required = true
+description = "Start time"
+
+[[fields]]
+name = "endTime"
+type = "string"
+format = "time"
+required = true
+description = "End time"
+
+[[fields]]
+name = "isBooked"
+type = "boolean"
+default = false
+required = true
+description = "Whether this slot is booked"
+
+[relations]
+specialist = { entity = "specialist", type = "many-to-one", field = "specialistId" }
+
+[implementation]
+interface = "AvailabilityEntity"
+file = "src/prototype/factories/index.ts"
+mock = "src/prototype/mocks/availabilities.json"
+status = "planned"

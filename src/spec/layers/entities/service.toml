@@ -1,0 +1,46 @@
+# Service Entity
+# Types of care services offered
+
+[entity]
+id = "service"
+name = "Service"
+description = "A type of care service offered"
+table = "services"
+
+[[fields]]
+name = "id"
+type = "string"
+required = true
+unique = true
+description = "Service type identifier"
+
+[[fields]]
+name = "name"
+type = "string"
+required = true
+description = "Service name"
+
+[[fields]]
+name = "description"
+type = "text"
+required = true
+description = "Service description"
+
+[[fields]]
+name = "category"
+type = "enum"
+values = ["care", "medical", "household", "transport"]
+required = true
+description = "Service category"
+
+[[fields]]
+name = "icon"
+type = "string"
+required = false
+description = "Icon name for UI display"
+
+[implementation]
+interface = "ServiceEntity"
+file = "src/prototype/factories/index.ts"
+mock = "src/prototype/mocks/services.json"
+status = "planned"

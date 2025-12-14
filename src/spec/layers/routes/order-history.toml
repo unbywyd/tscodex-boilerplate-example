@@ -1,0 +1,30 @@
+# Order History Route
+# View past orders
+
+[route]
+id = "order-history"
+path = "/prototype/client/history"
+title = "Order History"
+
+[page]
+type = "public"
+role = "client"
+
+[page.description]
+summary = "View order history by phone number"
+features = [
+  "List of past orders",
+  "Order details",
+  "Review option for completed orders"
+]
+
+[relations]
+guards = ["public"]
+roles = ["client"]
+entities = ["order", "review"]
+platforms = ["client-app"]
+
+[implementation]
+component = "OrderHistory"
+file = "src/prototype/pages/client/OrderHistory.tsx"
+status = "planned"

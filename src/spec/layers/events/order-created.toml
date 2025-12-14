@@ -1,0 +1,36 @@
+[event]
+id = "order.created"
+name = "Order Created"
+description = "Client submitted a new care order request"
+category = "order"
+
+[trigger]
+action = "submit"
+element = "Order confirmation button"
+
+[[payload]]
+name = "orderId"
+type = "string"
+description = "Unique order identifier"
+
+[[payload]]
+name = "serviceType"
+type = "string"
+description = "Type of care service (caregiver, nurse, household, etc)"
+
+[[payload]]
+name = "city"
+type = "string"
+description = "City where service is needed"
+
+[[payload]]
+name = "date"
+type = "string"
+description = "Scheduled date for service"
+
+[backend]
+description = "Creates order record in database, sends notification to admin dashboard, reserves time slot"
+
+[relations]
+entities = ["care-order"]
+routes = ["client-order-form"]

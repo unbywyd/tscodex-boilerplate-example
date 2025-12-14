@@ -1,0 +1,35 @@
+# Client Application Platform
+# For clients ordering care services
+
+[platform]
+id = "client-app"
+name = "ElderCare Client"
+type = "mobile"
+description = "Mobile app for clients to order and track care services"
+
+[platform.config]
+baseRoute = "/prototype/client"
+theme = "light"
+primaryAction = "Order Service"
+
+[platform.features]
+core = [
+  "Order care services",
+  "Track order status",
+  "View order history",
+  "Leave reviews"
+]
+auth = "phone-optional"  # Can order without registration
+
+[platform.navigation]
+type = "bottom-nav"
+items = [
+  { id = "home", icon = "Home", label = "Home" },
+  { id = "orders", icon = "ClipboardList", label = "My Orders" },
+  { id = "history", icon = "Clock", label = "History" }
+]
+
+[relations]
+routes = ["client-home", "order-form", "order-tracking", "order-history", "review-form"]
+roles = ["client", "guest"]
+guards = ["public"]

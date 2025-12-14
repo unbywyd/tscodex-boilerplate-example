@@ -1,0 +1,198 @@
+# Interview Answers
+# ================================================
+# ElderCare - Elderly Care Services Platform
+# ================================================
+
+[meta]
+projectName = "ElderCare"
+startedAt = "2025-01-14"
+completedAt = ""
+
+# ─────────────────────────────────────────────────
+# Phase 0: Assessment
+# ─────────────────────────────────────────────────
+[assessment]
+projectType = "mobile"
+projectStage = "idea"
+dataComplexity = "relational"
+rolesCount = "2-3"  # client, specialist, admin
+integrationsLevel = "few-apis"  # SMS notifications
+platforms = "multiplatform"
+platformList = ["client-app", "specialist-app", "admin-app"]
+appSides = "single"
+appSidesList = []
+existingCodebase = false
+techConstraints = ["React", "Mobile-first"]
+
+# ─────────────────────────────────────────────────
+# Phase 1: Discovery
+# ─────────────────────────────────────────────────
+[discovery]
+problem = "Manual handling of elderly care orders via phone/messages creates operational overhead and makes it difficult to track orders, specialist availability, and working hours"
+audience = "Families needing elderly care services in Israel, care specialists, and company administrators"
+coreValue = "Simple digital platform for ordering and managing elderly care services with real-time tracking"
+keyFeatures = [
+  "Easy service ordering without mandatory registration",
+  "Phone-based client identification",
+  "Specialist assignment and availability management",
+  "Real-time order status tracking",
+  "Work time recording and tracking"
+]
+inScope = [
+  "Service ordering (client app)",
+  "Order status tracking",
+  "Specialist work time recording",
+  "Availability management",
+  "SMS notifications",
+  "Order history",
+  "Basic reviews"
+]
+outOfScope = [
+  "Online payments",
+  "Complex financial/accounting",
+  "Real-time GPS tracking",
+  "Chat functionality",
+  "Multi-language (MVP in Hebrew/English)"
+]
+successMetrics = [
+  "Orders processed through app",
+  "Reduced phone call volume",
+  "Accurate time tracking"
+]
+constraints = "Israel market, Hebrew RTL support, SMS-based verification"
+existingSystems = []
+compliance = []
+scale = ""
+stakeholders = ""
+aiIntegration = false
+aiProvider = ""
+aiFeatures = []
+
+# ─────────────────────────────────────────────────
+# Phase 2: Design
+# ─────────────────────────────────────────────────
+[design]
+approach = "ui-kit"
+colorScheme = "Blue/teal professional healthcare theme"
+darkMode = false
+brandGuidelines = false
+uiReferences = []
+responsive = "mobile-first"
+accessibilityTarget = "wcag-aa"  # Important for elderly users
+primaryLanguage = "he"
+additionalLanguages = ["en"]
+rtlSupport = true
+prototypeLanguage = "en"  # Prototype in English for development
+
+# ─────────────────────────────────────────────────
+# Phase 3: Access
+# ─────────────────────────────────────────────────
+[access]
+authModel = "mixed"
+publicParts = ["order-form", "order-tracking"]
+authMethods = ["phone"]
+phoneFormat = "single-country"  # Israel +972
+socialAuth = []
+userTypes = ["client", "specialist", "admin"]
+rolePermissions = """
+Client: Create orders, view own orders, track status, leave reviews
+Specialist: View assigned orders, mark work start/end, set availability
+Admin: Full access - manage orders, specialists, assignments, view all data
+"""
+protectedPages = ["specialist-dashboard", "admin-panel"]
+roleHierarchy = ""
+permissionGranularity = "page"
+multiTenant = "none"
+guestFlows = "Clients can order without registration, identified by phone"
+
+# ─────────────────────────────────────────────────
+# Phase 4: Data Model
+# ─────────────────────────────────────────────────
+[data]
+mainEntities = ["Order", "Specialist", "Service", "Availability", "Review", "Shift"]
+entityFields = """
+Order: id, phone, name, serviceType, address, city, date, startTime, duration, notes, status, specialistId, actualStart, actualEnd, createdAt
+Specialist: id, name, phone, email, serviceTypes, cities, isActive, avatar
+Service: id, name, description, category
+Availability: id, specialistId, date, startTime, endTime
+Review: id, orderId, rating, comment, createdAt
+Shift: id, orderId, specialistId, scheduledStart, scheduledEnd, actualStart, actualEnd
+"""
+relationships = """
+Order -> Specialist (assigned)
+Order -> Service (type)
+Specialist -> Availability (many)
+Specialist -> Service (many-to-many via serviceTypes)
+Order -> Review (one-to-one)
+Order -> Shift (one-to-one)
+"""
+requiredFields = "Order: phone, serviceType, address, city, date"
+validationRules = "Phone: Israeli format, Date: future dates only"
+filesAndMedia = "none"
+search = "basic"
+softDelete = false
+importExport = "none"
+fieldPermissions = ""
+auditTrails = "none"
+dataLifecycle = "created -> reviewing -> assigned -> in_progress -> completed"
+retentionPolicy = ""
+
+# ─────────────────────────────────────────────────
+# Phase 5: Features & Screens
+# ─────────────────────────────────────────────────
+[features]
+screens = [
+  "ClientHome",
+  "OrderForm",
+  "OrderTracking",
+  "OrderHistory",
+  "ReviewForm",
+  "SpecialistHome",
+  "SpecialistOrders",
+  "ActiveShift",
+  "AvailabilitySetup",
+  "AdminDashboard",
+  "AdminOrders",
+  "AdminSpecialists",
+  "SpecialistDetail",
+  "OrderAssignment"
+]
+navigationMap = """
+Client App: Home -> OrderForm, OrderTracking, OrderHistory
+Specialist App: Home -> Orders, ActiveShift, Availability (bottom nav)
+Admin App: Dashboard, Orders, Specialists (bottom nav)
+"""
+primaryUserJourney = """
+1. Client opens app -> fills order form (phone, service, location, date)
+2. Order created -> SMS confirmation
+3. Admin reviews -> assigns specialist
+4. Specialist sees order -> goes to location
+5. Specialist marks start -> work in progress
+6. Specialist marks end -> shift completed
+7. Client can track status anytime
+8. Client leaves review after completion
+"""
+userStories = """
+As a client, I want to order care services easily without creating an account
+As a client, I want to track my order status in real-time
+As a specialist, I want to see my assigned orders and mark work progress
+As a specialist, I want to set my availability for the week
+As an admin, I want to see all orders and assign specialists
+As an admin, I want to manage specialists and their service areas
+"""
+errorHandling = "Toast notifications for errors, form validation"
+emptyStates = "No orders yet, No specialists available"
+loadingStates = "Skeleton loaders"
+offlineBehavior = ""
+notifications = "push"  # SMS in real implementation
+settingsPage = false
+analyticsEvents = ["order.created", "order.assigned", "shift.started", "shift.completed"]
+
+# ─────────────────────────────────────────────────
+# Phase 6: Modules (complex only) - SKIPPED
+# ─────────────────────────────────────────────────
+[modules]
+domains = []
+moduleBoundaries = ""
+interfaces = ""
+sharedComponents = []

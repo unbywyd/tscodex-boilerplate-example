@@ -1,0 +1,31 @@
+[event]
+id = "auth.verified"
+name = "Phone Verified"
+description = "User successfully verified phone with OTP"
+category = "auth"
+
+[trigger]
+action = "submit"
+element = "OTP input field (auto-submit on 6 digits)"
+
+[[payload]]
+name = "phone"
+type = "string"
+description = "Verified phone number"
+
+[[payload]]
+name = "app"
+type = "string"
+description = "Which app (client, specialist)"
+
+[[payload]]
+name = "isNewUser"
+type = "boolean"
+description = "Whether this is a new registration"
+
+[backend]
+description = "Validates OTP, creates session token, marks phone as verified, proceeds to profile or home"
+
+[relations]
+entities = ["user"]
+routes = ["client-login", "specialist-login"]

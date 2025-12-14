@@ -1,0 +1,41 @@
+[event]
+id = "specialist.added"
+name = "Specialist Added"
+description = "Admin added a new specialist to the system"
+category = "specialist"
+
+[trigger]
+action = "click"
+element = "Add Specialist button in dialog"
+
+[[payload]]
+name = "name"
+type = "string"
+description = "Specialist full name"
+
+[[payload]]
+name = "phone"
+type = "string"
+description = "Specialist phone number"
+
+[[payload]]
+name = "email"
+type = "string"
+description = "Specialist email"
+
+[[payload]]
+name = "serviceTypes"
+type = "array"
+description = "List of services specialist can provide"
+
+[[payload]]
+name = "cities"
+type = "array"
+description = "Cities where specialist can work"
+
+[backend]
+description = "Creates specialist record, generates login credentials, sends welcome SMS with app download link"
+
+[relations]
+entities = ["specialist"]
+routes = ["admin-specialists"]

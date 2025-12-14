@@ -1,0 +1,29 @@
+# Client Home Route
+# Main screen of the client app
+
+[route]
+id = "client-home"
+path = "/prototype/client"
+title = "ElderCare"
+
+[page]
+type = "public"
+role = "client"
+
+[page.description]
+summary = "Client home screen with quick order and status tracking"
+features = [
+  "New order button",
+  "Track existing order by phone",
+  "Service types overview"
+]
+
+[relations]
+guards = ["public"]
+roles = ["client"]
+platforms = ["client-app"]
+
+[implementation]
+component = "ClientHome"
+file = "src/prototype/pages/client/ClientHome.tsx"
+status = "planned"

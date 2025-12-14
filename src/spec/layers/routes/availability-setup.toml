@@ -1,0 +1,30 @@
+# Availability Setup Route
+# Weekly availability management
+
+[route]
+id = "availability-setup"
+path = "/prototype/specialist/availability"
+title = "My Availability"
+
+[page]
+type = "authenticated"
+role = "specialist"
+
+[page.description]
+summary = "Set weekly availability schedule"
+features = [
+  "Week view calendar",
+  "Add/remove time slots",
+  "Day-by-day configuration"
+]
+
+[relations]
+guards = ["authenticated", "specialist-only"]
+roles = ["specialist"]
+entities = ["availability"]
+platforms = ["specialist-app"]
+
+[implementation]
+component = "AvailabilitySetup"
+file = "src/prototype/pages/specialist/AvailabilitySetup.tsx"
+status = "planned"

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npm run prisma:validate:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npm install)",
+      "Bash(taskkill:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(find:*)",
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run prisma:generate:*)",
+      "Bash(rm:*)",
+      "Bash(cmd /c \"powershell -Command \"\"Get-ChildItem -Path ''d:/MyProjects/mvp-generator/src/spec'' -Recurse -Include *.toml,*.md | Measure-Object -Property Length -Sum | Select-Object Count, Sum\"\"\")",
+      "Bash(wc:*)",
+      "Bash(git mv:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

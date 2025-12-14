@@ -1,0 +1,31 @@
+[event]
+id = "order.assigned"
+name = "Order Assigned"
+description = "Admin assigned a specialist to handle the order"
+category = "order"
+
+[trigger]
+action = "click"
+element = "Assign specialist button in dialog"
+
+[[payload]]
+name = "orderId"
+type = "string"
+description = "Order being assigned"
+
+[[payload]]
+name = "specialistId"
+type = "string"
+description = "Assigned specialist ID"
+
+[[payload]]
+name = "specialistName"
+type = "string"
+description = "Assigned specialist name"
+
+[backend]
+description = "Updates order status to 'assigned', links specialist, sends push notification to specialist app"
+
+[relations]
+entities = ["care-order", "specialist"]
+routes = ["admin-orders"]

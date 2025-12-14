@@ -1,0 +1,31 @@
+# Admin Orders Route
+# All orders management
+
+[route]
+id = "admin-orders"
+path = "/prototype/admin/orders"
+title = "Orders"
+
+[page]
+type = "authenticated"
+role = "eldercare-admin"
+
+[page.description]
+summary = "Manage all care service orders"
+features = [
+  "All orders list",
+  "Filter by status",
+  "Assign specialist action",
+  "Order details"
+]
+
+[relations]
+guards = ["authenticated", "admin-only"]
+roles = ["eldercare-admin"]
+entities = ["order", "specialist"]
+platforms = ["admin-app"]
+
+[implementation]
+component = "AdminOrders"
+file = "src/prototype/pages/admin/AdminOrders.tsx"
+status = "planned"

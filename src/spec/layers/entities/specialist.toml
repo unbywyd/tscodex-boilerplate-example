@@ -1,0 +1,81 @@
+# Specialist Entity
+# Care workers providing services
+
+[entity]
+id = "specialist"
+name = "Specialist"
+description = "A care specialist providing services"
+table = "specialists"
+
+[[fields]]
+name = "id"
+type = "string"
+format = "uuid"
+required = true
+unique = true
+description = "Unique specialist identifier"
+
+[[fields]]
+name = "name"
+type = "string"
+required = true
+description = "Full name"
+
+[[fields]]
+name = "phone"
+type = "string"
+format = "phone"
+required = true
+unique = true
+description = "Phone number"
+
+[[fields]]
+name = "email"
+type = "string"
+format = "email"
+required = false
+description = "Email address (optional)"
+
+[[fields]]
+name = "avatar"
+type = "string"
+format = "url"
+required = false
+description = "Profile photo URL"
+
+[[fields]]
+name = "serviceTypes"
+type = "array"
+items = "string"
+required = true
+description = "Types of services the specialist can provide"
+
+[[fields]]
+name = "cities"
+type = "array"
+items = "string"
+required = true
+description = "Cities/areas where specialist can work"
+
+[[fields]]
+name = "isActive"
+type = "boolean"
+default = true
+required = true
+description = "Whether specialist is currently active"
+
+[[fields]]
+name = "createdAt"
+type = "datetime"
+required = true
+description = "Account creation timestamp"
+
+[relations]
+orders = { entity = "order", type = "one-to-many", mappedBy = "specialistId" }
+availabilities = { entity = "availability", type = "one-to-many", mappedBy = "specialistId" }
+
+[implementation]
+interface = "SpecialistEntity"
+file = "src/prototype/factories/index.ts"
+mock = "src/prototype/mocks/specialists.json"
+status = "planned"

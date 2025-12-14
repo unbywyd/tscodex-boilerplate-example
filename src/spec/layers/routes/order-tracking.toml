@@ -1,0 +1,31 @@
+# Order Tracking Route
+# Track order status by phone
+
+[route]
+id = "order-tracking"
+path = "/prototype/client/track"
+title = "Track Order"
+
+[page]
+type = "public"
+role = "client"
+
+[page.description]
+summary = "Track order status using phone number"
+features = [
+  "Phone verification",
+  "Order status display",
+  "Assigned specialist info",
+  "Timeline of status changes"
+]
+
+[relations]
+guards = ["public"]
+roles = ["client"]
+entities = ["order", "specialist"]
+platforms = ["client-app"]
+
+[implementation]
+component = "OrderTracking"
+file = "src/prototype/pages/client/OrderTracking.tsx"
+status = "planned"

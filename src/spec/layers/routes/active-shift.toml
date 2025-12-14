@@ -1,0 +1,31 @@
+# Active Shift Route
+# Current active work shift
+
+[route]
+id = "active-shift"
+path = "/prototype/specialist/shift"
+title = "Active Shift"
+
+[page]
+type = "authenticated"
+role = "specialist"
+
+[page.description]
+summary = "Active shift management screen"
+features = [
+  "Current order details",
+  "Start/End shift buttons",
+  "Time tracking display",
+  "Order address and client info"
+]
+
+[relations]
+guards = ["authenticated", "specialist-only"]
+roles = ["specialist"]
+entities = ["order"]
+platforms = ["specialist-app"]
+
+[implementation]
+component = "ActiveShift"
+file = "src/prototype/pages/specialist/ActiveShift.tsx"
+status = "planned"

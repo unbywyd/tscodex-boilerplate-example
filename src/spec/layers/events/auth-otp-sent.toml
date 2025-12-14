@@ -1,0 +1,26 @@
+[event]
+id = "auth.otp_sent"
+name = "OTP Code Sent"
+description = "Verification code sent to user phone"
+category = "auth"
+
+[trigger]
+action = "click"
+element = "Send Code button"
+
+[[payload]]
+name = "phone"
+type = "string"
+description = "Last 4 digits of phone number (masked)"
+
+[[payload]]
+name = "app"
+type = "string"
+description = "Which app sent the OTP (client, specialist)"
+
+[backend]
+description = "Generates 6-digit OTP, stores with 5 min expiry, sends SMS via provider"
+
+[relations]
+entities = ["user"]
+routes = ["client-login", "specialist-login"]

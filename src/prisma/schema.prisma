@@ -1,0 +1,383 @@
+// ElderCare Prisma Schema
+// Comprehensive database schema for the care services platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  avatar    String?
+  role      UserRole @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  adminProfile      Admin?
+  clientProfile     Client?
+  specialistProfile Specialist?
+  sessions          Session[]
+  notifications     Notification[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SPECIALIST
+  CLIENT
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+// ============================================
+// ADMIN
+// ============================================
+
+model Admin {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admins")
+}
+
+// ============================================
+// CLIENT (Service Requesters)
+// ============================================
+
+model Client {
+  id        String   @id @default(uuid())
+  userId    String?  @unique
+  phone     String   @unique
+  name      String?
+  city      String?  // Default city from profile
+  address   String?  // Default address from profile
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  orders  Order[]
+  reviews Review[]
+
+  @@map("clients")
+}
+
+// ============================================
+// SPECIALIST (Care Workers)
+// ============================================
+
+model Specialist {
+  id           String   @id @default(uuid())
+  userId       String?  @unique
+  phone        String   @unique
+  name         String
+  email        String?
+  avatar       String?
+  isActive     Boolean  @default(true)
+  rating       Float    @default(0)
+  reviewCount  Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user            User?                    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  serviceTypes    SpecialistServiceType[]
+  cities          SpecialistCity[]
+  availabilities  Availability[]
+  orders          Order[]
+
+  @@map("specialists")
+}
+
+// Specialist can provide multiple service types
+model SpecialistServiceType {
+  id           String @id @default(uuid())
+  specialistId String
+  serviceId    String
+
+  specialist Specialist @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  service    Service    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([specialistId, serviceId])
+  @@map("specialist_service_types")
+}
+
+// Specialist can work in multiple cities
+model SpecialistCity {
+  id           String @id @default(uuid())
+  specialistId String
+  cityId       String
+
+  specialist Specialist @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  city       City       @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+  @@unique([specialistId, cityId])
+  @@map("specialist_cities")
+}
+
+// ============================================
+// SERVICE TYPES
+// ============================================
+
+model Service {
+  id          String          @id @default(uuid())
+  code        String          @unique // e.g., "caregiver", "nurse"
+  name        String
+  description String
+  category    ServiceCategory
+  icon        String?
+  isActive    Boolean         @default(true)
+  sortOrder   Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  // Relations
+  specialists SpecialistServiceType[]
+  orders      Order[]
+
+  @@map("services")
+}
+
+enum ServiceCategory {
+  CARE
+  MEDICAL
+  HOUSEHOLD
+  TRANSPORT
+}
+
+// ============================================
+// CITIES / AREAS
+// ============================================
+
+model City {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  region    String?
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  // Relations
+  specialists SpecialistCity[]
+  orders      Order[]
+
+  @@map("cities")
+}
+
+// ============================================
+// AVAILABILITY
+// ============================================
+
+model Availability {
+  id           String   @id @default(uuid())
+  specialistId String
+  date         DateTime @db.Date
+  startTime    String   // "08:00" format
+  endTime      String   // "18:00" format
+  isBooked     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  specialist Specialist @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+
+  @@index([specialistId, date])
+  @@index([date, isBooked])
+  @@map("availabilities")
+}
+
+// ============================================
+// ORDERS
+// ============================================
+
+model Order {
+  id           String      @id @default(uuid())
+  orderNumber  String      @unique // Human-readable order number
+  clientId     String
+  serviceId    String
+  specialistId String?
+  cityId       String
+
+  // Client info snapshot
+  clientPhone  String
+  clientName   String?
+
+  // Location
+  address      String
+  addressNotes String?
+
+  // Schedule
+  date         DateTime    @db.Date
+  startTime    String      // "09:00" format
+  duration     Int?        // Duration in minutes
+
+  // Status
+  status       OrderStatus @default(CREATED)
+  notes        String?
+
+  // Actual times
+  actualStart  DateTime?
+  actualEnd    DateTime?
+
+  // Pricing
+  estimatedPrice Float?
+  finalPrice     Float?
+
+  // Payment info (filled by admin after completion)
+  paidAmount    Float?
+  paidAt        DateTime?
+  paymentNotes  String?
+
+  // Timestamps
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  cancelledAt  DateTime?
+  completedAt  DateTime?
+
+  // Relations
+  client     Client      @relation(fields: [clientId], references: [id])
+  service    Service     @relation(fields: [serviceId], references: [id])
+  specialist Specialist? @relation(fields: [specialistId], references: [id])
+  city       City        @relation(fields: [cityId], references: [id])
+  review     Review?
+  events     OrderEvent[]
+
+  @@index([clientId])
+  @@index([specialistId])
+  @@index([status])
+  @@index([date])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  CREATED
+  REVIEWING
+  ASSIGNED
+  ON_WAY
+  IN_PROGRESS
+  COMPLETED
+  PAID
+  CANCELLED
+}
+
+// Order status change history
+model OrderEvent {
+  id        String      @id @default(uuid())
+  orderId   String
+  status    OrderStatus
+  note      String?
+  createdAt DateTime    @default(now())
+  createdBy String?     // User ID who made the change
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId, createdAt])
+  @@map("order_events")
+}
+
+// ============================================
+// REVIEWS
+// ============================================
+
+model Review {
+  id        String   @id @default(uuid())
+  orderId   String   @unique
+  clientId  String
+  rating    Int      // 1-5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  client Client @relation(fields: [clientId], references: [id])
+
+  @@index([clientId])
+  @@map("reviews")
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  data      Json?            // Additional payload
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  ORDER_CREATED
+  ORDER_ASSIGNED
+  ORDER_STATUS_CHANGED
+  ORDER_PAID
+  SHIFT_STARTED
+  SHIFT_ENDED
+  REVIEW_RECEIVED
+  SYSTEM
+}
+
+// ============================================
+// SETTINGS & CONFIGURATION
+// ============================================
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+// OTP codes for phone authentication
+model OtpCode {
+  id        String   @id @default(uuid())
+  phone     String
+  code      String
+  expiresAt DateTime
+  isUsed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([phone, code])
+  @@index([expiresAt])
+  @@map("otp_codes")
+}

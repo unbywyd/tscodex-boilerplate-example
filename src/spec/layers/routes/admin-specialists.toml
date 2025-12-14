@@ -1,0 +1,31 @@
+# Admin Specialists Route
+# Specialists management
+
+[route]
+id = "admin-specialists"
+path = "/prototype/admin/specialists"
+title = "Specialists"
+
+[page]
+type = "authenticated"
+role = "eldercare-admin"
+
+[page.description]
+summary = "Manage care specialists"
+features = [
+  "Specialists list",
+  "Add new specialist",
+  "Activate/deactivate",
+  "View details and availability"
+]
+
+[relations]
+guards = ["authenticated", "admin-only"]
+roles = ["eldercare-admin"]
+entities = ["specialist", "availability"]
+platforms = ["admin-app"]
+
+[implementation]
+component = "AdminSpecialists"
+file = "src/prototype/pages/admin/AdminSpecialists.tsx"
+status = "planned"

@@ -1,0 +1,55 @@
+# ElderCare - Project Definition
+# Elderly care services platform for Israel
+
+[project]
+id = "eldercare"
+name = "ElderCare"
+description = "Digital platform for ordering and managing elderly care services in Israel"
+type = "mobile"
+version = "0.1.0"
+
+[project.problem]
+statement = "Manual handling of care orders via phone creates operational overhead"
+impact = "Difficult to track orders, specialist availability, and working hours"
+
+[project.solution]
+summary = "Simple mobile apps for clients, specialists, and admins"
+coreValue = "Easy ordering without registration, real-time tracking, efficient management"
+
+[project.audience]
+primary = "Families needing elderly care services"
+secondary = ["Care specialists", "Company administrators"]
+market = "Israel"
+
+[features]
+list = [
+  "Service ordering without mandatory registration",
+  "Phone-based client identification",
+  "Order status tracking",
+  "Specialist work time recording",
+  "Availability management",
+  "SMS notifications (simulated)"
+]
+
+[project.scope]
+inScope = [
+  "Client mobile app",
+  "Specialist mobile app",
+  "Admin mobile app",
+  "Order lifecycle management",
+  "Availability scheduling"
+]
+outOfScope = [
+  "Payment processing",
+  "Complex accounting",
+  "GPS tracking",
+  "In-app messaging"
+]
+
+[project.platforms]
+list = ["client-app", "specialist-app", "admin-app"]
+shared = ["entities", "services", "components"]
+
+[owner]
+name = "ElderCare Team"
+email = "team@eldercare.il"

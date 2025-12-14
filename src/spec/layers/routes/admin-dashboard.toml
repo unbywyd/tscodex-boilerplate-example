@@ -1,0 +1,31 @@
+# Admin Dashboard Route
+# Main admin overview screen
+
+[route]
+id = "admin-dashboard"
+path = "/prototype/admin"
+title = "Dashboard"
+
+[page]
+type = "authenticated"
+role = "eldercare-admin"
+
+[page.description]
+summary = "Admin dashboard with key metrics and quick actions"
+features = [
+  "Order statistics",
+  "Active specialists count",
+  "Pending assignments",
+  "Quick links to orders/specialists"
+]
+
+[relations]
+guards = ["authenticated", "admin-only"]
+roles = ["eldercare-admin"]
+entities = ["order", "specialist"]
+platforms = ["admin-app"]
+
+[implementation]
+component = "AdminDashboard"
+file = "src/prototype/pages/admin/AdminDashboard.tsx"
+status = "planned"
