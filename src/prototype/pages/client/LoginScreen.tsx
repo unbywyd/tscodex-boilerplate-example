@@ -176,6 +176,7 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
         length={6}
         error={error}
         autoFocus
+        className="gap-1.5 [&_input]:w-10 [&_input]:h-12 [&_input]:text-lg"
       />
       <div className="text-center mt-4">
         <Button
