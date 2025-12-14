@@ -281,11 +281,49 @@
       "moduleBoundaries": "",
       "interfaces": "",
       "sharedComponents": []
+    },
+    "schema": {
+      "database": "postgresql",
+      "orm": "prisma",
+      "schemaFile": "src/prisma/schema.prisma",
+      "models": [
+        "User",
+        "Client",
+        "Specialist",
+        "Admin",
+        "Order",
+        "Service",
+        "City",
+        "Availability",
+        "Review",
+        "Notification",
+        "OtpCode",
+        "OrderEvent",
+        "Session",
+        "Setting"
+      ],
+      "enums": [
+        "UserRole",
+        "ServiceCategory",
+        "OrderStatus",
+        "NotificationType"
+      ],
+      "junctionTables": [
+        "SpecialistServiceType",
+        "SpecialistCity"
+      ],
+      "indexes": "orders(clientId, specialistId, status, date, createdAt), availabilities(specialistId+date, date+isBooked), notifications(userId+isRead)",
+      "features": [
+        "UUID primary keys",
+        "Audit trail via OrderEvent",
+        "OTP authentication",
+        "Soft relations for User profiles"
+      ]
     }
   },
   "metadata": {
     "statusPath": "src/spec/status.toml",
     "interviewPath": "src/spec/interview.toml",
-    "generated": "2025-12-14T19:47:32.990Z"
+    "generated": "2025-12-14T19:53:25.581Z"
   }
 }
