@@ -63,6 +63,7 @@ function App() {
                   <Route path="/docs" element={<DocsIndex />} />
                   <Route path="/docs/*" element={<DocViewer />} />
                   <Route path="/prototype/*" element={<PrototypePage />} />
+                  <Route path="/app/*" element={<PrototypePage />} />
                   <Route path="/schema" element={<PrismaSchemaPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/challenge" element={<ChallengePage />} />
