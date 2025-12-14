@@ -105,13 +105,13 @@ pagesCreated = true
 navigationWorks = true
 formsWired = true
 
-# Phase 8: Schema - SKIPPED
+# Phase 8: Schema - COMPLETED
 [phases.schema]
-status = "pending"
-skip = true  # MVP - no backend needed yet
+status = "completed"
+skip = false
 description = "Database schema"
 
 [phases.schema.checklist]
-prismaGenerated = false
-relationsValid = false
-indexesAdded = false
+prismaGenerated = true
+relationsValid = true
+indexesAdded = true

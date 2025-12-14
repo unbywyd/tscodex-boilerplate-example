@@ -109,33 +109,49 @@ guestFlows = "Clients can order without registration, identified by phone"
 # Phase 4: Data Model
 # ─────────────────────────────────────────────────
 [data]
-mainEntities = ["Order", "Specialist", "Service", "Availability", "Review", "Shift"]
+mainEntities = ["User", "Client", "Specialist", "Admin", "Order", "Service", "City", "Availability", "Review", "Notification", "OtpCode", "OrderEvent"]
 entityFields = """
-Order: id, phone, name, serviceType, address, city, date, startTime, duration, notes, status, specialistId, actualStart, actualEnd, createdAt
-Specialist: id, name, phone, email, serviceTypes, cities, isActive, avatar
-Service: id, name, description, category
-Availability: id, specialistId, date, startTime, endTime
-Review: id, orderId, rating, comment, createdAt
-Shift: id, orderId, specialistId, scheduledStart, scheduledEnd, actualStart, actualEnd
+User: id, email, password, name, avatar, role (USER|ADMIN|SPECIALIST|CLIENT), isActive, createdAt, updatedAt
+Client: id, userId?, phone, name?, city?, address?, createdAt, updatedAt
+Specialist: id, userId?, phone, name, email?, avatar?, isActive, rating, reviewCount, createdAt, updatedAt
+Admin: id, userId, createdAt
+Order: id, orderNumber, clientId, serviceId, specialistId?, cityId, clientPhone, clientName?, address, addressNotes?, date, startTime, duration?, status (CREATED|REVIEWING|ASSIGNED|ON_WAY|IN_PROGRESS|COMPLETED|PAID|CANCELLED), notes?, actualStart?, actualEnd?, estimatedPrice?, finalPrice?, paidAmount?, paidAt?, paymentNotes?, createdAt, updatedAt
+Service: id, code, name, description, category (CARE|MEDICAL|HOUSEHOLD|TRANSPORT), icon?, isActive, sortOrder
+City: id, name, region?, isActive, sortOrder
+Availability: id, specialistId, date, startTime, endTime, isBooked
+Review: id, orderId, clientId, rating (1-5), comment?
+Notification: id, userId, type, title, message, data?, isRead
+OtpCode: id, phone, code, expiresAt, isUsed
+OrderEvent: id, orderId, status, note?, createdAt, createdBy?
 """
 relationships = """
-Order -> Specialist (assigned)
-Order -> Service (type)
-Specialist -> Availability (many)
-Specialist -> Service (many-to-many via serviceTypes)
+User -> Client (one-to-one optional)
+User -> Specialist (one-to-one optional)
+User -> Admin (one-to-one optional)
+User -> Session (one-to-many)
+User -> Notification (one-to-many)
+Client -> Order (one-to-many)
+Client -> Review (one-to-many)
+Specialist -> SpecialistServiceType -> Service (many-to-many via junction)
+Specialist -> SpecialistCity -> City (many-to-many via junction)
+Specialist -> Availability (one-to-many)
+Specialist -> Order (one-to-many)
+Service -> Order (one-to-many)
+City -> Order (one-to-many)
 Order -> Review (one-to-one)
-Order -> Shift (one-to-one)
+Order -> OrderEvent (one-to-many, audit history)
 """
-requiredFields = "Order: phone, serviceType, address, city, date"
-validationRules = "Phone: Israeli format, Date: future dates only"
+requiredFields = "Order: clientId, serviceId, cityId, clientPhone, address, date, startTime"
+validationRules = "Phone: Israeli format, Date: future dates only, Rating: 1-5"
 filesAndMedia = "none"
 search = "basic"
 softDelete = false
 importExport = "none"
 fieldPermissions = ""
-auditTrails = "none"
-dataLifecycle = "created -> reviewing -> assigned -> in_progress -> completed"
+auditTrails = "OrderEvent tracks all status changes"
+dataLifecycle = "CREATED -> REVIEWING -> ASSIGNED -> ON_WAY -> IN_PROGRESS -> COMPLETED -> PAID"
 retentionPolicy = ""
+schemaFile = "src/prisma/schema.prisma"
 
 # ─────────────────────────────────────────────────
 # Phase 5: Features & Screens
