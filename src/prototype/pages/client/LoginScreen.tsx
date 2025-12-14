@@ -59,7 +59,7 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
     setError('')
   }
 
-  const handleContinue = () => {
+  const handleContinue = (otpValue?: string) => {
     if (step === 'phone') {
       if (!isValidPhone) {
         setError('Enter 10 digits (e.g. 050-123-4567)')
@@ -73,7 +73,9 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
       setError('')
       setStep('otp')
     } else if (step === 'otp') {
-      if (!isValidOtp) {
+      // Use passed value from onComplete or fall back to state
+      const codeToValidate = otpValue ?? otp
+      if (codeToValidate.length !== 6) {
         setError('Enter 6-digit code')
         show({ message: 'Please enter the verification code', type: 'error' })
         return

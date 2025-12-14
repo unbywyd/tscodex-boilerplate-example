@@ -3,11 +3,11 @@
 // Only specialists registered by admin can log in
 
 import { useState } from 'react'
-import { Phone, ArrowRight, KeyRound, Bell, MapPin, Check, Briefcase } from 'lucide-react'
+import { Phone, ArrowRight, Bell, MapPin, Check, Briefcase } from 'lucide-react'
 import {
   Screen, ScreenHeader, ScreenBody, ScreenFooter,
   TopBar, Card, CardContent, Button, Input,
-  useToast, Doc
+  useToast, Doc, OTPInput
 } from '@/components/ui'
 import { useAuth } from '@/hooks/useAuth'
 import { dispatchEvent } from '@/lib/events'
@@ -59,7 +59,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
     setError('')
   }
 
-  const handleContinue = () => {
+  const handleContinue = (otpValue?: string) => {
     if (step === 'phone') {
       if (!isValidPhone) {
         setError('Enter 10 digits (e.g. 050-123-4567)')
@@ -83,7 +83,9 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       setError('')
       setStep('otp')
     } else if (step === 'otp') {
-      if (!isValidOtp) {
+      // Use passed value from onComplete or fall back to state
+      const codeToValidate = otpValue ?? otp
+      if (codeToValidate.length !== 6) {
         setError('Enter 6-digit code')
         show({ message: 'Please enter the verification code', type: 'error' })
         return
@@ -165,30 +167,26 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       <p className="text-sm text-muted-foreground mb-4">
         Code sent to {phone}
       </p>
-      <div className="relative">
-        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="text"
-          inputMode="numeric"
-          placeholder="000000"
-          value={otp}
-          onChange={handleOtpChange}
-          className={`pl-10 text-center text-2xl tracking-[0.5em] font-mono ${error ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-          autoFocus
-        />
+      <OTPInput
+        value={otp}
+        onChange={(value) => { setOtp(value); setError('') }}
+        onComplete={handleContinue}
+        length={6}
+        error={error}
+        autoFocus
+      />
+      <div className="text-center mt-4">
+        <Button
+          variant="link"
+          size="sm"
+          className="p-0 h-auto text-amber-600"
+          onClick={() => {
+            show({ message: 'Code resent!', type: 'success' })
+          }}
+        >
+          Resend code
+        </Button>
       </div>
-      {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
-      <p className="text-xs text-muted-foreground mt-2">
-        {otp.length}/6 digits
-      </p>
-      <Button
-        variant="link"
-        size="sm"
-        className="mt-2 p-0 h-auto text-amber-600"
-        onClick={() => {}}
-      >
-        Resend code
-      </Button>
     </>
   )
 
