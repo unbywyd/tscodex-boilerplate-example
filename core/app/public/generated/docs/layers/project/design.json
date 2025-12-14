@@ -4,56 +4,90 @@
   "type": "toml",
   "content": {
     "design": {
-      "name": "LLM Boilerplate Design System",
-      "description": "Visual design requirements and guidelines",
+      "name": "ElderCare Design System",
+      "description": "Visual design for elderly care services platform",
+      "approach": "ui-kit",
+      "framework": "React with Tailwind CSS",
       "theme": {
         "mode": "light",
-        "primary": "blue",
-        "radius": "0.5rem"
+        "primary": "cyan",
+        "radius": "0.75rem"
       },
       "typography": {
         "fontFamily": "Inter, system-ui, sans-serif",
         "monoFamily": "JetBrains Mono, monospace",
-        "baseSize": "16px"
+        "baseSize": "16px",
+        "headings": {
+          "weight": "600",
+          "tracking": "tight"
+        },
+        "largeTouchTargets": true
       },
       "layout": {
-        "maxWidth": "1280px",
-        "containerPadding": "1.5rem",
-        "headerHeight": "56px"
+        "strategy": "mobile-first",
+        "maxWidth": "100%",
+        "containerPadding": "1rem",
+        "headerHeight": "56px",
+        "spacing": "8px base unit"
       },
       "components": {
         "buttonStyle": "rounded",
-        "cardStyle": "bordered",
-        "inputStyle": "outlined"
+        "buttonSize": "lg",
+        "cardStyle": "shadow",
+        "inputStyle": "outlined",
+        "inputSize": "lg",
+        "iconSize": "24px"
+      },
+      "accessibility": {
+        "target": "wcag-aa",
+        "minTouchTarget": "44px",
+        "fontScaling": true,
+        "highContrast": false
+      },
+      "localization": {
+        "primaryLanguage": "he",
+        "rtlSupport": true,
+        "prototypeLanguage": "en",
+        "additionalLanguages": [
+          "en"
+        ]
+      },
+      "palette": {
+        "background": "#f8fafc",
+        "foreground": "#1e293b",
+        "muted": "#f1f5f9",
+        "mutedForeground": "#64748b",
+        "primary": "#0891b2",
+        "primaryForeground": "#ffffff",
+        "secondary": "#0d9488",
+        "secondaryForeground": "#ffffff",
+        "accent": "#f59e0b",
+        "accentForeground": "#ffffff",
+        "success": "#22c55e",
+        "warning": "#f59e0b",
+        "destructive": "#ef4444",
+        "border": "#e2e8f0"
+      },
+      "patterns": {
+        "navigation": "bottom-nav",
+        "forms": "single-column",
+        "lists": "card-based",
+        "modals": "bottom-sheet"
       },
       "principles": {
         "list": [
           "Clean and minimal interface",
-          "Consistent spacing and alignment",
+          "Large touch targets for accessibility",
           "Clear visual hierarchy",
-          "Accessible color contrast",
-          "Responsive on all devices"
+          "Professional healthcare appearance",
+          "Mobile-first responsive design"
         ]
-      },
-      "palette": {
-        "background": "#ffffff",
-        "foreground": "#0f172a",
-        "muted": "#f1f5f9",
-        "mutedForeground": "#64748b",
-        "primary": "#3b82f6",
-        "primaryForeground": "#ffffff",
-        "secondary": "#f1f5f9",
-        "secondaryForeground": "#0f172a",
-        "accent": "#f1f5f9",
-        "accentForeground": "#0f172a",
-        "destructive": "#ef4444",
-        "border": "#e2e8f0"
       }
     }
   },
-  "rawContent": "# Design Requirements\n\n[design]\nname = \"LLM Boilerplate Design System\"\ndescription = \"Visual design requirements and guidelines\"\n\n[design.theme]\nmode = \"light\"  # light | dark | system\nprimary = \"blue\"\nradius = \"0.5rem\"\n\n[design.typography]\nfontFamily = \"Inter, system-ui, sans-serif\"\nmonoFamily = \"JetBrains Mono, monospace\"\nbaseSize = \"16px\"\n\n[design.layout]\nmaxWidth = \"1280px\"\ncontainerPadding = \"1.5rem\"\nheaderHeight = \"56px\"\n\n[design.components]\nbuttonStyle = \"rounded\"  # rounded | pill | square\ncardStyle = \"bordered\"   # bordered | shadow | flat\ninputStyle = \"outlined\"  # outlined | filled | underlined\n\n[design.principles]\nlist = [\n  \"Clean and minimal interface\",\n  \"Consistent spacing and alignment\",\n  \"Clear visual hierarchy\",\n  \"Accessible color contrast\",\n  \"Responsive on all devices\"\n]\n\n[design.palette]\nbackground = \"#ffffff\"\nforeground = \"#0f172a\"\nmuted = \"#f1f5f9\"\nmutedForeground = \"#64748b\"\nprimary = \"#3b82f6\"\nprimaryForeground = \"#ffffff\"\nsecondary = \"#f1f5f9\"\nsecondaryForeground = \"#0f172a\"\naccent = \"#f1f5f9\"\naccentForeground = \"#0f172a\"\ndestructive = \"#ef4444\"\nborder = \"#e2e8f0\"\n",
+  "rawContent": "# ElderCare - Design Specifications\n\n[design]\nname = \"ElderCare Design System\"\ndescription = \"Visual design for elderly care services platform\"\napproach = \"ui-kit\"\nframework = \"React with Tailwind CSS\"\n\n[design.theme]\nmode = \"light\"\nprimary = \"cyan\"\nradius = \"0.75rem\"  # Rounded, friendly appearance\n\n[design.typography]\nfontFamily = \"Inter, system-ui, sans-serif\"\nmonoFamily = \"JetBrains Mono, monospace\"\nbaseSize = \"16px\"\nheadings = { weight = \"600\", tracking = \"tight\" }\nlargeTouchTargets = true  # Important for elderly users\n\n[design.layout]\nstrategy = \"mobile-first\"\nmaxWidth = \"100%\"\ncontainerPadding = \"1rem\"\nheaderHeight = \"56px\"\nspacing = \"8px base unit\"\n\n[design.components]\nbuttonStyle = \"rounded\"\nbuttonSize = \"lg\"       # Large buttons for accessibility\ncardStyle = \"shadow\"    # Clear visual hierarchy\ninputStyle = \"outlined\"\ninputSize = \"lg\"        # Large inputs\niconSize = \"24px\"\n\n[design.accessibility]\ntarget = \"wcag-aa\"\nminTouchTarget = \"44px\"\nfontScaling = true\nhighContrast = false\n\n[design.localization]\nprimaryLanguage = \"he\"\nrtlSupport = true\nprototypeLanguage = \"en\"\nadditionalLanguages = [\"en\"]\n\n[design.palette]\nbackground = \"#f8fafc\"   # Slate-50\nforeground = \"#1e293b\"   # Slate-800\nmuted = \"#f1f5f9\"\nmutedForeground = \"#64748b\"  # Slate-500\nprimary = \"#0891b2\"      # Cyan-600 - trustworthy, healthcare\nprimaryForeground = \"#ffffff\"\nsecondary = \"#0d9488\"    # Teal-600 - calm, professional\nsecondaryForeground = \"#ffffff\"\naccent = \"#f59e0b\"       # Amber-500 - warmth, attention\naccentForeground = \"#ffffff\"\nsuccess = \"#22c55e\"      # Green-500\nwarning = \"#f59e0b\"      # Amber-500\ndestructive = \"#ef4444\"  # Red-500\nborder = \"#e2e8f0\"\n\n[design.patterns]\nnavigation = \"bottom-nav\"\nforms = \"single-column\"\nlists = \"card-based\"\nmodals = \"bottom-sheet\"\n\n[design.principles]\nlist = [\n  \"Clean and minimal interface\",\n  \"Large touch targets for accessibility\",\n  \"Clear visual hierarchy\",\n  \"Professional healthcare appearance\",\n  \"Mobile-first responsive design\"\n]\n",
   "metadata": {
-    "size": 1110,
-    "modified": "2025-12-11T07:54:34.914Z"
+    "size": 1994,
+    "modified": "2025-12-14T14:11:16.181Z"
   }
 }

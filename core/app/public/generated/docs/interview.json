@@ -4,32 +4,63 @@
   "type": "toml",
   "content": {
     "meta": {
-      "projectName": "",
-      "startedAt": "",
+      "projectName": "ElderCare",
+      "startedAt": "2025-01-14",
       "completedAt": ""
     },
     "assessment": {
-      "projectType": "",
-      "projectStage": "",
-      "dataComplexity": "",
-      "rolesCount": "",
-      "integrationsLevel": "",
-      "platforms": "",
-      "platformList": [],
-      "appSides": "",
+      "projectType": "mobile",
+      "projectStage": "idea",
+      "dataComplexity": "relational",
+      "rolesCount": "2-3",
+      "integrationsLevel": "few-apis",
+      "platforms": "multiplatform",
+      "platformList": [
+        "client-app",
+        "specialist-app",
+        "admin-app"
+      ],
+      "appSides": "single",
       "appSidesList": [],
       "existingCodebase": false,
-      "techConstraints": []
+      "techConstraints": [
+        "React",
+        "Mobile-first"
+      ]
     },
     "discovery": {
-      "problem": "",
-      "audience": "",
-      "coreValue": "",
-      "keyFeatures": [],
-      "inScope": [],
-      "outOfScope": [],
-      "successMetrics": [],
-      "constraints": "",
+      "problem": "Manual handling of elderly care orders via phone/messages creates operational overhead and makes it difficult to track orders, specialist availability, and working hours",
+      "audience": "Families needing elderly care services in Israel, care specialists, and company administrators",
+      "coreValue": "Simple digital platform for ordering and managing elderly care services with real-time tracking",
+      "keyFeatures": [
+        "Easy service ordering without mandatory registration",
+        "Phone-based client identification",
+        "Specialist assignment and availability management",
+        "Real-time order status tracking",
+        "Work time recording and tracking"
+      ],
+      "inScope": [
+        "Service ordering (client app)",
+        "Order status tracking",
+        "Specialist work time recording",
+        "Availability management",
+        "SMS notifications",
+        "Order history",
+        "Basic reviews"
+      ],
+      "outOfScope": [
+        "Online payments",
+        "Complex financial/accounting",
+        "Real-time GPS tracking",
+        "Chat functionality",
+        "Multi-language (MVP in Hebrew/English)"
+      ],
+      "successMetrics": [
+        "Orders processed through app",
+        "Reduced phone call volume",
+        "Accurate time tracking"
+      ],
+      "constraints": "Israel market, Hebrew RTL support, SMS-based verification",
       "existingSystems": [],
       "compliance": [],
       "scale": "",
@@ -39,59 +70,107 @@
       "aiFeatures": []
     },
     "design": {
-      "approach": "",
-      "colorScheme": "",
+      "approach": "ui-kit",
+      "colorScheme": "Blue/teal professional healthcare theme",
       "darkMode": false,
       "brandGuidelines": false,
       "uiReferences": [],
-      "responsive": "",
-      "accessibilityTarget": "",
-      "primaryLanguage": "",
-      "additionalLanguages": [],
-      "rtlSupport": false,
-      "prototypeLanguage": ""
+      "responsive": "mobile-first",
+      "accessibilityTarget": "wcag-aa",
+      "primaryLanguage": "he",
+      "additionalLanguages": [
+        "en"
+      ],
+      "rtlSupport": true,
+      "prototypeLanguage": "en"
     },
     "access": {
-      "authModel": "",
-      "publicParts": [],
-      "authMethods": [],
-      "phoneFormat": "",
+      "authModel": "mixed",
+      "publicParts": [
+        "order-form",
+        "order-tracking"
+      ],
+      "authMethods": [
+        "phone"
+      ],
+      "phoneFormat": "single-country",
       "socialAuth": [],
-      "userTypes": [],
-      "rolePermissions": "",
-      "protectedPages": [],
+      "userTypes": [
+        "client",
+        "specialist",
+        "admin"
+      ],
+      "rolePermissions": "Client: Create orders, view own orders, track status, leave reviews\nSpecialist: View assigned orders, mark work start/end, set availability\nAdmin: Full access - manage orders, specialists, assignments, view all data\n",
+      "protectedPages": [
+        "specialist-dashboard",
+        "admin-panel"
+      ],
       "roleHierarchy": "",
-      "permissionGranularity": "",
-      "multiTenant": "",
-      "guestFlows": ""
+      "permissionGranularity": "page",
+      "multiTenant": "none",
+      "guestFlows": "Clients can order without registration, identified by phone"
     },
     "data": {
-      "mainEntities": [],
-      "entityFields": "",
-      "relationships": "",
-      "requiredFields": "",
-      "validationRules": "",
-      "filesAndMedia": "",
-      "search": "",
+      "mainEntities": [
+        "User",
+        "Client",
+        "Specialist",
+        "Admin",
+        "Order",
+        "Service",
+        "City",
+        "Availability",
+        "Review",
+        "Notification",
+        "OtpCode",
+        "OrderEvent"
+      ],
+      "entityFields": "User: id, email, password, name, avatar, role (USER|ADMIN|SPECIALIST|CLIENT), isActive, createdAt, updatedAt\nClient: id, userId?, phone, name?, city?, address?, createdAt, updatedAt\nSpecialist: id, userId?, phone, name, email?, avatar?, isActive, rating, reviewCount, createdAt, updatedAt\nAdmin: id, userId, createdAt\nOrder: id, orderNumber, clientId, serviceId, specialistId?, cityId, clientPhone, clientName?, address, addressNotes?, date, startTime, duration?, status (CREATED|REVIEWING|ASSIGNED|ON_WAY|IN_PROGRESS|COMPLETED|PAID|CANCELLED), notes?, actualStart?, actualEnd?, estimatedPrice?, finalPrice?, paidAmount?, paidAt?, paymentNotes?, createdAt, updatedAt\nService: id, code, name, description, category (CARE|MEDICAL|HOUSEHOLD|TRANSPORT), icon?, isActive, sortOrder\nCity: id, name, region?, isActive, sortOrder\nAvailability: id, specialistId, date, startTime, endTime, isBooked\nReview: id, orderId, clientId, rating (1-5), comment?\nNotification: id, userId, type, title, message, data?, isRead\nOtpCode: id, phone, code, expiresAt, isUsed\nOrderEvent: id, orderId, status, note?, createdAt, createdBy?\n",
+      "relationships": "User -> Client (one-to-one optional)\nUser -> Specialist (one-to-one optional)\nUser -> Admin (one-to-one optional)\nUser -> Session (one-to-many)\nUser -> Notification (one-to-many)\nClient -> Order (one-to-many)\nClient -> Review (one-to-many)\nSpecialist -> SpecialistServiceType -> Service (many-to-many via junction)\nSpecialist -> SpecialistCity -> City (many-to-many via junction)\nSpecialist -> Availability (one-to-many)\nSpecialist -> Order (one-to-many)\nService -> Order (one-to-many)\nCity -> Order (one-to-many)\nOrder -> Review (one-to-one)\nOrder -> OrderEvent (one-to-many, audit history)\n",
+      "requiredFields": "Order: clientId, serviceId, cityId, clientPhone, address, date, startTime",
+      "validationRules": "Phone: Israeli format, Date: future dates only, Rating: 1-5",
+      "filesAndMedia": "none",
+      "search": "basic",
       "softDelete": false,
-      "importExport": "",
+      "importExport": "none",
       "fieldPermissions": "",
-      "auditTrails": "",
-      "dataLifecycle": "",
-      "retentionPolicy": ""
+      "auditTrails": "OrderEvent tracks all status changes",
+      "dataLifecycle": "CREATED -> REVIEWING -> ASSIGNED -> ON_WAY -> IN_PROGRESS -> COMPLETED -> PAID",
+      "retentionPolicy": "",
+      "schemaFile": "src/prisma/schema.prisma"
     },
     "features": {
-      "screens": [],
-      "navigationMap": "",
-      "primaryUserJourney": "",
-      "userStories": "",
-      "errorHandling": "",
-      "emptyStates": "",
-      "loadingStates": "",
+      "screens": [
+        "ClientHome",
+        "OrderForm",
+        "OrderTracking",
+        "OrderHistory",
+        "ReviewForm",
+        "SpecialistHome",
+        "SpecialistOrders",
+        "ActiveShift",
+        "AvailabilitySetup",
+        "AdminDashboard",
+        "AdminOrders",
+        "AdminSpecialists",
+        "SpecialistDetail",
+        "OrderAssignment"
+      ],
+      "navigationMap": "Client App: Home -> OrderForm, OrderTracking, OrderHistory\nSpecialist App: Home -> Orders, ActiveShift, Availability (bottom nav)\nAdmin App: Dashboard, Orders, Specialists (bottom nav)\n",
+      "primaryUserJourney": "1. Client opens app -> fills order form (phone, service, location, date)\n2. Order created -> SMS confirmation\n3. Admin reviews -> assigns specialist\n4. Specialist sees order -> goes to location\n5. Specialist marks start -> work in progress\n6. Specialist marks end -> shift completed\n7. Client can track status anytime\n8. Client leaves review after completion\n",
+      "userStories": "As a client, I want to order care services easily without creating an account\nAs a client, I want to track my order status in real-time\nAs a specialist, I want to see my assigned orders and mark work progress\nAs a specialist, I want to set my availability for the week\nAs an admin, I want to see all orders and assign specialists\nAs an admin, I want to manage specialists and their service areas\n",
+      "errorHandling": "Toast notifications for errors, form validation",
+      "emptyStates": "No orders yet, No specialists available",
+      "loadingStates": "Skeleton loaders",
       "offlineBehavior": "",
-      "notifications": "",
+      "notifications": "push",
       "settingsPage": false,
-      "analyticsEvents": []
+      "analyticsEvents": [
+        "order.created",
+        "order.assigned",
+        "shift.started",
+        "shift.completed"
+      ]
     },
     "modules": {
       "domains": [],
@@ -100,9 +179,9 @@
       "sharedComponents": []
     }
   },
-  "rawContent": "# Interview Answers\n# ================================================\n# LLM Instructions:\n# 1. Read status.toml → get currentPhase\n# 2. Find that phase section here\n# 3. Ask questions where value = \"\" or [] (empty)\n# 4. Write user's answers immediately\n# 5. When phase complete → update status.toml\n#\n# Format: use arrays [] for lists, \"\" for text/enum\n# See: rules/challenge.md for conditional questions\n# ================================================\n\n[meta]\nprojectName = \"\"\nstartedAt = \"\"\ncompletedAt = \"\"\n\n# ─────────────────────────────────────────────────\n# Phase 0: Assessment\n# Goal: determine profile (simple | medium | complex)\n# ─────────────────────────────────────────────────\n[assessment]\nprojectType = \"\"          # web-app | mobile | api | landing | admin-panel\nprojectStage = \"\"         # idea | redesign | existing-mvp\ndataComplexity = \"\"       # simple-crud | relational | complex\nrolesCount = \"\"           # single | 2-3 | many\nintegrationsLevel = \"\"    # none | few-apis | many-services\nplatforms = \"\"            # single | multiplatform\nplatformList = []         # if multiplatform: [\"customer-app\", \"admin-panel\"]\nappSides = \"\"             # if mobile: single | dual\nappSidesList = []         # if dual: [\"passenger\", \"driver\"]\nexistingCodebase = false  # true if adding to existing project\ntechConstraints = []      # e.g. [\"React only\", \"PostgreSQL required\"]\n\n# ─────────────────────────────────────────────────\n# Phase 1: Discovery\n# Goal: understand what we're building\n# ─────────────────────────────────────────────────\n[discovery]\n# Core\nproblem = \"\"              # What problem does it solve?\naudience = \"\"             # Who is the target audience?\ncoreValue = \"\"            # Core value proposition\nkeyFeatures = []          # Top 5 features: [\"feature1\", \"feature2\"]\n# Scope\ninScope = []              # Must be included in MVP\noutOfScope = []           # Explicitly NOT in MVP\nsuccessMetrics = []       # How we measure success\n# Technical\nconstraints = \"\"          # Technical constraints\nexistingSystems = []      # Systems to integrate (complex only)\ncompliance = []           # [\"GDPR\", \"PCI-DSS\"] (complex only)\nscale = \"\"                # Expected scale (complex only)\nstakeholders = \"\"         # Who are stakeholders (complex only)\n# AI (if needed)\naiIntegration = false\naiProvider = \"\"           # openai | anthropic | google | custom\naiFeatures = []           # [\"chat\", \"search\", \"generation\"]\n\n# ─────────────────────────────────────────────────\n# Phase 2: Design\n# Goal: visual and UX requirements\n# ─────────────────────────────────────────────────\n[design]\n# Visual\napproach = \"\"             # custom | ui-kit | hybrid\ncolorScheme = \"\"          # Color preferences or palette name\ndarkMode = false          # Support dark mode?\nbrandGuidelines = false   # Has brand guidelines?\nuiReferences = []         # Reference products/links\n# Layout\nresponsive = \"\"           # mobile-first | desktop-first\naccessibilityTarget = \"\"  # none | wcag-aa | wcag-aaa\n# Localization\nprimaryLanguage = \"\"      # en | ru | ar | he | etc.\nadditionalLanguages = []  # [\"es\", \"de\"] or []\nrtlSupport = false        # auto-true if ar/he/fa/ur\nprototypeLanguage = \"\"    # en | same-as-primary\n\n# ─────────────────────────────────────────────────\n# Phase 3: Access\n# Goal: auth and permissions\n# ─────────────────────────────────────────────────\n[access]\n# Auth\nauthModel = \"\"            # public | authenticated | mixed\npublicParts = []          # if mixed: [\"landing\", \"pricing\", \"docs\"]\nauthMethods = []          # [\"email\"] | [\"phone\"] | [\"email\", \"phone\"]\nphoneFormat = \"\"          # if phone: single-country | multi-country\nsocialAuth = []           # [\"google\", \"facebook\", \"apple\"] or []\n# Roles\nuserTypes = []            # [\"admin\", \"user\", \"guest\"]\nrolePermissions = \"\"      # What can each role do?\nprotectedPages = []       # Pages requiring auth\n# Advanced (complex only)\nroleHierarchy = \"\"        # Role inheritance\npermissionGranularity = \"\" # page | feature | field\nmultiTenant = \"\"          # none | orgs | workspaces\nguestFlows = \"\"           # Guest vs authenticated flows\n\n# ─────────────────────────────────────────────────\n# Phase 4: Data Model\n# Goal: entities and relationships\n# ─────────────────────────────────────────────────\n[data]\n# Core\nmainEntities = []         # [\"User\", \"Product\", \"Order\"]\nentityFields = \"\"         # Fields for each entity (structured text)\nrelationships = \"\"        # Relations between entities\n# Validation (medium+)\nrequiredFields = \"\"       # Required vs optional\nvalidationRules = \"\"      # Validation rules\n# Features\nfilesAndMedia = \"\"        # none | images | docs | video | mixed\nsearch = \"\"               # none | basic | fulltext\nsoftDelete = false        # Soft delete needed?\nimportExport = \"\"         # none | csv | xlsx | api\n# Advanced (complex only)\nfieldPermissions = \"\"     # Field-level permissions\nauditTrails = \"\"          # none | basic | detailed\ndataLifecycle = \"\"        # Data lifecycle states\nretentionPolicy = \"\"      # Data retention rules\n\n# ─────────────────────────────────────────────────\n# Phase 5: Features & Screens\n# Goal: what users see and do\n# ─────────────────────────────────────────────────\n[features]\n# Screens\nscreens = []              # [\"Home\", \"Dashboard\", \"Profile\", \"Settings\"]\nnavigationMap = \"\"        # Navigation structure (tabs/sidebar/menu)\nprimaryUserJourney = \"\"   # Main user flow\n# Stories (medium+)\nuserStories = \"\"          # Use cases with user stories\nerrorHandling = \"\"        # Error handling approach\n# States (complex only)\nemptyStates = \"\"          # Empty state handling\nloadingStates = \"\"        # Loading state handling\nofflineBehavior = \"\"      # Offline behavior\n# System\nnotifications = \"\"        # none | in-app | email | push | mixed\nsettingsPage = false      # Include settings/profile page?\nanalyticsEvents = []      # Events to track\n\n# ─────────────────────────────────────────────────\n# Phase 6: Modules (complex only)\n# Goal: domain decomposition\n# ─────────────────────────────────────────────────\n[modules]\ndomains = []              # [\"auth\", \"catalog\", \"orders\", \"payments\"]\nmoduleBoundaries = \"\"     # Module boundaries\ninterfaces = \"\"           # Module interfaces\nsharedComponents = []     # Shared across modules\n",
+  "rawContent": "# Interview Answers\n# ================================================\n# ElderCare - Elderly Care Services Platform\n# ================================================\n\n[meta]\nprojectName = \"ElderCare\"\nstartedAt = \"2025-01-14\"\ncompletedAt = \"\"\n\n# ─────────────────────────────────────────────────\n# Phase 0: Assessment\n# ─────────────────────────────────────────────────\n[assessment]\nprojectType = \"mobile\"\nprojectStage = \"idea\"\ndataComplexity = \"relational\"\nrolesCount = \"2-3\"  # client, specialist, admin\nintegrationsLevel = \"few-apis\"  # SMS notifications\nplatforms = \"multiplatform\"\nplatformList = [\"client-app\", \"specialist-app\", \"admin-app\"]\nappSides = \"single\"\nappSidesList = []\nexistingCodebase = false\ntechConstraints = [\"React\", \"Mobile-first\"]\n\n# ─────────────────────────────────────────────────\n# Phase 1: Discovery\n# ─────────────────────────────────────────────────\n[discovery]\nproblem = \"Manual handling of elderly care orders via phone/messages creates operational overhead and makes it difficult to track orders, specialist availability, and working hours\"\naudience = \"Families needing elderly care services in Israel, care specialists, and company administrators\"\ncoreValue = \"Simple digital platform for ordering and managing elderly care services with real-time tracking\"\nkeyFeatures = [\n  \"Easy service ordering without mandatory registration\",\n  \"Phone-based client identification\",\n  \"Specialist assignment and availability management\",\n  \"Real-time order status tracking\",\n  \"Work time recording and tracking\"\n]\ninScope = [\n  \"Service ordering (client app)\",\n  \"Order status tracking\",\n  \"Specialist work time recording\",\n  \"Availability management\",\n  \"SMS notifications\",\n  \"Order history\",\n  \"Basic reviews\"\n]\noutOfScope = [\n  \"Online payments\",\n  \"Complex financial/accounting\",\n  \"Real-time GPS tracking\",\n  \"Chat functionality\",\n  \"Multi-language (MVP in Hebrew/English)\"\n]\nsuccessMetrics = [\n  \"Orders processed through app\",\n  \"Reduced phone call volume\",\n  \"Accurate time tracking\"\n]\nconstraints = \"Israel market, Hebrew RTL support, SMS-based verification\"\nexistingSystems = []\ncompliance = []\nscale = \"\"\nstakeholders = \"\"\naiIntegration = false\naiProvider = \"\"\naiFeatures = []\n\n# ─────────────────────────────────────────────────\n# Phase 2: Design\n# ─────────────────────────────────────────────────\n[design]\napproach = \"ui-kit\"\ncolorScheme = \"Blue/teal professional healthcare theme\"\ndarkMode = false\nbrandGuidelines = false\nuiReferences = []\nresponsive = \"mobile-first\"\naccessibilityTarget = \"wcag-aa\"  # Important for elderly users\nprimaryLanguage = \"he\"\nadditionalLanguages = [\"en\"]\nrtlSupport = true\nprototypeLanguage = \"en\"  # Prototype in English for development\n\n# ─────────────────────────────────────────────────\n# Phase 3: Access\n# ─────────────────────────────────────────────────\n[access]\nauthModel = \"mixed\"\npublicParts = [\"order-form\", \"order-tracking\"]\nauthMethods = [\"phone\"]\nphoneFormat = \"single-country\"  # Israel +972\nsocialAuth = []\nuserTypes = [\"client\", \"specialist\", \"admin\"]\nrolePermissions = \"\"\"\nClient: Create orders, view own orders, track status, leave reviews\nSpecialist: View assigned orders, mark work start/end, set availability\nAdmin: Full access - manage orders, specialists, assignments, view all data\n\"\"\"\nprotectedPages = [\"specialist-dashboard\", \"admin-panel\"]\nroleHierarchy = \"\"\npermissionGranularity = \"page\"\nmultiTenant = \"none\"\nguestFlows = \"Clients can order without registration, identified by phone\"\n\n# ─────────────────────────────────────────────────\n# Phase 4: Data Model\n# ─────────────────────────────────────────────────\n[data]\nmainEntities = [\"User\", \"Client\", \"Specialist\", \"Admin\", \"Order\", \"Service\", \"City\", \"Availability\", \"Review\", \"Notification\", \"OtpCode\", \"OrderEvent\"]\nentityFields = \"\"\"\nUser: id, email, password, name, avatar, role (USER|ADMIN|SPECIALIST|CLIENT), isActive, createdAt, updatedAt\nClient: id, userId?, phone, name?, city?, address?, createdAt, updatedAt\nSpecialist: id, userId?, phone, name, email?, avatar?, isActive, rating, reviewCount, createdAt, updatedAt\nAdmin: id, userId, createdAt\nOrder: id, orderNumber, clientId, serviceId, specialistId?, cityId, clientPhone, clientName?, address, addressNotes?, date, startTime, duration?, status (CREATED|REVIEWING|ASSIGNED|ON_WAY|IN_PROGRESS|COMPLETED|PAID|CANCELLED), notes?, actualStart?, actualEnd?, estimatedPrice?, finalPrice?, paidAmount?, paidAt?, paymentNotes?, createdAt, updatedAt\nService: id, code, name, description, category (CARE|MEDICAL|HOUSEHOLD|TRANSPORT), icon?, isActive, sortOrder\nCity: id, name, region?, isActive, sortOrder\nAvailability: id, specialistId, date, startTime, endTime, isBooked\nReview: id, orderId, clientId, rating (1-5), comment?\nNotification: id, userId, type, title, message, data?, isRead\nOtpCode: id, phone, code, expiresAt, isUsed\nOrderEvent: id, orderId, status, note?, createdAt, createdBy?\n\"\"\"\nrelationships = \"\"\"\nUser -> Client (one-to-one optional)\nUser -> Specialist (one-to-one optional)\nUser -> Admin (one-to-one optional)\nUser -> Session (one-to-many)\nUser -> Notification (one-to-many)\nClient -> Order (one-to-many)\nClient -> Review (one-to-many)\nSpecialist -> SpecialistServiceType -> Service (many-to-many via junction)\nSpecialist -> SpecialistCity -> City (many-to-many via junction)\nSpecialist -> Availability (one-to-many)\nSpecialist -> Order (one-to-many)\nService -> Order (one-to-many)\nCity -> Order (one-to-many)\nOrder -> Review (one-to-one)\nOrder -> OrderEvent (one-to-many, audit history)\n\"\"\"\nrequiredFields = \"Order: clientId, serviceId, cityId, clientPhone, address, date, startTime\"\nvalidationRules = \"Phone: Israeli format, Date: future dates only, Rating: 1-5\"\nfilesAndMedia = \"none\"\nsearch = \"basic\"\nsoftDelete = false\nimportExport = \"none\"\nfieldPermissions = \"\"\nauditTrails = \"OrderEvent tracks all status changes\"\ndataLifecycle = \"CREATED -> REVIEWING -> ASSIGNED -> ON_WAY -> IN_PROGRESS -> COMPLETED -> PAID\"\nretentionPolicy = \"\"\nschemaFile = \"src/prisma/schema.prisma\"\n\n# ─────────────────────────────────────────────────\n# Phase 5: Features & Screens\n# ─────────────────────────────────────────────────\n[features]\nscreens = [\n  \"ClientHome\",\n  \"OrderForm\",\n  \"OrderTracking\",\n  \"OrderHistory\",\n  \"ReviewForm\",\n  \"SpecialistHome\",\n  \"SpecialistOrders\",\n  \"ActiveShift\",\n  \"AvailabilitySetup\",\n  \"AdminDashboard\",\n  \"AdminOrders\",\n  \"AdminSpecialists\",\n  \"SpecialistDetail\",\n  \"OrderAssignment\"\n]\nnavigationMap = \"\"\"\nClient App: Home -> OrderForm, OrderTracking, OrderHistory\nSpecialist App: Home -> Orders, ActiveShift, Availability (bottom nav)\nAdmin App: Dashboard, Orders, Specialists (bottom nav)\n\"\"\"\nprimaryUserJourney = \"\"\"\n1. Client opens app -> fills order form (phone, service, location, date)\n2. Order created -> SMS confirmation\n3. Admin reviews -> assigns specialist\n4. Specialist sees order -> goes to location\n5. Specialist marks start -> work in progress\n6. Specialist marks end -> shift completed\n7. Client can track status anytime\n8. Client leaves review after completion\n\"\"\"\nuserStories = \"\"\"\nAs a client, I want to order care services easily without creating an account\nAs a client, I want to track my order status in real-time\nAs a specialist, I want to see my assigned orders and mark work progress\nAs a specialist, I want to set my availability for the week\nAs an admin, I want to see all orders and assign specialists\nAs an admin, I want to manage specialists and their service areas\n\"\"\"\nerrorHandling = \"Toast notifications for errors, form validation\"\nemptyStates = \"No orders yet, No specialists available\"\nloadingStates = \"Skeleton loaders\"\nofflineBehavior = \"\"\nnotifications = \"push\"  # SMS in real implementation\nsettingsPage = false\nanalyticsEvents = [\"order.created\", \"order.assigned\", \"shift.started\", \"shift.completed\"]\n\n# ─────────────────────────────────────────────────\n# Phase 6: Modules (complex only) - SKIPPED\n# ─────────────────────────────────────────────────\n[modules]\ndomains = []\nmoduleBoundaries = \"\"\ninterfaces = \"\"\nsharedComponents = []\n",
   "metadata": {
-    "size": 7661,
-    "modified": "2025-12-13T18:37:29.330Z"
+    "size": 9391,
+    "modified": "2025-12-14T19:43:06.815Z"
   }
 }

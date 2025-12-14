@@ -4,76 +4,76 @@
   "type": "toml",
   "content": {
     "status": {
-      "id": "status",
-      "name": "Project Status",
+      "id": "eldercare",
+      "name": "ElderCare Services Platform",
       "profile": "medium",
-      "currentPhase": "assessment",
-      "multiPlatform": false,
-      "lastUpdated": "2024-01-01"
+      "currentPhase": "done",
+      "multiPlatform": true,
+      "lastUpdated": "2025-01-14"
     },
     "phases": {
       "assessment": {
-        "status": "pending",
+        "status": "completed",
         "description": "Determine project scope and profile",
         "checklist": {
-          "typeIdentified": false,
-          "rolesCount": false,
-          "dataComplexity": false,
-          "platformsIdentified": false,
-          "profileSelected": false
+          "typeIdentified": true,
+          "rolesCount": true,
+          "dataComplexity": true,
+          "platformsIdentified": true,
+          "profileSelected": true
         }
       },
       "discovery": {
-        "status": "pending",
+        "status": "completed",
         "description": "Understanding the project",
         "checklist": {
-          "projectDefined": false,
-          "targetAudience": false,
-          "coreValue": false,
-          "keyFeatures": false,
-          "scopeDefined": false
+          "projectDefined": true,
+          "targetAudience": true,
+          "coreValue": true,
+          "keyFeatures": true,
+          "scopeDefined": true
         }
       },
       "design": {
-        "status": "pending",
+        "status": "completed",
         "skip": false,
         "description": "Visual and UX requirements",
         "checklist": {
-          "designApproach": false,
-          "colorScheme": false,
-          "responsiveStrategy": false,
-          "localization": false
+          "designApproach": true,
+          "colorScheme": true,
+          "responsiveStrategy": true,
+          "localization": true
         }
       },
       "access": {
-        "status": "pending",
+        "status": "completed",
         "skip": false,
         "description": "User roles and permissions",
         "checklist": {
-          "authModelDefined": false,
-          "rolesIdentified": false,
-          "permissionsDefined": false,
-          "guardsCreated": false
+          "authModelDefined": true,
+          "rolesIdentified": true,
+          "permissionsDefined": true,
+          "guardsCreated": true
         }
       },
       "data": {
-        "status": "pending",
+        "status": "completed",
         "description": "Entities and relationships",
         "checklist": {
-          "entitiesListed": false,
-          "fieldsDefined": false,
-          "relationsMapped": false
+          "entitiesListed": true,
+          "fieldsDefined": true,
+          "relationsMapped": true
         }
       },
       "features": {
-        "status": "pending",
+        "status": "completed",
         "description": "Use cases, routes, components",
         "checklist": {
-          "useCasesDefined": false,
-          "routesCreated": false,
-          "pageComponents": false,
-          "compositions": false,
-          "platformsDefined": false
+          "useCasesDefined": true,
+          "routesCreated": true,
+          "pageComponents": true,
+          "compositions": true,
+          "platformsDefined": true
         }
       },
       "modules": {
@@ -87,31 +87,31 @@
         }
       },
       "prototype": {
-        "status": "pending",
+        "status": "completed",
         "description": "Working React screens",
         "checklist": {
-          "demoCleanedUp": false,
-          "mocksGenerated": false,
-          "pagesCreated": false,
-          "navigationWorks": false,
-          "formsWired": false
+          "demoCleanedUp": true,
+          "mocksGenerated": true,
+          "pagesCreated": true,
+          "navigationWorks": true,
+          "formsWired": true
         }
       },
       "schema": {
-        "status": "pending",
+        "status": "completed",
         "skip": false,
         "description": "Database schema",
         "checklist": {
-          "prismaGenerated": false,
-          "relationsValid": false,
-          "indexesAdded": false
+          "prismaGenerated": true,
+          "relationsValid": true,
+          "indexesAdded": true
         }
       }
     }
   },
-  "rawContent": "# Project Status\n# ================================================\n# LLM: READ THIS FILE FIRST!\n#\n# Step 1: Check state\n#   - If currentPhase = \"assessment\" and all phases \"pending\" → FRESH PROJECT\n#   - If some phases \"completed\" → CONTINUE from currentPhase\n#\n# Step 2: Read interview.toml\n#   - Find section matching currentPhase\n#   - Ask questions where value = \"\" or [] (empty)\n#   - Write answers immediately (use arrays for lists)\n#\n# Step 3: After completing phase\n#   1. Set phase status = \"completed\"\n#   2. Set currentPhase = next phase\n#   3. Mark checklist items = true\n#   4. Update lastUpdated date\n#\n# See: rules/challenge.md for full workflow\n# See: src/spec/interview.toml for questions/answers\n# ================================================\n\n[status]\nid = \"status\"\nname = \"Project Status\"\nprofile = \"medium\"  # simple | medium | complex\ncurrentPhase = \"assessment\"\nmultiPlatform = false  # true if 2+ platforms (customer-app, admin-panel, etc.)\nlastUpdated = \"2024-01-01\"\n\n# Phase 0: Assessment\n[phases.assessment]\nstatus = \"pending\"  # pending | in_progress | completed\ndescription = \"Determine project scope and profile\"\n\n[phases.assessment.checklist]\ntypeIdentified = false\nrolesCount = false\ndataComplexity = false\nplatformsIdentified = false\nprofileSelected = false\n\n# Phase 1: Discovery\n[phases.discovery]\nstatus = \"pending\"\ndescription = \"Understanding the project\"\n\n[phases.discovery.checklist]\nprojectDefined = false\ntargetAudience = false\ncoreValue = false\nkeyFeatures = false\nscopeDefined = false  # inScope + outOfScope\n\n# Phase 2: Design (optional for simple)\n[phases.design]\nstatus = \"pending\"\nskip = false  # set true for simple projects\ndescription = \"Visual and UX requirements\"\n\n[phases.design.checklist]\ndesignApproach = false\ncolorScheme = false\nresponsiveStrategy = false\nlocalization = false  # languages + rtl\n\n# Phase 3: Access Control (skip if single role)\n[phases.access]\nstatus = \"pending\"\nskip = false  # set true if single role\ndescription = \"User roles and permissions\"\n\n[phases.access.checklist]\nauthModelDefined = false\nrolesIdentified = false\npermissionsDefined = false\nguardsCreated = false\n\n# Phase 4: Data Model\n[phases.data]\nstatus = \"pending\"\ndescription = \"Entities and relationships\"\n\n[phases.data.checklist]\nentitiesListed = false\nfieldsDefined = false\nrelationsMapped = false\n\n# Phase 5: Features & Screens\n[phases.features]\nstatus = \"pending\"\ndescription = \"Use cases, routes, components\"\n\n[phases.features.checklist]\nuseCasesDefined = false\nroutesCreated = false\npageComponents = false\ncompositions = false\nplatformsDefined = false  # if multiPlatform = true\n\n# Phase 6: Modules (complex only)\n[phases.modules]\nstatus = \"pending\"\nskip = true  # only for complex profile\ndescription = \"Domain decomposition\"\n\n[phases.modules.checklist]\ndomainsIdentified = false\nmodulesDefined = false\ninterfacesSet = false\n\n# Phase 7: Prototype\n[phases.prototype]\nstatus = \"pending\"\ndescription = \"Working React screens\"\n\n[phases.prototype.checklist]\ndemoCleanedUp = false  # delete example/demo files before generating\nmocksGenerated = false\npagesCreated = false\nnavigationWorks = false\nformsWired = false\n\n# Phase 8: Schema\n[phases.schema]\nstatus = \"pending\"\nskip = false  # skip for simple if no backend\ndescription = \"Database schema\"\n\n[phases.schema.checklist]\nprismaGenerated = false\nrelationsValid = false\nindexesAdded = false\n",
+  "rawContent": "# Project Status\n# ================================================\n# ElderCare - Elderly Care Services Platform\n# Three mobile apps: Client, Specialist, Admin\n# ================================================\n\n[status]\nid = \"eldercare\"\nname = \"ElderCare Services Platform\"\nprofile = \"medium\"  # medium - multi-role, relational data, 3 apps\ncurrentPhase = \"done\"\nmultiPlatform = true  # 3 separate mobile apps\nlastUpdated = \"2025-01-14\"\n\n# Phase 0: Assessment - COMPLETED\n[phases.assessment]\nstatus = \"completed\"\ndescription = \"Determine project scope and profile\"\n\n[phases.assessment.checklist]\ntypeIdentified = true      # mobile apps\nrolesCount = true          # 3 roles: client, specialist, admin\ndataComplexity = true      # relational - orders, specialists, services\nplatformsIdentified = true # 3 platforms: client-app, specialist-app, admin-app\nprofileSelected = true     # medium\n\n# Phase 1: Discovery - COMPLETED\n[phases.discovery]\nstatus = \"completed\"\ndescription = \"Understanding the project\"\n\n[phases.discovery.checklist]\nprojectDefined = true\ntargetAudience = true\ncoreValue = true\nkeyFeatures = true\nscopeDefined = true\n\n# Phase 2: Design - COMPLETED\n[phases.design]\nstatus = \"completed\"\nskip = false\ndescription = \"Visual and UX requirements\"\n\n[phases.design.checklist]\ndesignApproach = true\ncolorScheme = true\nresponsiveStrategy = true\nlocalization = true\n\n# Phase 3: Access Control - COMPLETED\n[phases.access]\nstatus = \"completed\"\nskip = false\ndescription = \"User roles and permissions\"\n\n[phases.access.checklist]\nauthModelDefined = true\nrolesIdentified = true\npermissionsDefined = true\nguardsCreated = true\n\n# Phase 4: Data Model - COMPLETED\n[phases.data]\nstatus = \"completed\"\ndescription = \"Entities and relationships\"\n\n[phases.data.checklist]\nentitiesListed = true\nfieldsDefined = true\nrelationsMapped = true\n\n# Phase 5: Features & Screens - COMPLETED\n[phases.features]\nstatus = \"completed\"\ndescription = \"Use cases, routes, components\"\n\n[phases.features.checklist]\nuseCasesDefined = true\nroutesCreated = true\npageComponents = true\ncompositions = true\nplatformsDefined = true\n\n# Phase 6: Modules (complex only) - SKIPPED\n[phases.modules]\nstatus = \"pending\"\nskip = true\ndescription = \"Domain decomposition\"\n\n[phases.modules.checklist]\ndomainsIdentified = false\nmodulesDefined = false\ninterfacesSet = false\n\n# Phase 7: Prototype - COMPLETED\n[phases.prototype]\nstatus = \"completed\"\ndescription = \"Working React screens\"\n\n[phases.prototype.checklist]\ndemoCleanedUp = true\nmocksGenerated = true\npagesCreated = true\nnavigationWorks = true\nformsWired = true\n\n# Phase 8: Schema - COMPLETED\n[phases.schema]\nstatus = \"completed\"\nskip = false\ndescription = \"Database schema\"\n\n[phases.schema.checklist]\nprismaGenerated = true\nrelationsValid = true\nindexesAdded = true\n",
   "metadata": {
-    "size": 3390,
-    "modified": "2025-12-13T18:53:00.392Z"
+    "size": 2778,
+    "modified": "2025-12-14T19:42:32.628Z"
   }
 }
