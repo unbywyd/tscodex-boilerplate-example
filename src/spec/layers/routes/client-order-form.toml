@@ -2,7 +2,7 @@
 # Service order creation form
 
 [route]
-id = "order-form"
+id = "client-order-form"
 path = "/prototype/client/order"
 title = "New Order"
 

@@ -334,18 +334,16 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
   const renderOrderCard = (order: CareOrderEntity) => {
     const isHighlighted = order.id === highlightedOrderId
     return (
-    <div
-      key={order.id}
-      ref={isHighlighted ? highlightedCardRef : undefined}
-    >
-      <Card
-        className={`mb-3 transition-all duration-500 ${
-          isHighlighted
-            ? 'ring-2 ring-cyan-500 ring-offset-2 bg-cyan-50 animate-pulse'
-            : ''
-        }`}
-      >
-      <CardContent className="p-4">
+      <Doc of="components.order-card" entityId={order.id} key={order.id}>
+        <div ref={isHighlighted ? highlightedCardRef : undefined}>
+          <Card
+            className={`mb-3 transition-all duration-500 ${
+              isHighlighted
+                ? 'ring-2 ring-cyan-500 ring-offset-2 bg-cyan-50 animate-pulse'
+                : ''
+            }`}
+          >
+            <CardContent className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div>
             <h4 className="font-semibold capitalize">{order.serviceType}</h4>
@@ -469,10 +467,12 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>
-      </CardContent>
-      </Card>
-    </div>
-  )}
+            </CardContent>
+          </Card>
+        </div>
+      </Doc>
+    )
+  }
 
   return (
     <Screen className="bg-slate-50">

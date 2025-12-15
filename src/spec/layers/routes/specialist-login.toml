@@ -1,0 +1,30 @@
+# Specialist Login Route
+# Phone-based authentication for specialists
+
+[route]
+id = "specialist-login"
+path = "/prototype/specialist/login"
+title = "Specialist Login"
+
+[page]
+type = "public"
+role = "guest"
+
+[page.description]
+summary = "Specialist onboarding and phone authentication"
+features = [
+  "Phone number input with formatting",
+  "OTP verification (6 digits)",
+  "Onboarding slides explaining the app",
+  "Skip intro option"
+]
+
+[relations]
+guards = ["public"]
+roles = ["specialist"]
+platforms = ["specialist-app"]
+
+[implementation]
+component = "LoginScreen"
+file = "src/prototype/pages/specialist/LoginScreen.tsx"
+status = "implemented"

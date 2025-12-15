@@ -4,35 +4,60 @@ name = "Specialist Card"
 description = "Displays specialist information with avatar, services, cities and status toggle"
 
 [component.props]
-specialist = "SpecialistEntity"
-onToggleActive = "(id: string, isActive: boolean) => void"
-onDelete = "(id: string) => void"
-onSelect = "(specialist: SpecialistEntity) => void (optional)"
+specialist = "SpecialistEntity (required) - Specialist data object"
+onToggleActive = "(id: string, isActive: boolean) => void (optional) - Toggle active status"
+onDelete = "(id: string) => void (optional) - Delete specialist action"
+onSelect = "(specialist: SpecialistEntity) => void (optional) - Selection callback for assignment mode"
+selectable = "boolean (default: false) - Enable selection mode with hover border"
 
 [component.features]
 list = [
-  "Specialist avatar",
-  "Name and contact info",
-  "Service type badges",
-  "City badges",
-  "Active/inactive toggle switch",
-  "Delete action",
-  "Selection mode for assignment"
+  "Specialist avatar (h-12 w-12 rounded-full with border)",
+  "Name display (font-semibold, truncate)",
+  "Contact info (phone with Phone icon, email with Mail icon)",
+  "Service type badges (up to 3 shown, +N indicator if more)",
+  "City badges (up to 2 shown, +N indicator if more)",
+  "Active/inactive toggle switch (Switch component, top-right)",
+  "Delete action button (Trash2 icon, ghost variant, destructive color)",
+  "Selection mode (selectable prop enables hover border and click handler)",
+  "Inactive state styling (opacity-60 when isActive=false)"
 ]
 
 [component.styling]
-hover = "shadow-md transition"
-inactive = "opacity-60"
+hover = "hover:shadow-md transition-all (default) or hover:border-cyan-300 cursor-pointer (selectable)"
+inactive = "opacity-60 when specialist.isActive === false"
 responsive = true
+layout = "flex items-start gap-3"
+avatar_size = "h-12 w-12 rounded-full border-2"
+badge_limit = "Service types: first 3 shown, +N for remainder"
+city_limit = "Cities: first 2 shown, +N for remainder"
+delete_button = "Bottom border-t separator, right-aligned, ghost variant"
 
 [component.usage]
 code = """
 import { SpecialistCard } from '@prototype/components'
 
+// Standard card with actions
 <SpecialistCard
   specialist={specialist}
-  onToggleActive={(id, active) => toggleStatus(id, active)}
-  onDelete={(id) => removeSpecialist(id)}
+  onToggleActive={(id, active) => {
+    updateSpecialist(id, { isActive: active })
+    dispatchEvent('specialist.status_changed', { id, isActive: active })
+  }}
+  onDelete={(id) => {
+    deleteSpecialist(id)
+    dispatchEvent('specialist.deleted', { id })
+  }}
+/>
+
+// Selection mode for assignment dialog
+<SpecialistCard
+  specialist={specialist}
+  selectable={true}
+  onSelect={(specialist) => {
+    assignToOrder(specialist.id)
+    dispatchEvent('order.specialist_selected', { specialistId: specialist.id })
+  }}
 />
 """
 
@@ -43,4 +68,9 @@ routes = ["admin-specialists"]
 [implementation]
 component = "SpecialistCard"
 file = "src/prototype/components/SpecialistCard.tsx"
-status = "planned"
+status = "implemented"
+exports = "SpecialistCard, SpecialistCardProps, default"
+
+[implementation.usage_locations]
+admin_specialists = "src/prototype/pages/admin/AdminSpecialists.tsx - Specialist list"
+assign_dialog = "Assignment dialogs - Selection mode for order assignment"

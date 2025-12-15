@@ -284,13 +284,15 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         {renderStepIndicator()}
 
         {/* Form */}
-        <Card className="flex-1">
-          <CardContent className="p-6">
-            {step === 'phone' && renderPhoneStep()}
-            {step === 'otp' && renderOtpStep()}
-            {step === 'permissions' && renderPermissionsStep()}
-          </CardContent>
-        </Card>
+        <Doc of="components.phone-auth-form">
+          <Card className="flex-1">
+            <CardContent className="p-6">
+              {step === 'phone' && renderPhoneStep()}
+              {step === 'otp' && renderOtpStep()}
+              {step === 'permissions' && renderPermissionsStep()}
+            </CardContent>
+          </Card>
+        </Doc>
 
         {/* Features - only on phone step */}
         {step === 'phone' && (

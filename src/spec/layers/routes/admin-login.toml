@@ -1,0 +1,28 @@
+# Admin Login Route
+# Simple auth for admin panel
+
+[route]
+id = "admin-login"
+path = "/prototype/admin/login"
+title = "Admin Login"
+
+[page]
+type = "public"
+role = "guest"
+
+[page.description]
+summary = "Admin panel authentication"
+features = [
+  "Quick login button",
+  "Demo user selection"
+]
+
+[relations]
+guards = ["public"]
+roles = ["eldercare-admin"]
+platforms = ["admin-app"]
+
+[implementation]
+component = "LoginScreen"
+file = "src/prototype/pages/admin/LoginScreen.tsx"
+status = "implemented"

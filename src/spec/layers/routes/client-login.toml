@@ -1,0 +1,31 @@
+# Client Login Route
+# Phone-based authentication for clients
+
+[route]
+id = "client-login"
+path = "/prototype/client/login"
+title = "Client Login"
+
+[page]
+type = "public"
+role = "guest"
+
+[page.description]
+summary = "Client onboarding and phone authentication"
+features = [
+  "Phone number input with formatting",
+  "OTP verification (6 digits)",
+  "Profile setup (name, city, address)",
+  "Permission requests (notifications, location)",
+  "Skip option for guest browsing"
+]
+
+[relations]
+guards = ["public"]
+roles = ["client"]
+platforms = ["client-app"]
+
+[implementation]
+component = "LoginScreen"
+file = "src/prototype/pages/client/LoginScreen.tsx"
+status = "implemented"

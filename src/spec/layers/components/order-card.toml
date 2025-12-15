@@ -1,46 +1,99 @@
 [component]
 id = "order-card"
 name = "Order Card"
-description = "Displays care order information with status, service type, location, and time details"
+description = "Displays care order information with status, service type, location, and time details. Available as reusable component or inline render function."
 
 [component.props]
-order = "CareOrderEntity"
-onSelect = "(order: CareOrderEntity) => void"
-onAssign = "(order: CareOrderEntity) => void (optional, admin only)"
-showActions = "boolean (default: false)"
-variant = "'compact' | 'detailed' (default: 'compact')"
+order = "CareOrderEntity (required)"
+onSelect = "(order: CareOrderEntity) => void (optional) - Navigate to order details"
+onAssign = "(order: CareOrderEntity) => void (optional) - Assign specialist to order"
+showActions = "boolean (default: false) - Show action buttons"
+variant = "'compact' | 'detailed' (default: 'compact') - Display density"
+isHighlighted = "boolean (default: false) - Highlight state with animation (admin only)"
+onEdit = "(order: CareOrderEntity) => void (optional, admin only)"
+onDelete = "(order: CareOrderEntity) => void (optional, admin only)"
+onStartShift = "(orderId: string) => void (optional, specialist only)"
 
 [component.features]
 list = [
-  "Service type with icon",
-  "Status badge with color coding",
-  "Address and city display",
-  "Date and time information",
-  "Client/specialist name",
-  "Action buttons (assign, view)",
-  "Hover state with border highlight"
+  "Service type with colored icon (ClipboardList icon)",
+  "Status badge with color coding (created=gray, reviewing=blue, assigned=purple, on_way=amber, in_progress=cyan, completed=green, paid=emerald, cancelled=red)",
+  "Client name display",
+  "Address and city display with MapPin icon",
+  "Date and time information (Calendar + Clock icons)",
+  "Client phone display with Phone icon",
+  "Specialist assignment info with UserCheck icon (admin view)",
+  "Shift duration stats for completed/paid orders (admin view)",
+  "Payment amount display for paid orders (admin view)",
+  "Notes display (if available)",
+  "Action buttons (edit, delete - admin; start shift - specialist)",
+  "Highlight state with ring animation and pulse effect",
+  "Click handler for navigation (onSelect prop)",
+  "Assign specialist button (shown for created/reviewing orders)"
+]
+
+[component.features.admin]
+list = [
+  "Edit/Delete buttons",
+  "Assigned specialist display",
+  "Shift duration stats",
+  "Payment amount display"
+]
+
+[component.features.specialist]
+list = [
+  "Start Shift button for assigned orders",
+  "View Active Shift button for in_progress orders"
 ]
 
 [component.styling]
-hover = "border-cyan-300 transition"
+hover = "border-cyan-300 transition-colors cursor-pointer (when onSelect provided)"
+highlighted = "ring-2 ring-cyan-500 ring-offset-2 bg-cyan-50 animate-pulse (admin only)"
+compact = "p-3 padding"
+detailed = "p-4 padding with additional fields"
 responsive = true
+card_layout = "flex items-start justify-between layout"
+status_badge = "Capitalized status text with color-coded background"
+
+[relations]
+entities = ["care-order"]
+routes = ["admin-orders", "specialist-orders"]
+
+[implementation]
+note = "Available as reusable OrderCard component and inline renderOrderCard function"
+status = "implemented"
+component = "OrderCard"
+files = [
+  "src/prototype/components/OrderCard.tsx (reusable component)",
+  "src/prototype/pages/admin/AdminOrders.tsx (inline renderOrderCard with admin features)",
+  "src/prototype/pages/specialist/SpecialistOrders.tsx (inline renderOrderCard with specialist features)"
+]
+
+[implementation.variants]
+reusable_component = "OrderCard.tsx - compact/detailed variants, onSelect, onAssign"
+admin_inline = "AdminOrders.tsx - full admin features: edit, delete, payment, shift stats, highlight animation"
+specialist_inline = "SpecialistOrders.tsx - specialist features: start shift, view active shift"
 
 [component.usage]
 code = """
 import { OrderCard } from '@prototype/components'
 
+// Compact variant (default)
 <OrderCard
   order={order}
-  onSelect={(o) => navigate(`/orders/${o.id}`)}
-  showActions={isAdmin}
+  onSelect={(order) => navigateToDetails(order.id)}
+  variant="compact"
 />
+
+// Detailed variant with all fields
+<OrderCard
+  order={order}
+  onSelect={(order) => navigateToDetails(order.id)}
+  onAssign={(order) => openAssignDialog(order)}
+  showActions={true}
+  variant="detailed"
+/>
+
+// Admin inline usage (see AdminOrders.tsx renderOrderCard)
+// Includes: edit, delete, payment info, shift stats, highlight animation
 """
-
-[relations]
-entities = ["care-order"]
-routes = ["client-orders", "admin-orders", "specialist-orders"]
-
-[implementation]
-component = "OrderCard"
-file = "src/prototype/components/OrderCard.tsx"
-status = "planned"

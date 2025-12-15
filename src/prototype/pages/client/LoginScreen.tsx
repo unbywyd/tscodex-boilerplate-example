@@ -345,14 +345,16 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
         {renderStepIndicator()}
 
         {/* Form */}
-        <Card className="flex-1">
-          <CardContent className="p-6">
-            {step === 'phone' && renderPhoneStep()}
-            {step === 'otp' && renderOtpStep()}
-            {step === 'profile' && renderProfileStep()}
-            {step === 'permissions' && renderPermissionsStep()}
-          </CardContent>
-        </Card>
+        <Doc of="components.phone-auth-form">
+          <Card className="flex-1">
+            <CardContent className="p-6">
+              {step === 'phone' && renderPhoneStep()}
+              {step === 'otp' && renderOtpStep()}
+              {step === 'profile' && renderProfileStep()}
+              {step === 'permissions' && renderPermissionsStep()}
+            </CardContent>
+          </Card>
+        </Doc>
       </ScreenBody>
 
       <ScreenFooter className="p-4">

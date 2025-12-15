@@ -3,18 +3,30 @@
 [topic]
 id = "auth"
 name = "Authentication & Authorization"
-description = "Facts about how auth works in this project"
+description = "Phone-based authentication with SMS OTP"
 
 [[facts]]
 question = "How does authentication work?"
-answer = "Mock authentication with zustand store. Login validates against hardcoded users, stores user in localStorage via persist middleware."
-tags = ["auth", "state"]
+answer = "Phone number authentication with SMS verification. User enters phone number, receives 6-digit code via SMS, enters code to log in."
+tags = ["auth", "otp", "phone"]
 status = "verified"
 
 [[facts]]
-question = "What are the available test users?"
-answer = "admin@example.com / admin123 (admin role), user@example.com / user123 (user role)"
-tags = ["auth", "testing"]
+question = "What is the authentication flow?"
+answer = """
+1. User enters phone number (Israeli format: 05x-xxx-xxxx)
+2. System generates 6-digit code and sends via SMS provider
+3. User enters received code
+4. System validates code, creates session, returns auth token
+5. User redirected to app home screen
+"""
+tags = ["auth", "flow", "otp"]
+status = "verified"
+
+[[facts]]
+question = "What are OTP restrictions?"
+answer = "Code valid for 5 minutes. Rate limit: 3 send attempts per phone per 15 minutes. Session valid for 30 days."
+tags = ["auth", "security", "otp"]
 status = "verified"
 
 [[facts]]

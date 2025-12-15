@@ -2,7 +2,7 @@
 # Current active work shift
 
 [route]
-id = "active-shift"
+id = "specialist-active-shift"
 path = "/prototype/specialist/shift"
 title = "Active Shift"
 

@@ -1,0 +1,87 @@
+[component]
+id = "dashboard-stats"
+name = "Dashboard Stats"
+description = "Statistics cards and metrics display for admin dashboard"
+
+[component.sections]
+
+[component.sections.quick-stats]
+name = "Quick Stats"
+description = "Hero metric cards with gradient backgrounds"
+layout = "2-column grid"
+[[component.sections.quick-stats.cards]]
+label = "Total Orders"
+value = "orders.data.length"
+badge = "Today's count"
+color = "cyan gradient"
+icon = "ClipboardList"
+
+[[component.sections.quick-stats.cards]]
+label = "Specialists"
+value = "specialists.data.length"
+badge = "Active count"
+color = "teal gradient"
+icon = "Users"
+
+[component.sections.order-status]
+name = "Order Status Overview"
+description = "Order counts by status in 4-column grid"
+layout = "4-column grid"
+[[component.sections.order-status.items]]
+status = "pending"
+label = "Pending"
+filter = "status in ['created', 'reviewing']"
+color = "amber"
+description = "Orders waiting for assignment"
+
+[[component.sections.order-status.items]]
+status = "assigned"
+label = "Assigned"
+filter = "status in ['assigned', 'on_way']"
+color = "purple"
+description = "Orders assigned to specialist, not yet started"
+
+[[component.sections.order-status.items]]
+status = "in_progress"
+label = "In Progress"
+filter = "status === 'in_progress'"
+color = "cyan"
+description = "Active shifts currently running"
+
+[[component.sections.order-status.items]]
+status = "completed"
+label = "Completed"
+filter = "status === 'completed'"
+color = "green"
+description = "Finished orders awaiting payment"
+
+[component.sections.pending-actions]
+name = "Pending Actions"
+description = "Alert card shown when orders need attention"
+condition = "pendingOrders.length > 0"
+styling = "amber border, amber background"
+action = "Navigate to orders page"
+
+[component.features]
+list = [
+  "Real-time order counts by status",
+  "Today's orders badge",
+  "Active specialists count",
+  "Color-coded status indicators",
+  "Action alert for pending orders",
+  "Click to navigate to relevant section"
+]
+
+[component.styling]
+quick_stats = "gradient backgrounds (cyan, teal)"
+status_grid = "colored backgrounds matching status"
+responsive = true
+
+[relations]
+entities = ["care-order", "specialist"]
+routes = ["admin-dashboard"]
+
+[implementation]
+note = "Implemented inline in AdminDashboard component"
+status = "implemented"
+file = "src/prototype/pages/admin/AdminDashboard.tsx"

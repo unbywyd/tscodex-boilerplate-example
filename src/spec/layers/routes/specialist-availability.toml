@@ -2,7 +2,7 @@
 # Weekly availability management
 
 [route]
-id = "availability-setup"
+id = "specialist-availability"
 path = "/prototype/specialist/availability"
 title = "My Availability"
 

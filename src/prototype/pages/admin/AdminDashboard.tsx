@@ -83,77 +83,79 @@ export default function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       </ScreenHeader>
 
       <ScreenBody padding="md" className="space-y-4">
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 gap-3">
-          <Card className="bg-gradient-to-br from-cyan-500 to-cyan-600 text-white border-0">
+        <Doc of="components.dashboard-stats">
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 gap-3">
+            <Card className="bg-gradient-to-br from-cyan-500 to-cyan-600 text-white border-0">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <ClipboardList className="h-5 w-5 opacity-80" />
+                  <Badge className="bg-white/20 text-white">{todayOrders.length} today</Badge>
+                </div>
+                <p className="text-3xl font-bold">{orders.data.length}</p>
+                <p className="text-cyan-100 text-sm">Total Orders</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-teal-500 to-teal-600 text-white border-0">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <Users className="h-5 w-5 opacity-80" />
+                  <Badge className="bg-white/20 text-white">{activeSpecialists.length} active</Badge>
+                </div>
+                <p className="text-3xl font-bold">{specialists.data.length}</p>
+                <p className="text-teal-100 text-sm">Specialists</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Order Status Overview */}
+          <Card className="mt-4">
             <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <ClipboardList className="h-5 w-5 opacity-80" />
-                <Badge className="bg-white/20 text-white">{todayOrders.length} today</Badge>
+              <h3 className="font-semibold mb-3">Order Status</h3>
+              <div className="grid grid-cols-4 gap-2">
+                <div className="text-center p-2 rounded-lg bg-amber-50">
+                  <p className="text-xl font-bold text-amber-600">{pendingOrders.length}</p>
+                  <p className="text-xs text-amber-700">Pending</p>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-purple-50">
+                  <p className="text-xl font-bold text-purple-600">{assignedOrders.length}</p>
+                  <p className="text-xs text-purple-700">Assigned</p>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-cyan-50">
+                  <p className="text-xl font-bold text-cyan-600">{inProgressOrders.length}</p>
+                  <p className="text-xs text-cyan-700">In Progress</p>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-green-50">
+                  <p className="text-xl font-bold text-green-600">{completedOrders.length}</p>
+                  <p className="text-xs text-green-700">Completed</p>
+                </div>
               </div>
-              <p className="text-3xl font-bold">{orders.data.length}</p>
-              <p className="text-cyan-100 text-sm">Total Orders</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-teal-500 to-teal-600 text-white border-0">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <Users className="h-5 w-5 opacity-80" />
-                <Badge className="bg-white/20 text-white">{activeSpecialists.length} active</Badge>
-              </div>
-              <p className="text-3xl font-bold">{specialists.data.length}</p>
-              <p className="text-teal-100 text-sm">Specialists</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Order Status Overview */}
-        <Card>
-          <CardContent className="p-4">
-            <h3 className="font-semibold mb-3">Order Status</h3>
-            <div className="grid grid-cols-4 gap-2">
-              <div className="text-center p-2 rounded-lg bg-amber-50">
-                <p className="text-xl font-bold text-amber-600">{pendingOrders.length}</p>
-                <p className="text-xs text-amber-700">Pending</p>
-              </div>
-              <div className="text-center p-2 rounded-lg bg-purple-50">
-                <p className="text-xl font-bold text-purple-600">{assignedOrders.length}</p>
-                <p className="text-xs text-purple-700">Assigned</p>
-              </div>
-              <div className="text-center p-2 rounded-lg bg-cyan-50">
-                <p className="text-xl font-bold text-cyan-600">{inProgressOrders.length}</p>
-                <p className="text-xs text-cyan-700">In Progress</p>
-              </div>
-              <div className="text-center p-2 rounded-lg bg-green-50">
-                <p className="text-xl font-bold text-green-600">{completedOrders.length}</p>
-                <p className="text-xs text-green-700">Completed</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Pending Actions */}
-        {pendingOrders.length > 0 && (
-          <Card className="border-amber-200 bg-amber-50">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <AlertCircle className="h-5 w-5 text-amber-600" />
-                <h3 className="font-semibold text-amber-800">Needs Attention</h3>
-              </div>
-              <p className="text-sm text-amber-700 mb-3">
-                {pendingOrders.length} order{pendingOrders.length !== 1 ? 's' : ''} waiting for assignment
-              </p>
-              <Button
-                className="w-full"
-                variant="outline"
-                onClick={() => onNavigate?.('orders')}
-              >
-                View Pending Orders
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+          {/* Pending Actions */}
+          {pendingOrders.length > 0 && (
+            <Card className="border-amber-200 bg-amber-50 mt-4">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertCircle className="h-5 w-5 text-amber-600" />
+                  <h3 className="font-semibold text-amber-800">Needs Attention</h3>
+                </div>
+                <p className="text-sm text-amber-700 mb-3">
+                  {pendingOrders.length} order{pendingOrders.length !== 1 ? 's' : ''} waiting for assignment
+                </p>
+                <Button
+                  className="w-full"
+                  variant="outline"
+                  onClick={() => onNavigate?.('orders')}
+                >
+                  View Pending Orders
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+        </Doc>
 
         {/* Recent Orders */}
         <div>

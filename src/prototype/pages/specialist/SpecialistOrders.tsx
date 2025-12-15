@@ -69,68 +69,70 @@ export default function SpecialistOrders({ onBack, onNavigate }: SpecialistOrder
   }
 
   const renderOrderCard = (order: CareOrderEntity, showActions: boolean = false) => (
-    <Card key={order.id} className="mb-3">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h4 className="font-semibold capitalize">{order.serviceType}</h4>
-            <p className="text-sm text-muted-foreground">{order.clientName || 'Client'}</p>
+    <Doc of="components.order-card" entityId={order.id} key={order.id}>
+      <Card className="mb-3">
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <h4 className="font-semibold capitalize">{order.serviceType}</h4>
+              <p className="text-sm text-muted-foreground">{order.clientName || 'Client'}</p>
+            </div>
+            <Badge className={statusColors[order.status] || 'bg-gray-100'}>
+              {order.status.replace('_', ' ')}
+            </Badge>
           </div>
-          <Badge className={statusColors[order.status] || 'bg-gray-100'}>
-            {order.status.replace('_', ' ')}
-          </Badge>
-        </div>
 
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="h-4 w-4 shrink-0" />
-            <span className="truncate">{order.address}</span>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <MapPin className="h-4 w-4 shrink-0" />
+              <span className="truncate">{order.address}</span>
+            </div>
+            <div className="flex items-center gap-4 text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                {order.date}
+              </span>
+              <span className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                {order.startTime}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Phone className="h-4 w-4 shrink-0" />
+              <span>{order.phone}</span>
+            </div>
+            {order.notes && (
+              <div className="flex items-start gap-2 text-muted-foreground">
+                <FileText className="h-4 w-4 shrink-0 mt-0.5" />
+                <span className="text-xs">{order.notes}</span>
+              </div>
+            )}
           </div>
-          <div className="flex items-center gap-4 text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              {order.date}
-            </span>
-            <span className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              {order.startTime}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Phone className="h-4 w-4 shrink-0" />
-            <span>{order.phone}</span>
-          </div>
-          {order.notes && (
-            <div className="flex items-start gap-2 text-muted-foreground">
-              <FileText className="h-4 w-4 shrink-0 mt-0.5" />
-              <span className="text-xs">{order.notes}</span>
+
+          {showActions && order.status === 'assigned' && (
+            <div className="mt-4 flex gap-2">
+              <Button
+                className="flex-1"
+                onClick={() => handleStartShift(order.id)}
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Start Shift
+              </Button>
             </div>
           )}
-        </div>
 
-        {showActions && order.status === 'assigned' && (
-          <div className="mt-4 flex gap-2">
+          {order.status === 'in_progress' && (
             <Button
-              className="flex-1"
-              onClick={() => handleStartShift(order.id)}
+              className="w-full mt-4"
+              variant="outline"
+              onClick={() => onNavigate?.('shift', order.id)}
             >
-              <Play className="h-4 w-4 mr-2" />
-              Start Shift
+              View Active Shift
             </Button>
-          </div>
-        )}
-
-        {order.status === 'in_progress' && (
-          <Button
-            className="w-full mt-4"
-            variant="outline"
-            onClick={() => onNavigate?.('shift', order.id)}
-          >
-            View Active Shift
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+          )}
+        </CardContent>
+      </Card>
+    </Doc>
   )
 
   return (

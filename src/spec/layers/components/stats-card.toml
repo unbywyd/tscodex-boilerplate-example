@@ -4,39 +4,65 @@ name = "Stats Card"
 description = "Displays a single metric with label, value and optional trend indicator"
 
 [component.props]
-label = "string"
-value = "number | string"
-icon = "LucideIcon (optional)"
-trend = "{ value: number, direction: 'up' | 'down' } (optional)"
-variant = "'default' | 'gradient' (default: 'default')"
-color = "'cyan' | 'teal' | 'amber' | 'green' | 'purple' (default: 'cyan')"
+label = "string (required) - Metric label text"
+value = "number | string (required) - Main metric value"
+icon = "LucideIcon (optional) - Icon component from lucide-react"
+trend = "{ value: number, direction: 'up' | 'down' } (optional) - Trend indicator with percentage"
+badge = "string (optional) - Badge text shown in top-right corner"
+variant = "'default' | 'gradient' (default: 'default') - Visual style variant"
+color = "'cyan' | 'teal' | 'amber' | 'green' | 'purple' (default: 'cyan') - Color theme for gradient variant"
 
 [component.features]
 list = [
-  "Large value display",
-  "Label text",
-  "Optional icon",
-  "Optional trend indicator with arrow",
-  "Gradient variant for hero stats",
-  "Color theming"
+  "Large value display (text-3xl font-bold)",
+  "Label text (text-sm, muted-foreground or colored in gradient)",
+  "Optional icon (LucideIcon, positioned top-left)",
+  "Optional badge (positioned top-right, white/20 opacity in gradient)",
+  "Trend indicator with arrow (TrendingUp/TrendingDown icons, green/red colors)",
+  "Gradient variant for hero stats (bg-gradient-to-br from-{color}-500 to-{color}-600)",
+  "Color theming (5 color options with matching gradients)",
+  "Responsive layout (flex items-center justify-between)"
 ]
 
 [component.styling]
-gradient = "bg-gradient-to-br from-{color}-500 to-{color}-600 text-white"
-default = "bg-white border"
+gradient = "bg-gradient-to-br from-{color}-500 to-{color}-600 text-white border-0"
+default = "bg-white border standard card styling"
 responsive = true
+icon_position = "Top-left, opacity-80 in gradient variant"
+badge_position = "Top-right, bg-white/20 text-white in gradient, bg-muted in default"
+trend_position = "Bottom-right, text-xs with icon"
+value_size = "text-3xl font-bold"
+label_size = "text-sm"
 
 [component.usage]
 code = """
 import { StatsCard } from '@prototype/components'
+import { ClipboardList, Users } from 'lucide-react'
 
+// Gradient hero stat with badge
 <StatsCard
   label="Total Orders"
   value={42}
   icon={ClipboardList}
-  trend={{ value: 12, direction: 'up' }}
+  badge="12 today"
   variant="gradient"
   color="cyan"
+/>
+
+// Default stat with trend
+<StatsCard
+  label="Active Users"
+  value={1234}
+  icon={Users}
+  trend={{ value: 8, direction: 'up' }}
+  variant="default"
+  color="teal"
+/>
+
+// Simple stat without icon/trend
+<StatsCard
+  label="Revenue"
+  value="$45,231"
 />
 """
 
@@ -46,4 +72,9 @@ routes = ["admin-dashboard", "specialist-home"]
 [implementation]
 component = "StatsCard"
 file = "src/prototype/components/StatsCard.tsx"
-status = "planned"
+status = "implemented"
+exports = "StatsCard, StatsCardProps, default"
+
+[implementation.usage_locations]
+admin_dashboard = "src/prototype/pages/admin/AdminDashboard.tsx - Quick stats section"
+specialist_home = "src/prototype/pages/specialist/SpecialistHome.tsx - Metrics display"
