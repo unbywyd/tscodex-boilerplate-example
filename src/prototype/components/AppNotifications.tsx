@@ -204,7 +204,7 @@ export function NotificationToast({ app }: { app: AppNotification['app'] }) {
   }
 
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-2 fade-in duration-300">
+    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-2 fade-in duration-300">
       <Card className="shadow-lg border-l-4 border-l-cyan-500">
         <CardContent className="p-3">
           <div className="flex items-start gap-3">

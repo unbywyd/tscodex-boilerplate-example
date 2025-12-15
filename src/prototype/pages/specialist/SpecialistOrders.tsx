@@ -30,6 +30,7 @@ const statusColors: Record<string, string> = {
   on_way: 'bg-amber-100 text-amber-700',
   in_progress: 'bg-cyan-100 text-cyan-700',
   completed: 'bg-green-100 text-green-700',
+  paid: 'bg-emerald-100 text-emerald-700',
 }
 
 export default function SpecialistOrders({ onBack, onNavigate }: SpecialistOrdersProps) {
@@ -44,7 +45,7 @@ export default function SpecialistOrders({ onBack, onNavigate }: SpecialistOrder
 
   const pendingOrders = myOrders.filter(o => ['assigned', 'on_way'].includes(o.status))
   const activeOrders = myOrders.filter(o => o.status === 'in_progress')
-  const completedOrders = myOrders.filter(o => o.status === 'completed')
+  const completedOrders = myOrders.filter(o => ['completed', 'paid'].includes(o.status))
 
   const handleNavChange = (id: string) => {
     setActiveNav(id)

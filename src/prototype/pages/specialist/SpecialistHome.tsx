@@ -139,7 +139,7 @@ export default function SpecialistHome({ onNavigate }: SpecialistHomeProps) {
           <Card>
             <CardContent className="p-3 text-center">
               <p className="text-2xl font-bold text-green-600">
-                {myOrders.filter(o => o.status === 'completed').length}
+                {myOrders.filter(o => ['completed', 'paid'].includes(o.status)).length}
               </p>
               <p className="text-xs text-muted-foreground">Completed</p>
             </CardContent>
