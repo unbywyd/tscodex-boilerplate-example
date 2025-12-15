@@ -31,6 +31,7 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.E
   on_way: { label: 'On the Way', color: 'bg-amber-500', icon: Truck },
   in_progress: { label: 'In Progress', color: 'bg-cyan-500', icon: Play },
   completed: { label: 'Completed', color: 'bg-green-500', icon: CheckCircle2 },
+  paid: { label: 'Paid', color: 'bg-emerald-500', icon: CheckCircle2 },
   cancelled: { label: 'Cancelled', color: 'bg-red-500', icon: XCircle },
 }
 
@@ -158,8 +159,8 @@ export default function OrderTracking({ onBack, onNavigate, initialPhone = '' }:
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold">Current Status</h3>
-                  <Badge className={`${statusConfig[latestOrder.status].color} text-white`}>
-                    {statusConfig[latestOrder.status].label}
+                  <Badge className={`${statusConfig[latestOrder.status]?.color || 'bg-gray-500'} text-white`}>
+                    {statusConfig[latestOrder.status]?.label || latestOrder.status}
                   </Badge>
                 </div>
 
