@@ -9,6 +9,7 @@ import {
   Tabs, TabsList, TabsTrigger, TabsContent,
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
   Avatar, useToast, EmptyState, Doc, Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
+  DatePicker, TimePicker,
   type BottomNavItem
 } from '@/components/ui'
 import { useRepo } from '@/hooks/useRepo'
@@ -68,6 +69,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
   // Edit dialog state
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [editingOrder, setEditingOrder] = useState<CareOrderEntity | null>(null)
+  const editDialogRef = useRef<HTMLDivElement>(null)
   const [editForm, setEditForm] = useState({
     clientName: '',
     phone: '',
@@ -621,7 +623,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
 
       {/* Edit Order Dialog */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-        <DialogContent inline className="max-h-[80vh] overflow-auto">
+        <DialogContent inline className="max-h-[80vh] overflow-auto" ref={editDialogRef}>
           <DialogHeader>
             <DialogTitle>Edit Order</DialogTitle>
           </DialogHeader>
@@ -662,7 +664,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
                   <SelectTrigger>
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent container={editDialogRef.current}>
                     {ISRAELI_CITIES.map(city => (
                       <SelectItem key={city} value={city}>{city}</SelectItem>
                     ))}
@@ -678,7 +680,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
                   <SelectTrigger>
                     <SelectValue placeholder="Select service" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent container={editDialogRef.current}>
                     {SERVICES.map(service => (
                       <SelectItem key={service.id} value={service.id}>{service.name}</SelectItem>
                     ))}
@@ -688,22 +690,20 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">Date</label>
-                <Input
-                  type="date"
-                  value={editForm.date}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, date: e.target.value }))}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">Time</label>
-                <Input
-                  type="time"
-                  value={editForm.startTime}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, startTime: e.target.value }))}
-                />
-              </div>
+              <DatePicker
+                label="Date"
+                value={editForm.date ? new Date(editForm.date) : undefined}
+                onChange={(date) => setEditForm(prev => ({
+                  ...prev,
+                  date: date ? date.toISOString().split('T')[0] : ''
+                }))}
+              />
+              <TimePicker
+                label="Time"
+                value={editForm.startTime}
+                onChange={(time) => setEditForm(prev => ({ ...prev, startTime: time || '' }))}
+                minuteStep={15}
+              />
             </div>
 
             <div>
@@ -715,7 +715,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent container={editDialogRef.current}>
                   {allStatuses.map(status => (
                     <SelectItem key={status} value={status} className="capitalize">
                       {status.replace('_', ' ')}
@@ -734,7 +734,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
                 <SelectTrigger>
                   <SelectValue placeholder="Select specialist" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent container={editDialogRef.current}>
                   <SelectItem value="none">Not assigned</SelectItem>
                   {specialists.data.filter(s => s.isActive).map(specialist => (
                     <SelectItem key={specialist.id} value={specialist.id}>
