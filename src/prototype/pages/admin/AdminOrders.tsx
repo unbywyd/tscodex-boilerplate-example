@@ -56,6 +56,13 @@ function formatTime(isoString: string | null): string {
   return new Date(isoString).toLocaleTimeString('en-IL', { hour: '2-digit', minute: '2-digit' })
 }
 
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, '')
+  if (digits.length <= 3) return digits
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`
+}
+
 export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
   const { show } = useToast()
   const orders = useRepo<CareOrderEntity>('orders')
@@ -105,7 +112,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
     startTime: '',
     serviceType: '' as CareOrderEntity['serviceType'],
     notes: '',
-    assignSpecialist: false,
+    specialistType: '' as string,
     specialistId: '' as string | null
   })
 
@@ -318,7 +325,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
       startTime: '',
       serviceType: '' as CareOrderEntity['serviceType'],
       notes: '',
-      assignSpecialist: false,
+      specialistType: '',
       specialistId: null
     })
   }
@@ -330,7 +337,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
       return
     }
 
-    const specialist = createForm.assignSpecialist && createForm.specialistId
+    const specialist = createForm.specialistId
       ? specialists.data.find(s => s.id === createForm.specialistId)
       : null
 
@@ -913,7 +920,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
                 <Input
                   placeholder="05x-xxx-xxxx"
                   value={createForm.phone}
-                  onChange={(e) => setCreateForm(prev => ({ ...prev, phone: e.target.value }))}
+                  onChange={(e) => setCreateForm(prev => ({ ...prev, phone: formatPhone(e.target.value) }))}
                 />
               </div>
             </div>
@@ -970,40 +977,40 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
               />
             </div>
 
-            {/* Assign specialist option */}
-            <div className="border-t pt-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={createForm.assignSpecialist}
-                  onChange={(e) => setCreateForm(prev => ({ ...prev, assignSpecialist: e.target.checked, specialistId: null }))}
-                  className="w-4 h-4 rounded border-gray-300"
-                />
-                <span className="text-sm font-medium">Assign specialist now</span>
-              </label>
-
-              {createForm.assignSpecialist && (
-                <div className="mt-3">
-                  <MobilePicker
-                    label="Specialist"
-                    value={createForm.specialistId || ''}
-                    onChange={(value) => setCreateForm(prev => ({ ...prev, specialistId: value || null }))}
-                    options={specialists.data
+            {/* Assign specialist */}
+            <div className="border-t pt-4 space-y-3">
+              <MobilePicker
+                label="Specialist Type"
+                value={createForm.specialistType}
+                onChange={(value) => setCreateForm(prev => ({ ...prev, specialistType: value, specialistId: null }))}
+                options={[
+                  { value: '', label: 'Not assigned' },
+                  ...SERVICES.map(s => ({ value: s.id, label: s.name }))
+                ]}
+                placeholder="Select type"
+              />
+              {createForm.specialistType && (
+                <MobilePicker
+                  label="Specialist"
+                  value={createForm.specialistId || ''}
+                  onChange={(value) => setCreateForm(prev => ({ ...prev, specialistId: value || null }))}
+                  options={[
+                    { value: '', label: 'Select specialist...' },
+                    ...specialists.data
                       .filter(s => s.isActive)
-                      .filter(s => !createForm.serviceType || s.serviceTypes.includes(createForm.serviceType))
+                      .filter(s => s.serviceTypes.includes(createForm.specialistType as CareOrderEntity['serviceType']))
                       .filter(s => !createForm.city || s.cities.includes(createForm.city))
-                      .map(s => ({ value: s.id, label: `${s.name} (${s.serviceTypes.join(', ')})` }))
-                    }
-                    placeholder="Select specialist"
-                  />
-                  {createForm.serviceType && createForm.city && specialists.data.filter(s =>
-                    s.isActive && s.serviceTypes.includes(createForm.serviceType) && s.cities.includes(createForm.city)
-                  ).length === 0 && (
-                    <p className="text-xs text-amber-600 mt-1">
-                      No specialists available for this service and city
-                    </p>
-                  )}
-                </div>
+                      .map(s => ({ value: s.id, label: s.name }))
+                  ]}
+                  placeholder="Select specialist"
+                />
+              )}
+              {createForm.specialistType && createForm.city && specialists.data.filter(s =>
+                s.isActive && s.serviceTypes.includes(createForm.specialistType as CareOrderEntity['serviceType']) && s.cities.includes(createForm.city)
+              ).length === 0 && (
+                <p className="text-xs text-amber-600 mt-1">
+                  No specialists available for this type and city
+                </p>
               )}
             </div>
           </div>
