@@ -15,6 +15,7 @@ primaryAction = "Assign Order"
 [platform.features]
 core = [
   "View all orders",
+  "Create orders manually",
   "Assign specialists to orders",
   "Manage specialists",
   "View dashboard metrics"
@@ -33,4 +34,4 @@ items = [
 routes = ["admin-dashboard", "admin-orders", "admin-specialists", "admin-login"]
 roles = ["eldercare-admin"]
 guards = ["authenticated", "admin-only"]
-useCases = ["manage-orders-admin", "assign-specialist", "manage-specialists-admin", "authenticate-phone"]
+useCases = ["manage-orders-admin", "assign-specialist", "create-order-admin", "manage-specialists-admin", "authenticate-phone"]

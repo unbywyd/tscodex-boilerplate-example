@@ -1,0 +1,118 @@
+# Create Order (Admin) Use Case
+
+[useCase]
+id = "create-order-admin"
+name = "Create Order (Admin)"
+description = "Admin manually creates an order on behalf of a client"
+asRole = "eldercare-admin"
+iWant = "to create an order for a client"
+soThat = "I can register phone orders or handle special requests"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "admin-app"
+
+[useCase.conditions]
+pre = [
+  "Admin is authenticated",
+  "Client phone number is provided",
+  "Service type and time are specified"
+]
+post = [
+  "Order is created in system",
+  "Order status is 'created' or 'assigned'",
+  "Client receives SMS confirmation",
+  "Order appears in orders list"
+]
+
+[relations]
+roles = ["eldercare-admin"]
+guards = ["authenticated", "admin-only"]
+routes = ["admin-orders"]
+entities = ["order", "service", "specialist"]
+components = ["order-form-dialog", "order-card"]
+events = ["order-created-admin"]
+platforms = ["admin-app"]
+useCases = ["assign-specialist"]
+
+[implementation]
+route = "/prototype/admin/orders"
+component = "AdminOrders"
+file = "src/prototype/pages/admin/AdminOrders.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Admin clicks 'New Order' button"
+
+[[flow]]
+id = "open_dialog"
+type = "action"
+label = "Open create order dialog"
+
+[[flow]]
+id = "enter_client"
+type = "action"
+label = "Enter client phone and name"
+
+[[flow]]
+id = "select_service"
+type = "action"
+label = "Select service type"
+
+[[flow]]
+id = "enter_location"
+type = "action"
+label = "Enter address and city"
+
+[[flow]]
+id = "select_datetime"
+type = "action"
+label = "Select date and time"
+
+[[flow]]
+id = "add_notes"
+type = "action"
+label = "Add optional notes"
+
+[[flow]]
+id = "assign_option"
+type = "decision"
+label = "Assign specialist now?"
+
+[[flow]]
+id = "select_specialist"
+type = "action"
+label = "Select available specialist"
+
+[[flow]]
+id = "validate"
+type = "decision"
+label = "Form valid?"
+
+[[flow]]
+id = "submit"
+type = "action"
+label = "Create order"
+
+[[flow]]
+id = "notify_client"
+type = "action"
+label = "Send SMS to client"
+
+[[flow]]
+id = "show_success"
+type = "action"
+label = "Show success message, close dialog"
+
+[[flow]]
+id = "error"
+type = "action"
+label = "Show validation errors"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Order created successfully"

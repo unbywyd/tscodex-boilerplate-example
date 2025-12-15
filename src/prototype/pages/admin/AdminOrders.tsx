@@ -2,7 +2,7 @@
 // Manage all orders with assignment
 
 import { useState, useEffect, useRef } from 'react'
-import { LayoutDashboard, ClipboardList, Users, MapPin, Calendar, Clock, Phone, UserCheck, ChevronRight, Search, Pencil, Trash2, DollarSign, Timer } from 'lucide-react'
+import { LayoutDashboard, ClipboardList, Users, MapPin, Calendar, Clock, Phone, UserCheck, ChevronRight, Search, Pencil, Trash2, DollarSign, Timer, Plus } from 'lucide-react'
 import {
   Screen, ScreenHeader, ScreenBody, ScreenFooter,
   TopBar, BottomNav, Card, CardContent, Button, Badge, Input,
@@ -93,6 +93,21 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
   // Highlight state for status change animation
   const [highlightedOrderId, setHighlightedOrderId] = useState<string | null>(null)
   const highlightedCardRef = useRef<HTMLDivElement>(null)
+
+  // Create order dialog state
+  const [showCreateDialog, setShowCreateDialog] = useState(false)
+  const [createForm, setCreateForm] = useState({
+    clientName: '',
+    phone: '',
+    address: '',
+    city: '',
+    date: '',
+    startTime: '',
+    serviceType: '' as CareOrderEntity['serviceType'],
+    notes: '',
+    assignSpecialist: false,
+    specialistId: '' as string | null
+  })
 
   // Clear highlight after animation and scroll to highlighted card
   useEffect(() => {
@@ -292,6 +307,98 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
     setShowPaymentDialog(true)
   }
 
+  // Reset create form
+  const resetCreateForm = () => {
+    setCreateForm({
+      clientName: '',
+      phone: '',
+      address: '',
+      city: '',
+      date: '',
+      startTime: '',
+      serviceType: '' as CareOrderEntity['serviceType'],
+      notes: '',
+      assignSpecialist: false,
+      specialistId: null
+    })
+  }
+
+  // Create new order
+  const handleCreateOrder = () => {
+    if (!createForm.phone || !createForm.address || !createForm.city || !createForm.serviceType || !createForm.date) {
+      show({ message: 'Please fill in required fields', type: 'error' })
+      return
+    }
+
+    const specialist = createForm.assignSpecialist && createForm.specialistId
+      ? specialists.data.find(s => s.id === createForm.specialistId)
+      : null
+
+    const newOrder: CareOrderEntity = {
+      id: `order-${Date.now()}`,
+      clientName: createForm.clientName || 'Client',
+      phone: createForm.phone,
+      address: createForm.address,
+      city: createForm.city,
+      serviceType: createForm.serviceType,
+      date: createForm.date,
+      startTime: createForm.startTime || '09:00',
+      notes: createForm.notes,
+      status: specialist ? 'assigned' : 'created',
+      specialistId: specialist?.id || null,
+      specialistName: specialist?.name || null,
+      specialistPhone: specialist?.phone || null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      actualStart: null,
+      actualEnd: null,
+      paidAmount: null,
+      paidAt: null,
+      paymentNotes: null
+    }
+
+    orders.create(newOrder)
+
+    dispatchEvent('order-created-admin', {
+      orderId: newOrder.id,
+      serviceType: newOrder.serviceType,
+      clientPhone: newOrder.phone,
+      clientName: newOrder.clientName,
+      city: newOrder.city,
+      date: newOrder.date,
+      specialistId: specialist?.id || null,
+      createdBy: 'admin'
+    })
+
+    // Notify client
+    notifyApp(
+      'client',
+      'Order Confirmed',
+      `Your ${newOrder.serviceType} service is scheduled for ${newOrder.date}`,
+      'success',
+      { orderId: newOrder.id }
+    )
+
+    // If assigned, notify specialist
+    if (specialist) {
+      notifyApp(
+        'specialist',
+        'New Assignment',
+        `${newOrder.serviceType} order in ${newOrder.city} on ${newOrder.date}`,
+        'order',
+        { orderId: newOrder.id }
+      )
+      setActiveTab('active')
+    } else {
+      setActiveTab('pending')
+    }
+
+    setHighlightedOrderId(newOrder.id)
+    setShowCreateDialog(false)
+    resetCreateForm()
+    show({ message: 'Order created successfully!', type: 'success' })
+  }
+
   // Mark as paid
   const handleMarkPaid = () => {
     if (!paymentOrder) return
@@ -482,9 +589,9 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
       </ScreenHeader>
 
       <ScreenBody padding="md">
-        {/* Search */}
-        <div className="mb-4">
-          <div className="relative">
+        {/* Search and Create */}
+        <div className="mb-4 flex gap-2">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search orders..."
@@ -493,6 +600,10 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
               className="pl-10"
             />
           </div>
+          <Button onClick={() => setShowCreateDialog(true)}>
+            <Plus className="h-4 w-4 mr-1" />
+            New
+          </Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -775,6 +886,135 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
             <Button className="bg-emerald-600 hover:bg-emerald-700" onClick={handleMarkPaid}>
               <DollarSign className="h-4 w-4 mr-2" />
               Confirm Payment
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create Order Dialog */}
+      <Dialog open={showCreateDialog} onOpenChange={(open) => { setShowCreateDialog(open); if (!open) resetCreateForm(); }}>
+        <DialogContent inline className="max-h-[85vh] overflow-auto">
+          <DialogHeader>
+            <DialogTitle>Create New Order</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Client Name</label>
+                <Input
+                  placeholder="Client name"
+                  value={createForm.clientName}
+                  onChange={(e) => setCreateForm(prev => ({ ...prev, clientName: e.target.value }))}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Phone *</label>
+                <Input
+                  placeholder="05x-xxx-xxxx"
+                  value={createForm.phone}
+                  onChange={(e) => setCreateForm(prev => ({ ...prev, phone: e.target.value }))}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">Address *</label>
+              <Input
+                placeholder="Street address"
+                value={createForm.address}
+                onChange={(e) => setCreateForm(prev => ({ ...prev, address: e.target.value }))}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <MobilePicker
+                label="City *"
+                value={createForm.city}
+                onChange={(value) => setCreateForm(prev => ({ ...prev, city: value }))}
+                options={ISRAELI_CITIES}
+                placeholder="Select city"
+              />
+              <MobilePicker
+                label="Service *"
+                value={createForm.serviceType}
+                onChange={(value) => setCreateForm(prev => ({ ...prev, serviceType: value as CareOrderEntity['serviceType'] }))}
+                options={SERVICES.map(s => ({ value: s.id, label: s.name }))}
+                placeholder="Select service"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <DatePicker
+                label="Date *"
+                value={createForm.date ? new Date(createForm.date) : undefined}
+                onChange={(date) => setCreateForm(prev => ({
+                  ...prev,
+                  date: date ? date.toISOString().split('T')[0] : ''
+                }))}
+              />
+              <TimePicker
+                label="Time"
+                value={createForm.startTime}
+                onChange={(time) => setCreateForm(prev => ({ ...prev, startTime: time || '' }))}
+                minuteStep={15}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">Notes</label>
+              <Input
+                placeholder="Additional notes..."
+                value={createForm.notes}
+                onChange={(e) => setCreateForm(prev => ({ ...prev, notes: e.target.value }))}
+              />
+            </div>
+
+            {/* Assign specialist option */}
+            <div className="border-t pt-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={createForm.assignSpecialist}
+                  onChange={(e) => setCreateForm(prev => ({ ...prev, assignSpecialist: e.target.checked, specialistId: null }))}
+                  className="w-4 h-4 rounded border-gray-300"
+                />
+                <span className="text-sm font-medium">Assign specialist now</span>
+              </label>
+
+              {createForm.assignSpecialist && (
+                <div className="mt-3">
+                  <MobilePicker
+                    label="Specialist"
+                    value={createForm.specialistId || ''}
+                    onChange={(value) => setCreateForm(prev => ({ ...prev, specialistId: value || null }))}
+                    options={specialists.data
+                      .filter(s => s.isActive)
+                      .filter(s => !createForm.serviceType || s.serviceTypes.includes(createForm.serviceType))
+                      .filter(s => !createForm.city || s.cities.includes(createForm.city))
+                      .map(s => ({ value: s.id, label: `${s.name} (${s.serviceTypes.join(', ')})` }))
+                    }
+                    placeholder="Select specialist"
+                  />
+                  {createForm.serviceType && createForm.city && specialists.data.filter(s =>
+                    s.isActive && s.serviceTypes.includes(createForm.serviceType) && s.cities.includes(createForm.city)
+                  ).length === 0 && (
+                    <p className="text-xs text-amber-600 mt-1">
+                      No specialists available for this service and city
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setShowCreateDialog(false); resetCreateForm(); }}>
+              Cancel
+            </Button>
+            <Button onClick={handleCreateOrder}>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Order
             </Button>
           </DialogFooter>
         </DialogContent>

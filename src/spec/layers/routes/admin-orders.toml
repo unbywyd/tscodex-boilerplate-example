@@ -15,6 +15,7 @@ summary = "Manage all care service orders"
 features = [
   "All orders list",
   "Filter by status",
+  "Create new order manually",
   "Assign specialist action",
   "Order details"
 ]
@@ -22,10 +23,11 @@ features = [
 [relations]
 guards = ["authenticated", "admin-only"]
 roles = ["eldercare-admin"]
-entities = ["order", "specialist"]
+entities = ["order", "specialist", "service"]
 platforms = ["admin-app"]
-useCases = ["manage-orders-admin", "assign-specialist"]
-components = ["order-card", "specialist-card"]
+useCases = ["manage-orders-admin", "assign-specialist", "create-order-admin"]
+components = ["order-card", "specialist-card", "order-form-dialog"]
+events = ["order-created-admin", "order-assigned"]
 
 [implementation]
 component = "AdminOrders"

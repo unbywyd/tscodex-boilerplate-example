@@ -1,0 +1,58 @@
+[event]
+id = "order-created-admin"
+name = "Order Created by Admin"
+description = "Admin manually created a new order on behalf of a client"
+category = "order"
+
+[trigger]
+action = "click"
+element = "Create Order button in dialog"
+
+[[payload]]
+name = "orderId"
+type = "string"
+description = "Unique order identifier"
+
+[[payload]]
+name = "serviceType"
+type = "string"
+description = "Type of care service"
+
+[[payload]]
+name = "clientPhone"
+type = "string"
+description = "Client phone number"
+
+[[payload]]
+name = "clientName"
+type = "string"
+description = "Client name"
+
+[[payload]]
+name = "city"
+type = "string"
+description = "City where service is needed"
+
+[[payload]]
+name = "date"
+type = "string"
+description = "Scheduled date for service"
+
+[[payload]]
+name = "specialistId"
+type = "string"
+description = "Assigned specialist ID (optional, if assigned immediately)"
+
+[[payload]]
+name = "createdBy"
+type = "string"
+description = "Admin user who created the order"
+
+[backend]
+description = "Creates order record with admin as creator, sends SMS confirmation to client, optionally assigns specialist immediately"
+
+[relations]
+entities = ["order", "specialist"]
+routes = ["admin-orders"]
+useCases = ["create-order-admin"]
+components = ["order-form-dialog", "order-card"]
