@@ -24,6 +24,9 @@ guards = ["authenticated", "specialist-only"]
 roles = ["specialist"]
 entities = ["order"]
 platforms = ["specialist-app"]
+useCases = ["start-shift", "end-shift"]
+components = ["active-shift", "order-card"]
+events = ["shift-started", "shift-ended"]
 
 [implementation]
 component = "ActiveShift"

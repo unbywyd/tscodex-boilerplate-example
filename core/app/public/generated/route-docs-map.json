@@ -1,4 +1,15 @@
 {
-  "/prototype/dashboard": "layers/routes/dashboard.toml",
-  "/prototype": "layers/routes/prototype-home.toml"
+  "/prototype/admin": "layers/routes/admin-dashboard.toml",
+  "/prototype/admin/login": "layers/routes/admin-login.toml",
+  "/prototype/admin/orders": "layers/routes/admin-orders.toml",
+  "/prototype/admin/specialists": "layers/routes/admin-specialists.toml",
+  "/prototype/client": "layers/routes/client-home.toml",
+  "/prototype/client/login": "layers/routes/client-login.toml",
+  "/prototype/client/order": "layers/routes/client-order-form.toml",
+  "/prototype": "layers/routes/prototype-home.toml",
+  "/prototype/specialist/shift": "layers/routes/specialist-active-shift.toml",
+  "/prototype/specialist/availability": "layers/routes/specialist-availability.toml",
+  "/prototype/specialist": "layers/routes/specialist-home.toml",
+  "/prototype/specialist/login": "layers/routes/specialist-login.toml",
+  "/prototype/specialist/orders": "layers/routes/specialist-orders.toml"
 }

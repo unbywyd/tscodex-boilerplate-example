@@ -23,6 +23,9 @@ guards = ["authenticated", "specialist-only"]
 roles = ["specialist"]
 entities = ["availability"]
 platforms = ["specialist-app"]
+useCases = ["manage-availability"]
+components = ["availability-calendar", "time-slot-picker"]
+events = ["availability-added"]
 
 [implementation]
 component = "AvailabilitySetup"

@@ -48,21 +48,26 @@
         "admin-dashboard",
         "admin-orders",
         "admin-specialists",
-        "specialist-detail",
-        "order-assignment"
+        "admin-login"
       ],
       "roles": [
-        "admin"
+        "eldercare-admin"
       ],
       "guards": [
         "authenticated",
         "admin-only"
+      ],
+      "useCases": [
+        "manage-orders-admin",
+        "assign-specialist",
+        "manage-specialists-admin",
+        "authenticate-phone"
       ]
     }
   },
-  "rawContent": "# Admin Application Platform\n# For company administrators\n\n[platform]\nid = \"admin-app\"\nname = \"ElderCare Admin\"\ntype = \"mobile\"\ndescription = \"Mobile app for administrators to manage orders and specialists\"\n\n[platform.config]\nbaseRoute = \"/prototype/admin\"\ntheme = \"light\"\nprimaryAction = \"Assign Order\"\n\n[platform.features]\ncore = [\n  \"View all orders\",\n  \"Assign specialists to orders\",\n  \"Manage specialists\",\n  \"View dashboard metrics\"\n]\nauth = \"required\"\n\n[platform.navigation]\ntype = \"bottom-nav\"\nitems = [\n  { id = \"dashboard\", icon = \"LayoutDashboard\", label = \"Dashboard\" },\n  { id = \"orders\", icon = \"ClipboardList\", label = \"Orders\" },\n  { id = \"specialists\", icon = \"Users\", label = \"Specialists\" }\n]\n\n[relations]\nroutes = [\"admin-dashboard\", \"admin-orders\", \"admin-specialists\", \"specialist-detail\", \"order-assignment\"]\nroles = [\"admin\"]\nguards = [\"authenticated\", \"admin-only\"]\n",
+  "rawContent": "# Admin Application Platform\n# For company administrators\n\n[platform]\nid = \"admin-app\"\nname = \"ElderCare Admin\"\ntype = \"mobile\"\ndescription = \"Mobile app for administrators to manage orders and specialists\"\n\n[platform.config]\nbaseRoute = \"/prototype/admin\"\ntheme = \"light\"\nprimaryAction = \"Assign Order\"\n\n[platform.features]\ncore = [\n  \"View all orders\",\n  \"Assign specialists to orders\",\n  \"Manage specialists\",\n  \"View dashboard metrics\"\n]\nauth = \"required\"\n\n[platform.navigation]\ntype = \"bottom-nav\"\nitems = [\n  { id = \"dashboard\", icon = \"LayoutDashboard\", label = \"Dashboard\" },\n  { id = \"orders\", icon = \"ClipboardList\", label = \"Orders\" },\n  { id = \"specialists\", icon = \"Users\", label = \"Specialists\" }\n]\n\n[relations]\nroutes = [\"admin-dashboard\", \"admin-orders\", \"admin-specialists\", \"admin-login\"]\nroles = [\"eldercare-admin\"]\nguards = [\"authenticated\", \"admin-only\"]\nuseCases = [\"manage-orders-admin\", \"assign-specialist\", \"manage-specialists-admin\", \"authenticate-phone\"]\n",
   "metadata": {
-    "size": 892,
-    "modified": "2025-12-14T14:10:51.805Z"
+    "size": 982,
+    "modified": "2025-12-15T08:33:46.621Z"
   }
 }

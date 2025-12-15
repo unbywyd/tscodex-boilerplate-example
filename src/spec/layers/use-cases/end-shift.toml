@@ -1,0 +1,94 @@
+# End Shift Use Case
+
+[useCase]
+id = "end-shift"
+name = "End Shift"
+description = "Specialist marks completion of work on an order"
+asRole = "specialist"
+iWant = "to end my work shift"
+soThat = "Work time is recorded and order is marked complete"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "specialist-app"
+
+[useCase.conditions]
+pre = [
+  "Specialist has active shift",
+  "Order status is 'in_progress'",
+  "Work is completed"
+]
+post = [
+  "Order status changes to 'completed'",
+  "Actual end time is recorded",
+  "Total work time is calculated",
+  "Client receives completion notification"
+]
+
+[relations]
+roles = ["specialist"]
+guards = ["authenticated", "specialist-only"]
+routes = ["specialist-active-shift"]
+entities = ["order"]
+components = ["active-shift"]
+events = ["shift-ended"]
+platforms = ["specialist-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/specialist/shift"
+component = "ActiveShift"
+file = "src/prototype/pages/specialist/ActiveShift.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Specialist has active shift"
+
+[[flow]]
+id = "view_timer"
+type = "action"
+label = "View current work time"
+
+[[flow]]
+id = "tap_end"
+type = "action"
+label = "Tap 'End Shift' button"
+
+[[flow]]
+id = "confirm_end"
+type = "decision"
+label = "Confirm completion?"
+
+[[flow]]
+id = "record_end"
+type = "action"
+label = "Record end time, calculate duration"
+
+[[flow]]
+id = "update_status"
+type = "action"
+label = "Update order status to 'completed'"
+
+[[flow]]
+id = "notify_client"
+type = "action"
+label = "Send completion notification"
+
+[[flow]]
+id = "show_summary"
+type = "action"
+label = "Show work summary (duration, order details)"
+
+[[flow]]
+id = "cancel"
+type = "action"
+label = "Cancel end action"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Shift ended, order completed"
+

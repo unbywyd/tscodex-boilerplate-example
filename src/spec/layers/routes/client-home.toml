@@ -22,8 +22,10 @@ features = [
 guards = ["public"]
 roles = ["client"]
 platforms = ["client-app"]
+useCases = ["create-order", "track-order"]
+components = ["order-card", "service-card"]
 
 [implementation]
 component = "ClientHome"
 file = "src/prototype/pages/client/ClientHome.tsx"
-status = "planned"
+status = "implemented"

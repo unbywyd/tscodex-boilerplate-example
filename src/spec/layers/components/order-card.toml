@@ -56,8 +56,10 @@ card_layout = "flex items-start justify-between layout"
 status_badge = "Capitalized status text with color-coded background"
 
 [relations]
-entities = ["care-order"]
-routes = ["admin-orders", "specialist-orders"]
+entities = ["order"]
+routes = ["admin-orders", "specialist-orders", "client-home"]
+useCases = ["create-order", "track-order", "view-specialist-orders", "manage-orders-admin", "assign-specialist"]
+events = ["order-created", "order-assigned", "shift-started", "shift-ended"]
 
 [implementation]
 note = "Available as reusable OrderCard component and inline renderOrderCard function"

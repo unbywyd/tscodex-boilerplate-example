@@ -1,5 +1,5 @@
 [event]
-id = "specialist.toggled"
+id = "specialist-toggled"
 name = "Specialist Status Toggled"
 description = "Admin activated or deactivated a specialist"
 category = "specialist"
@@ -29,3 +29,5 @@ description = "Updates specialist active status, if deactivated - removes from a
 [relations]
 entities = ["specialist"]
 routes = ["admin-specialists"]
+useCases = ["manage-specialists-admin"]
+components = ["specialist-card"]

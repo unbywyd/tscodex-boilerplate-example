@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "event": {
-      "id": "order.assigned",
+      "id": "order-assigned",
       "name": "Order Assigned",
       "description": "Admin assigned a specialist to handle the order",
       "category": "order"
@@ -35,17 +35,26 @@
     },
     "relations": {
       "entities": [
-        "care-order",
+        "order",
         "specialist"
       ],
       "routes": [
         "admin-orders"
+      ],
+      "useCases": [
+        "assign-specialist",
+        "view-specialist-orders"
+      ],
+      "components": [
+        "order-card",
+        "specialist-card",
+        "assignment-modal"
       ]
     }
   },
-  "rawContent": "[event]\nid = \"order.assigned\"\nname = \"Order Assigned\"\ndescription = \"Admin assigned a specialist to handle the order\"\ncategory = \"order\"\n\n[trigger]\naction = \"click\"\nelement = \"Assign specialist button in dialog\"\n\n[[payload]]\nname = \"orderId\"\ntype = \"string\"\ndescription = \"Order being assigned\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Assigned specialist ID\"\n\n[[payload]]\nname = \"specialistName\"\ntype = \"string\"\ndescription = \"Assigned specialist name\"\n\n[backend]\ndescription = \"Updates order status to 'assigned', links specialist, sends push notification to specialist app\"\n\n[relations]\nentities = [\"care-order\", \"specialist\"]\nroutes = [\"admin-orders\"]\n",
+  "rawContent": "[event]\nid = \"order-assigned\"\nname = \"Order Assigned\"\ndescription = \"Admin assigned a specialist to handle the order\"\ncategory = \"order\"\n\n[trigger]\naction = \"click\"\nelement = \"Assign specialist button in dialog\"\n\n[[payload]]\nname = \"orderId\"\ntype = \"string\"\ndescription = \"Order being assigned\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Assigned specialist ID\"\n\n[[payload]]\nname = \"specialistName\"\ntype = \"string\"\ndescription = \"Assigned specialist name\"\n\n[backend]\ndescription = \"Updates order status to 'assigned', links specialist, sends push notification to specialist app\"\n\n[relations]\nentities = [\"order\", \"specialist\"]\nroutes = [\"admin-orders\"]\nuseCases = [\"assign-specialist\", \"view-specialist-orders\"]\ncomponents = [\"order-card\", \"specialist-card\", \"assignment-modal\"]\n",
   "metadata": {
-    "size": 681,
-    "modified": "2025-12-14T15:38:52.431Z"
+    "size": 802,
+    "modified": "2025-12-15T08:30:13.393Z"
   }
 }

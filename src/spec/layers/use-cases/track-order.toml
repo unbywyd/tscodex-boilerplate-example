@@ -1,0 +1,87 @@
+# Track Order Use Case
+
+[useCase]
+id = "track-order"
+name = "Track Order"
+description = "Client views order status and updates using phone number"
+asRole = "client"
+iWant = "to track my order status"
+soThat = "I know when the specialist will arrive and current progress"
+
+[useCase.meta]
+isActive = true
+priority = 2
+platform = "client-app"
+
+[useCase.conditions]
+pre = [
+  "Client has phone number",
+  "Order exists in system"
+]
+post = [
+  "Client sees order status",
+  "Client sees assigned specialist (if assigned)",
+  "Client sees estimated arrival time"
+]
+
+[relations]
+roles = ["client", "visitor"]
+guards = ["public"]
+routes = ["client-home"]
+entities = ["order", "specialist"]
+components = ["order-card", "order-tracking"]
+events = ["order-assigned", "shift-started", "shift-ended"]
+platforms = ["client-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/client/track"
+component = "OrderTracking"
+file = "src/prototype/pages/client/OrderTracking.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Client opens tracking page"
+
+[[flow]]
+id = "enter_phone"
+type = "action"
+label = "Enter phone number"
+
+[[flow]]
+id = "search"
+type = "action"
+label = "Search for orders"
+
+[[flow]]
+id = "found"
+type = "decision"
+label = "Orders found?"
+
+[[flow]]
+id = "show_list"
+type = "action"
+label = "Show order list"
+
+[[flow]]
+id = "select_order"
+type = "action"
+label = "Select order to view"
+
+[[flow]]
+id = "show_details"
+type = "action"
+label = "Show order details and status"
+
+[[flow]]
+id = "no_orders"
+type = "action"
+label = "Show 'no orders found' message"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Client views order status"
+

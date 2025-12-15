@@ -1,5 +1,5 @@
 [event]
-id = "order.assigned"
+id = "order-assigned"
 name = "Order Assigned"
 description = "Admin assigned a specialist to handle the order"
 category = "order"
@@ -27,5 +27,7 @@ description = "Assigned specialist name"
 description = "Updates order status to 'assigned', links specialist, sends push notification to specialist app"
 
 [relations]
-entities = ["care-order", "specialist"]
+entities = ["order", "specialist"]
 routes = ["admin-orders"]
+useCases = ["assign-specialist", "view-specialist-orders"]
+components = ["order-card", "specialist-card", "assignment-modal"]

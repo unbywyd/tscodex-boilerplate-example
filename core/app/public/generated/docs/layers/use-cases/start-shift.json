@@ -1,0 +1,123 @@
+{
+  "path": "layers/use-cases/start-shift.toml",
+  "name": "start-shift.toml",
+  "type": "toml",
+  "content": {
+    "useCase": {
+      "id": "start-shift",
+      "name": "Start Shift",
+      "description": "Specialist marks the start of work on an assigned order",
+      "asRole": "specialist",
+      "iWant": "to start my work shift",
+      "soThat": "My work time is tracked and client is notified",
+      "meta": {
+        "isActive": true,
+        "priority": 1,
+        "platform": "specialist-app"
+      },
+      "conditions": {
+        "pre": [
+          "Specialist is authenticated",
+          "Order is assigned to specialist",
+          "Order status is 'assigned' or 'on_way'",
+          "Specialist is at location (manual confirmation)"
+        ],
+        "post": [
+          "Order status changes to 'in_progress'",
+          "Actual start time is recorded",
+          "Client receives notification",
+          "Time tracking begins"
+        ]
+      }
+    },
+    "relations": {
+      "roles": [
+        "specialist"
+      ],
+      "guards": [
+        "authenticated",
+        "specialist-only"
+      ],
+      "routes": [
+        "specialist-active-shift"
+      ],
+      "entities": [
+        "order"
+      ],
+      "components": [
+        "active-shift",
+        "order-card"
+      ],
+      "events": [
+        "shift-started"
+      ],
+      "platforms": [
+        "specialist-app"
+      ],
+      "useCases": []
+    },
+    "implementation": {
+      "route": "/prototype/specialist/shift",
+      "component": "ActiveShift",
+      "file": "src/prototype/pages/specialist/ActiveShift.tsx",
+      "status": "planned"
+    },
+    "flow": [
+      {
+        "id": "start",
+        "type": "start",
+        "label": "Specialist opens active shift screen"
+      },
+      {
+        "id": "view_order",
+        "type": "action",
+        "label": "View current order details"
+      },
+      {
+        "id": "confirm_location",
+        "type": "decision",
+        "label": "At service location?"
+      },
+      {
+        "id": "tap_start",
+        "type": "action",
+        "label": "Tap 'Start Shift' button"
+      },
+      {
+        "id": "confirm_start",
+        "type": "decision",
+        "label": "Confirm start?"
+      },
+      {
+        "id": "record_start",
+        "type": "action",
+        "label": "Record start time, update status"
+      },
+      {
+        "id": "notify_client",
+        "type": "action",
+        "label": "Send notification to client"
+      },
+      {
+        "id": "show_timer",
+        "type": "action",
+        "label": "Show active timer"
+      },
+      {
+        "id": "cancel",
+        "type": "action",
+        "label": "Cancel start action"
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "label": "Shift started, timer running"
+      }
+    ]
+  },
+  "rawContent": "# Start Shift Use Case\n\n[useCase]\nid = \"start-shift\"\nname = \"Start Shift\"\ndescription = \"Specialist marks the start of work on an assigned order\"\nasRole = \"specialist\"\niWant = \"to start my work shift\"\nsoThat = \"My work time is tracked and client is notified\"\n\n[useCase.meta]\nisActive = true\npriority = 1\nplatform = \"specialist-app\"\n\n[useCase.conditions]\npre = [\n  \"Specialist is authenticated\",\n  \"Order is assigned to specialist\",\n  \"Order status is 'assigned' or 'on_way'\",\n  \"Specialist is at location (manual confirmation)\"\n]\npost = [\n  \"Order status changes to 'in_progress'\",\n  \"Actual start time is recorded\",\n  \"Client receives notification\",\n  \"Time tracking begins\"\n]\n\n[relations]\nroles = [\"specialist\"]\nguards = [\"authenticated\", \"specialist-only\"]\nroutes = [\"specialist-active-shift\"]\nentities = [\"order\"]\ncomponents = [\"active-shift\", \"order-card\"]\nevents = [\"shift-started\"]\nplatforms = [\"specialist-app\"]\nuseCases = []\n\n[implementation]\nroute = \"/prototype/specialist/shift\"\ncomponent = \"ActiveShift\"\nfile = \"src/prototype/pages/specialist/ActiveShift.tsx\"\nstatus = \"planned\"\n\n[[flow]]\nid = \"start\"\ntype = \"start\"\nlabel = \"Specialist opens active shift screen\"\n\n[[flow]]\nid = \"view_order\"\ntype = \"action\"\nlabel = \"View current order details\"\n\n[[flow]]\nid = \"confirm_location\"\ntype = \"decision\"\nlabel = \"At service location?\"\n\n[[flow]]\nid = \"tap_start\"\ntype = \"action\"\nlabel = \"Tap 'Start Shift' button\"\n\n[[flow]]\nid = \"confirm_start\"\ntype = \"decision\"\nlabel = \"Confirm start?\"\n\n[[flow]]\nid = \"record_start\"\ntype = \"action\"\nlabel = \"Record start time, update status\"\n\n[[flow]]\nid = \"notify_client\"\ntype = \"action\"\nlabel = \"Send notification to client\"\n\n[[flow]]\nid = \"show_timer\"\ntype = \"action\"\nlabel = \"Show active timer\"\n\n[[flow]]\nid = \"cancel\"\ntype = \"action\"\nlabel = \"Cancel start action\"\n\n[[flow]]\nid = \"end\"\ntype = \"end\"\nlabel = \"Shift started, timer running\"\n\n",
+  "metadata": {
+    "size": 1882,
+    "modified": "2025-12-15T08:36:31.737Z"
+  }
+}

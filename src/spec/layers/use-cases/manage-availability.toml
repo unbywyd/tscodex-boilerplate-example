@@ -1,0 +1,92 @@
+# Manage Availability Use Case
+
+[useCase]
+id = "manage-availability"
+name = "Manage Availability"
+description = "Specialist sets available time slots for the week"
+asRole = "specialist"
+iWant = "to set my weekly availability"
+soThat = "Admin can assign orders to me during my available times"
+
+[useCase.meta]
+isActive = true
+priority = 2
+platform = "specialist-app"
+
+[useCase.conditions]
+pre = [
+  "Specialist is authenticated",
+  "Specialist knows their schedule"
+]
+post = [
+  "Availability slots are saved",
+  "Slots are visible to admin",
+  "Admin can assign orders to available times"
+]
+
+[relations]
+roles = ["specialist"]
+guards = ["authenticated", "specialist-only"]
+routes = ["specialist-availability"]
+entities = ["availability"]
+components = ["availability-calendar", "time-slot-picker"]
+events = ["availability-added"]
+platforms = ["specialist-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/specialist/availability"
+component = "AvailabilitySetup"
+file = "src/prototype/pages/specialist/AvailabilitySetup.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Specialist opens availability screen"
+
+[[flow]]
+id = "view_week"
+type = "action"
+label = "View week calendar"
+
+[[flow]]
+id = "select_day"
+type = "action"
+label = "Select day"
+
+[[flow]]
+id = "add_slot"
+type = "action"
+label = "Add time slot"
+
+[[flow]]
+id = "set_times"
+type = "action"
+label = "Set start and end time"
+
+[[flow]]
+id = "save_slot"
+type = "action"
+label = "Save availability slot"
+
+[[flow]]
+id = "remove_slot"
+type = "action"
+label = "Remove time slot (optional)"
+
+[[flow]]
+id = "save_week"
+type = "action"
+label = "Save all changes"
+
+[[flow]]
+id = "confirm"
+type = "action"
+label = "Show confirmation message"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Availability updated"
+

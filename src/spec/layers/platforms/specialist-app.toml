@@ -30,6 +30,7 @@ items = [
 ]
 
 [relations]
-routes = ["specialist-home", "specialist-orders", "active-shift", "availability-setup"]
+routes = ["specialist-home", "specialist-orders", "specialist-active-shift", "specialist-availability", "specialist-login"]
 roles = ["specialist"]
 guards = ["authenticated", "specialist-only"]
+useCases = ["view-specialist-orders", "start-shift", "end-shift", "manage-availability", "authenticate-phone"]

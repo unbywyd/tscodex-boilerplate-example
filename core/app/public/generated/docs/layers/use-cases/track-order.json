@@ -1,0 +1,118 @@
+{
+  "path": "layers/use-cases/track-order.toml",
+  "name": "track-order.toml",
+  "type": "toml",
+  "content": {
+    "useCase": {
+      "id": "track-order",
+      "name": "Track Order",
+      "description": "Client views order status and updates using phone number",
+      "asRole": "client",
+      "iWant": "to track my order status",
+      "soThat": "I know when the specialist will arrive and current progress",
+      "meta": {
+        "isActive": true,
+        "priority": 2,
+        "platform": "client-app"
+      },
+      "conditions": {
+        "pre": [
+          "Client has phone number",
+          "Order exists in system"
+        ],
+        "post": [
+          "Client sees order status",
+          "Client sees assigned specialist (if assigned)",
+          "Client sees estimated arrival time"
+        ]
+      }
+    },
+    "relations": {
+      "roles": [
+        "client",
+        "visitor"
+      ],
+      "guards": [
+        "public"
+      ],
+      "routes": [
+        "client-home"
+      ],
+      "entities": [
+        "order",
+        "specialist"
+      ],
+      "components": [
+        "order-card",
+        "order-tracking"
+      ],
+      "events": [
+        "order-assigned",
+        "shift-started",
+        "shift-ended"
+      ],
+      "platforms": [
+        "client-app"
+      ],
+      "useCases": []
+    },
+    "implementation": {
+      "route": "/prototype/client/track",
+      "component": "OrderTracking",
+      "file": "src/prototype/pages/client/OrderTracking.tsx",
+      "status": "planned"
+    },
+    "flow": [
+      {
+        "id": "start",
+        "type": "start",
+        "label": "Client opens tracking page"
+      },
+      {
+        "id": "enter_phone",
+        "type": "action",
+        "label": "Enter phone number"
+      },
+      {
+        "id": "search",
+        "type": "action",
+        "label": "Search for orders"
+      },
+      {
+        "id": "found",
+        "type": "decision",
+        "label": "Orders found?"
+      },
+      {
+        "id": "show_list",
+        "type": "action",
+        "label": "Show order list"
+      },
+      {
+        "id": "select_order",
+        "type": "action",
+        "label": "Select order to view"
+      },
+      {
+        "id": "show_details",
+        "type": "action",
+        "label": "Show order details and status"
+      },
+      {
+        "id": "no_orders",
+        "type": "action",
+        "label": "Show 'no orders found' message"
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "label": "Client views order status"
+      }
+    ]
+  },
+  "rawContent": "# Track Order Use Case\n\n[useCase]\nid = \"track-order\"\nname = \"Track Order\"\ndescription = \"Client views order status and updates using phone number\"\nasRole = \"client\"\niWant = \"to track my order status\"\nsoThat = \"I know when the specialist will arrive and current progress\"\n\n[useCase.meta]\nisActive = true\npriority = 2\nplatform = \"client-app\"\n\n[useCase.conditions]\npre = [\n  \"Client has phone number\",\n  \"Order exists in system\"\n]\npost = [\n  \"Client sees order status\",\n  \"Client sees assigned specialist (if assigned)\",\n  \"Client sees estimated arrival time\"\n]\n\n[relations]\nroles = [\"client\", \"visitor\"]\nguards = [\"public\"]\nroutes = [\"client-home\"]\nentities = [\"order\", \"specialist\"]\ncomponents = [\"order-card\", \"order-tracking\"]\nevents = [\"order-assigned\", \"shift-started\", \"shift-ended\"]\nplatforms = [\"client-app\"]\nuseCases = []\n\n[implementation]\nroute = \"/prototype/client/track\"\ncomponent = \"OrderTracking\"\nfile = \"src/prototype/pages/client/OrderTracking.tsx\"\nstatus = \"planned\"\n\n[[flow]]\nid = \"start\"\ntype = \"start\"\nlabel = \"Client opens tracking page\"\n\n[[flow]]\nid = \"enter_phone\"\ntype = \"action\"\nlabel = \"Enter phone number\"\n\n[[flow]]\nid = \"search\"\ntype = \"action\"\nlabel = \"Search for orders\"\n\n[[flow]]\nid = \"found\"\ntype = \"decision\"\nlabel = \"Orders found?\"\n\n[[flow]]\nid = \"show_list\"\ntype = \"action\"\nlabel = \"Show order list\"\n\n[[flow]]\nid = \"select_order\"\ntype = \"action\"\nlabel = \"Select order to view\"\n\n[[flow]]\nid = \"show_details\"\ntype = \"action\"\nlabel = \"Show order details and status\"\n\n[[flow]]\nid = \"no_orders\"\ntype = \"action\"\nlabel = \"Show 'no orders found' message\"\n\n[[flow]]\nid = \"end\"\ntype = \"end\"\nlabel = \"Client views order status\"\n\n",
+  "metadata": {
+    "size": 1651,
+    "modified": "2025-12-15T08:37:04.474Z"
+  }
+}

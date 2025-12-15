@@ -1,0 +1,120 @@
+{
+  "path": "layers/use-cases/manage-orders-admin.toml",
+  "name": "manage-orders-admin.toml",
+  "type": "toml",
+  "content": {
+    "useCase": {
+      "id": "manage-orders-admin",
+      "name": "Manage Orders",
+      "description": "Admin views all orders, filters by status, and manages assignments",
+      "asRole": "eldercare-admin",
+      "iWant": "to manage all care orders",
+      "soThat": "I can assign specialists and track order progress",
+      "meta": {
+        "isActive": true,
+        "priority": 1,
+        "platform": "admin-app"
+      },
+      "conditions": {
+        "pre": [
+          "Admin is authenticated",
+          "Orders exist in system"
+        ],
+        "post": [
+          "Admin sees all orders",
+          "Can filter by status",
+          "Can view order details",
+          "Can assign specialists"
+        ]
+      }
+    },
+    "relations": {
+      "roles": [
+        "eldercare-admin"
+      ],
+      "guards": [
+        "authenticated",
+        "admin-only"
+      ],
+      "routes": [
+        "admin-orders",
+        "admin-dashboard"
+      ],
+      "entities": [
+        "order",
+        "specialist"
+      ],
+      "components": [
+        "order-card",
+        "order-list",
+        "specialist-card"
+      ],
+      "events": [
+        "order-created",
+        "order-assigned"
+      ],
+      "platforms": [
+        "admin-app"
+      ],
+      "useCases": []
+    },
+    "implementation": {
+      "route": "/prototype/admin/orders",
+      "component": "AdminOrders",
+      "file": "src/prototype/pages/admin/AdminOrders.tsx",
+      "status": "planned"
+    },
+    "flow": [
+      {
+        "id": "start",
+        "type": "start",
+        "label": "Admin opens orders screen"
+      },
+      {
+        "id": "load_orders",
+        "type": "action",
+        "label": "Load all orders from API"
+      },
+      {
+        "id": "filter_status",
+        "type": "action",
+        "label": "Filter by status (optional)"
+      },
+      {
+        "id": "show_list",
+        "type": "action",
+        "label": "Display order cards"
+      },
+      {
+        "id": "select_order",
+        "type": "action",
+        "label": "Tap order card"
+      },
+      {
+        "id": "view_details",
+        "type": "action",
+        "label": "View order details"
+      },
+      {
+        "id": "assign_specialist",
+        "type": "action",
+        "label": "Assign specialist (if not assigned)"
+      },
+      {
+        "id": "update_status",
+        "type": "action",
+        "label": "Update order status (if needed)"
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "label": "Admin manages orders"
+      }
+    ]
+  },
+  "rawContent": "# Manage Orders Admin Use Case\n\n[useCase]\nid = \"manage-orders-admin\"\nname = \"Manage Orders\"\ndescription = \"Admin views all orders, filters by status, and manages assignments\"\nasRole = \"eldercare-admin\"\niWant = \"to manage all care orders\"\nsoThat = \"I can assign specialists and track order progress\"\n\n[useCase.meta]\nisActive = true\npriority = 1\nplatform = \"admin-app\"\n\n[useCase.conditions]\npre = [\n  \"Admin is authenticated\",\n  \"Orders exist in system\"\n]\npost = [\n  \"Admin sees all orders\",\n  \"Can filter by status\",\n  \"Can view order details\",\n  \"Can assign specialists\"\n]\n\n[relations]\nroles = [\"eldercare-admin\"]\nguards = [\"authenticated\", \"admin-only\"]\nroutes = [\"admin-orders\", \"admin-dashboard\"]\nentities = [\"order\", \"specialist\"]\ncomponents = [\"order-card\", \"order-list\", \"specialist-card\"]\nevents = [\"order-created\", \"order-assigned\"]\nplatforms = [\"admin-app\"]\nuseCases = []\n\n[implementation]\nroute = \"/prototype/admin/orders\"\ncomponent = \"AdminOrders\"\nfile = \"src/prototype/pages/admin/AdminOrders.tsx\"\nstatus = \"planned\"\n\n[[flow]]\nid = \"start\"\ntype = \"start\"\nlabel = \"Admin opens orders screen\"\n\n[[flow]]\nid = \"load_orders\"\ntype = \"action\"\nlabel = \"Load all orders from API\"\n\n[[flow]]\nid = \"filter_status\"\ntype = \"action\"\nlabel = \"Filter by status (optional)\"\n\n[[flow]]\nid = \"show_list\"\ntype = \"action\"\nlabel = \"Display order cards\"\n\n[[flow]]\nid = \"select_order\"\ntype = \"action\"\nlabel = \"Tap order card\"\n\n[[flow]]\nid = \"view_details\"\ntype = \"action\"\nlabel = \"View order details\"\n\n[[flow]]\nid = \"assign_specialist\"\ntype = \"action\"\nlabel = \"Assign specialist (if not assigned)\"\n\n[[flow]]\nid = \"update_status\"\ntype = \"action\"\nlabel = \"Update order status (if needed)\"\n\n[[flow]]\nid = \"end\"\ntype = \"end\"\nlabel = \"Admin manages orders\"\n\n",
+  "metadata": {
+    "size": 1739,
+    "modified": "2025-12-15T08:37:04.476Z"
+  }
+}

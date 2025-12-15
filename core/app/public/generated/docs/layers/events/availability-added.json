@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "event": {
-      "id": "availability.added",
+      "id": "availability-added",
       "name": "Availability Slot Added",
       "description": "Specialist added a new availability time slot",
       "category": "availability"
@@ -45,12 +45,19 @@
       ],
       "routes": [
         "specialist-availability"
+      ],
+      "useCases": [
+        "manage-availability"
+      ],
+      "components": [
+        "availability-calendar",
+        "time-slot-picker"
       ]
     }
   },
-  "rawContent": "[event]\nid = \"availability.added\"\nname = \"Availability Slot Added\"\ndescription = \"Specialist added a new availability time slot\"\ncategory = \"availability\"\n\n[trigger]\naction = \"click\"\nelement = \"Add Slot button in dialog\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Specialist who added the slot\"\n\n[[payload]]\nname = \"date\"\ntype = \"string\"\ndescription = \"Date of availability\"\n\n[[payload]]\nname = \"startTime\"\ntype = \"string\"\ndescription = \"Slot start time (HH:MM)\"\n\n[[payload]]\nname = \"endTime\"\ntype = \"string\"\ndescription = \"Slot end time (HH:MM)\"\n\n[backend]\ndescription = \"Creates availability record, updates specialist calendar, makes slot visible for order assignment\"\n\n[relations]\nentities = [\"availability\", \"specialist\"]\nroutes = [\"specialist-availability\"]\n",
+  "rawContent": "[event]\nid = \"availability-added\"\nname = \"Availability Slot Added\"\ndescription = \"Specialist added a new availability time slot\"\ncategory = \"availability\"\n\n[trigger]\naction = \"click\"\nelement = \"Add Slot button in dialog\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Specialist who added the slot\"\n\n[[payload]]\nname = \"date\"\ntype = \"string\"\ndescription = \"Date of availability\"\n\n[[payload]]\nname = \"startTime\"\ntype = \"string\"\ndescription = \"Slot start time (HH:MM)\"\n\n[[payload]]\nname = \"endTime\"\ntype = \"string\"\ndescription = \"Slot end time (HH:MM)\"\n\n[backend]\ndescription = \"Creates availability record, updates specialist calendar, makes slot visible for order assignment\"\n\n[relations]\nentities = [\"availability\", \"specialist\"]\nroutes = [\"specialist-availability\"]\nuseCases = [\"manage-availability\"]\ncomponents = [\"availability-calendar\", \"time-slot-picker\"]\n",
   "metadata": {
-    "size": 787,
-    "modified": "2025-12-14T15:38:59.961Z"
+    "size": 881,
+    "modified": "2025-12-15T08:30:46.766Z"
   }
 }

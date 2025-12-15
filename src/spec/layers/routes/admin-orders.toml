@@ -24,8 +24,10 @@ guards = ["authenticated", "admin-only"]
 roles = ["eldercare-admin"]
 entities = ["order", "specialist"]
 platforms = ["admin-app"]
+useCases = ["manage-orders-admin", "assign-specialist"]
+components = ["order-card", "specialist-card"]
 
 [implementation]
 component = "AdminOrders"
 file = "src/prototype/pages/admin/AdminOrders.tsx"
-status = "planned"
+status = "implemented"

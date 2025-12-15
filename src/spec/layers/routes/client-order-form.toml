@@ -25,6 +25,8 @@ guards = ["public"]
 roles = ["client"]
 entities = ["order", "service"]
 platforms = ["client-app"]
+useCases = ["create-order"]
+components = ["order-form", "service-card"]
 
 [implementation]
 component = "OrderForm"

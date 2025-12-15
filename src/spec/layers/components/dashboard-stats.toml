@@ -78,7 +78,7 @@ status_grid = "colored backgrounds matching status"
 responsive = true
 
 [relations]
-entities = ["care-order", "specialist"]
+entities = ["order", "specialist"]
 routes = ["admin-dashboard"]
 
 [implementation]

@@ -1,0 +1,111 @@
+{
+  "path": "layers/use-cases/view-specialist-orders.toml",
+  "name": "view-specialist-orders.toml",
+  "type": "toml",
+  "content": {
+    "useCase": {
+      "id": "view-specialist-orders",
+      "name": "View My Orders",
+      "description": "Specialist views today's and upcoming assigned orders",
+      "asRole": "specialist",
+      "iWant": "to see my assigned orders",
+      "soThat": "I know where I need to go and when",
+      "meta": {
+        "isActive": true,
+        "priority": 1,
+        "platform": "specialist-app"
+      },
+      "conditions": {
+        "pre": [
+          "Specialist is authenticated",
+          "Specialist has assigned orders"
+        ],
+        "post": [
+          "Specialist sees order list",
+          "Orders sorted by date/time",
+          "Can see order details"
+        ]
+      }
+    },
+    "relations": {
+      "roles": [
+        "specialist"
+      ],
+      "guards": [
+        "authenticated",
+        "specialist-only"
+      ],
+      "routes": [
+        "specialist-home",
+        "specialist-orders"
+      ],
+      "entities": [
+        "order"
+      ],
+      "components": [
+        "order-card",
+        "specialist-orders-list"
+      ],
+      "events": [
+        "order-assigned"
+      ],
+      "platforms": [
+        "specialist-app"
+      ],
+      "useCases": []
+    },
+    "implementation": {
+      "route": "/prototype/specialist/orders",
+      "component": "SpecialistOrders",
+      "file": "src/prototype/pages/specialist/SpecialistOrders.tsx",
+      "status": "planned"
+    },
+    "flow": [
+      {
+        "id": "start",
+        "type": "start",
+        "label": "Specialist opens orders screen"
+      },
+      {
+        "id": "load_orders",
+        "type": "action",
+        "label": "Load assigned orders from API"
+      },
+      {
+        "id": "filter_today",
+        "type": "action",
+        "label": "Filter today's orders"
+      },
+      {
+        "id": "show_list",
+        "type": "action",
+        "label": "Display order cards"
+      },
+      {
+        "id": "select_order",
+        "type": "action",
+        "label": "Tap order card"
+      },
+      {
+        "id": "show_details",
+        "type": "action",
+        "label": "Show order details (address, client, time)"
+      },
+      {
+        "id": "start_shift",
+        "type": "action",
+        "label": "Start shift button (if at location)"
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "label": "Specialist views orders"
+      }
+    ]
+  },
+  "rawContent": "# View Specialist Orders Use Case\n\n[useCase]\nid = \"view-specialist-orders\"\nname = \"View My Orders\"\ndescription = \"Specialist views today's and upcoming assigned orders\"\nasRole = \"specialist\"\niWant = \"to see my assigned orders\"\nsoThat = \"I know where I need to go and when\"\n\n[useCase.meta]\nisActive = true\npriority = 1\nplatform = \"specialist-app\"\n\n[useCase.conditions]\npre = [\n  \"Specialist is authenticated\",\n  \"Specialist has assigned orders\"\n]\npost = [\n  \"Specialist sees order list\",\n  \"Orders sorted by date/time\",\n  \"Can see order details\"\n]\n\n[relations]\nroles = [\"specialist\"]\nguards = [\"authenticated\", \"specialist-only\"]\nroutes = [\"specialist-home\", \"specialist-orders\"]\nentities = [\"order\"]\ncomponents = [\"order-card\", \"specialist-orders-list\"]\nevents = [\"order-assigned\"]\nplatforms = [\"specialist-app\"]\nuseCases = []\n\n[implementation]\nroute = \"/prototype/specialist/orders\"\ncomponent = \"SpecialistOrders\"\nfile = \"src/prototype/pages/specialist/SpecialistOrders.tsx\"\nstatus = \"planned\"\n\n[[flow]]\nid = \"start\"\ntype = \"start\"\nlabel = \"Specialist opens orders screen\"\n\n[[flow]]\nid = \"load_orders\"\ntype = \"action\"\nlabel = \"Load assigned orders from API\"\n\n[[flow]]\nid = \"filter_today\"\ntype = \"action\"\nlabel = \"Filter today's orders\"\n\n[[flow]]\nid = \"show_list\"\ntype = \"action\"\nlabel = \"Display order cards\"\n\n[[flow]]\nid = \"select_order\"\ntype = \"action\"\nlabel = \"Tap order card\"\n\n[[flow]]\nid = \"show_details\"\ntype = \"action\"\nlabel = \"Show order details (address, client, time)\"\n\n[[flow]]\nid = \"start_shift\"\ntype = \"action\"\nlabel = \"Start shift button (if at location)\"\n\n[[flow]]\nid = \"end\"\ntype = \"end\"\nlabel = \"Specialist views orders\"\n\n",
+  "metadata": {
+    "size": 1640,
+    "modified": "2025-12-15T08:37:04.472Z"
+  }
+}

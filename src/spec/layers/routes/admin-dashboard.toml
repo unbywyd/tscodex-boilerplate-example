@@ -24,8 +24,9 @@ guards = ["authenticated", "admin-only"]
 roles = ["eldercare-admin"]
 entities = ["order", "specialist"]
 platforms = ["admin-app"]
+components = ["dashboard-stats"]
 
 [implementation]
 component = "AdminDashboard"
 file = "src/prototype/pages/admin/AdminDashboard.tsx"
-status = "planned"
+status = "implemented"

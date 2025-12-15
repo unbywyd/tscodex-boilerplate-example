@@ -1,0 +1,115 @@
+# Assign Specialist Use Case
+
+[useCase]
+id = "assign-specialist"
+name = "Assign Specialist"
+description = "Admin assigns an available specialist to a care order"
+asRole = "eldercare-admin"
+iWant = "to assign a specialist to an order"
+soThat = "The order can be fulfilled by a qualified specialist"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "admin-app"
+
+[useCase.conditions]
+pre = [
+  "Order exists and status is 'created' or 'reviewing'",
+  "Specialists are available",
+  "Specialist matches service type and city",
+  "Specialist has availability for order time"
+]
+post = [
+  "Order is assigned to specialist",
+  "Order status changes to 'assigned'",
+  "Specialist receives notification",
+  "Client receives assignment notification"
+]
+
+[relations]
+roles = ["eldercare-admin"]
+guards = ["authenticated", "admin-only"]
+routes = ["admin-orders"]
+entities = ["order", "specialist", "availability"]
+components = ["specialist-card", "order-card", "assignment-modal"]
+events = ["order-assigned"]
+platforms = ["admin-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/admin/orders"
+component = "AdminOrders"
+file = "src/prototype/pages/admin/AdminOrders.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Admin selects order to assign"
+
+[[flow]]
+id = "view_order"
+type = "action"
+label = "View order details (service, location, time)"
+
+[[flow]]
+id = "tap_assign"
+type = "action"
+label = "Tap 'Assign Specialist' button"
+
+[[flow]]
+id = "load_specialists"
+type = "action"
+label = "Load available specialists"
+
+[[flow]]
+id = "filter_match"
+type = "action"
+label = "Filter by service type and city"
+
+[[flow]]
+id = "check_availability"
+type = "action"
+label = "Check specialist availability for order time"
+
+[[flow]]
+id = "show_list"
+type = "action"
+label = "Show matching specialists"
+
+[[flow]]
+id = "select_specialist"
+type = "action"
+label = "Select specialist"
+
+[[flow]]
+id = "confirm"
+type = "decision"
+label = "Confirm assignment?"
+
+[[flow]]
+id = "assign"
+type = "action"
+label = "Assign specialist to order"
+
+[[flow]]
+id = "update_status"
+type = "action"
+label = "Update order status to 'assigned'"
+
+[[flow]]
+id = "notify"
+type = "action"
+label = "Send notifications to specialist and client"
+
+[[flow]]
+id = "cancel"
+type = "action"
+label = "Cancel assignment"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Specialist assigned successfully"
+

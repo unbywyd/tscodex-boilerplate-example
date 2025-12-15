@@ -42,5 +42,4 @@ description = "Icon name for UI display"
 [implementation]
 interface = "ServiceEntity"
 file = "src/prototype/factories/index.ts"
-mock = "src/prototype/mocks/services.json"
-status = "planned"
+status = "implemented"

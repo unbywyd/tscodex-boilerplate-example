@@ -1,0 +1,82 @@
+# View Specialist Orders Use Case
+
+[useCase]
+id = "view-specialist-orders"
+name = "View My Orders"
+description = "Specialist views today's and upcoming assigned orders"
+asRole = "specialist"
+iWant = "to see my assigned orders"
+soThat = "I know where I need to go and when"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "specialist-app"
+
+[useCase.conditions]
+pre = [
+  "Specialist is authenticated",
+  "Specialist has assigned orders"
+]
+post = [
+  "Specialist sees order list",
+  "Orders sorted by date/time",
+  "Can see order details"
+]
+
+[relations]
+roles = ["specialist"]
+guards = ["authenticated", "specialist-only"]
+routes = ["specialist-home", "specialist-orders"]
+entities = ["order"]
+components = ["order-card", "specialist-orders-list"]
+events = ["order-assigned"]
+platforms = ["specialist-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/specialist/orders"
+component = "SpecialistOrders"
+file = "src/prototype/pages/specialist/SpecialistOrders.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Specialist opens orders screen"
+
+[[flow]]
+id = "load_orders"
+type = "action"
+label = "Load assigned orders from API"
+
+[[flow]]
+id = "filter_today"
+type = "action"
+label = "Filter today's orders"
+
+[[flow]]
+id = "show_list"
+type = "action"
+label = "Display order cards"
+
+[[flow]]
+id = "select_order"
+type = "action"
+label = "Tap order card"
+
+[[flow]]
+id = "show_details"
+type = "action"
+label = "Show order details (address, client, time)"
+
+[[flow]]
+id = "start_shift"
+type = "action"
+label = "Start shift button (if at location)"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Specialist views orders"
+

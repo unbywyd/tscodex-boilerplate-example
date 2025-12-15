@@ -21,6 +21,9 @@ features = [
 guards = ["public"]
 roles = ["eldercare-admin"]
 platforms = ["admin-app"]
+useCases = ["authenticate-phone"]
+components = ["phone-auth-form"]
+events = ["auth-otp-sent", "auth-verified"]
 
 [implementation]
 component = "LoginScreen"

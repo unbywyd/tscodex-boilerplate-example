@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "event": {
-      "id": "auth.otp_sent",
+      "id": "auth-otp-sent",
       "name": "OTP Code Sent",
       "description": "Verification code sent to user phone",
       "category": "auth"
@@ -34,13 +34,20 @@
       ],
       "routes": [
         "client-login",
-        "specialist-login"
+        "specialist-login",
+        "admin-login"
+      ],
+      "useCases": [
+        "authenticate-phone"
+      ],
+      "components": [
+        "phone-auth-form"
       ]
     }
   },
-  "rawContent": "[event]\nid = \"auth.otp_sent\"\nname = \"OTP Code Sent\"\ndescription = \"Verification code sent to user phone\"\ncategory = \"auth\"\n\n[trigger]\naction = \"click\"\nelement = \"Send Code button\"\n\n[[payload]]\nname = \"phone\"\ntype = \"string\"\ndescription = \"Last 4 digits of phone number (masked)\"\n\n[[payload]]\nname = \"app\"\ntype = \"string\"\ndescription = \"Which app sent the OTP (client, specialist)\"\n\n[backend]\ndescription = \"Generates 6-digit OTP, stores with 5 min expiry, sends SMS via provider\"\n\n[relations]\nentities = [\"user\"]\nroutes = [\"client-login\", \"specialist-login\"]\n",
+  "rawContent": "[event]\nid = \"auth-otp-sent\"\nname = \"OTP Code Sent\"\ndescription = \"Verification code sent to user phone\"\ncategory = \"auth\"\n\n[trigger]\naction = \"click\"\nelement = \"Send Code button\"\n\n[[payload]]\nname = \"phone\"\ntype = \"string\"\ndescription = \"Last 4 digits of phone number (masked)\"\n\n[[payload]]\nname = \"app\"\ntype = \"string\"\ndescription = \"Which app sent the OTP (client, specialist)\"\n\n[backend]\ndescription = \"Generates 6-digit OTP, stores with 5 min expiry, sends SMS via provider\"\n\n[relations]\nentities = [\"user\"]\nroutes = [\"client-login\", \"specialist-login\", \"admin-login\"]\nuseCases = [\"authenticate-phone\"]\ncomponents = [\"phone-auth-form\"]\n",
   "metadata": {
-    "size": 559,
-    "modified": "2025-12-14T15:39:07.162Z"
+    "size": 641,
+    "modified": "2025-12-15T08:30:37.332Z"
   }
 }

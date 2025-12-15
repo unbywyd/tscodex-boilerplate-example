@@ -1,0 +1,109 @@
+# Authenticate Phone Use Case
+
+[useCase]
+id = "authenticate-phone"
+name = "Phone Authentication"
+description = "User authenticates using phone number and OTP code"
+asRole = "visitor"
+iWant = "to log in using my phone"
+soThat = "I can access my account as specialist or admin"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "all"
+
+[useCase.conditions]
+pre = [
+  "User has phone number",
+  "Phone number is registered in system (for specialists/admins)"
+]
+post = [
+  "User is authenticated",
+  "Session is created",
+  "User redirected to appropriate home screen"
+]
+
+[relations]
+roles = ["visitor", "client", "specialist", "eldercare-admin"]
+guards = ["public"]
+routes = ["client-login", "specialist-login", "admin-login"]
+components = ["phone-auth-form"]
+events = ["auth-otp-sent", "auth-verified"]
+platforms = ["client-app", "specialist-app", "admin-app"]
+
+[implementation]
+route = "/prototype/{app}/login"
+component = "LoginScreen"
+files = [
+  "src/prototype/pages/client/LoginScreen.tsx",
+  "src/prototype/pages/specialist/LoginScreen.tsx",
+  "src/prototype/pages/admin/LoginScreen.tsx"
+]
+status = "implemented"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "User opens login screen"
+
+[[flow]]
+id = "enter_phone"
+type = "action"
+label = "Enter phone number"
+
+[[flow]]
+id = "validate_phone"
+type = "decision"
+label = "Phone valid?"
+
+[[flow]]
+id = "send_otp"
+type = "action"
+label = "Send OTP code via SMS"
+
+[[flow]]
+id = "show_otp_input"
+type = "action"
+label = "Show OTP input field"
+
+[[flow]]
+id = "enter_code"
+type = "action"
+label = "User enters 6-digit code"
+
+[[flow]]
+id = "verify_code"
+type = "decision"
+label = "Code valid?"
+
+[[flow]]
+id = "check_user"
+type = "decision"
+label = "User exists?"
+
+[[flow]]
+id = "create_session"
+type = "action"
+label = "Create user session"
+
+[[flow]]
+id = "redirect"
+type = "action"
+label = "Redirect to home screen"
+
+[[flow]]
+id = "invalid_code"
+type = "action"
+label = "Show error, allow retry"
+
+[[flow]]
+id = "resend_otp"
+type = "action"
+label = "Resend OTP code"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "User authenticated"
+

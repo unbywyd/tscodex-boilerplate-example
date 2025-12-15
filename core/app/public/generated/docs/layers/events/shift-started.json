@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "event": {
-      "id": "shift.started",
+      "id": "shift-started",
       "name": "Shift Started",
       "description": "Specialist started working on an assigned order",
       "category": "shift"
@@ -35,17 +35,24 @@
     },
     "relations": {
       "entities": [
-        "care-order",
+        "order",
         "specialist"
       ],
       "routes": [
         "specialist-active-shift"
+      ],
+      "useCases": [
+        "start-shift"
+      ],
+      "components": [
+        "active-shift",
+        "order-card"
       ]
     }
   },
-  "rawContent": "[event]\nid = \"shift.started\"\nname = \"Shift Started\"\ndescription = \"Specialist started working on an assigned order\"\ncategory = \"shift\"\n\n[trigger]\naction = \"click\"\nelement = \"Start Shift button\"\n\n[[payload]]\nname = \"orderId\"\ntype = \"string\"\ndescription = \"Order being worked on\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Specialist who started the shift\"\n\n[[payload]]\nname = \"startTime\"\ntype = \"string\"\ndescription = \"ISO timestamp when shift started\"\n\n[backend]\ndescription = \"Updates order status to 'in_progress', records actual start time, notifies client\"\n\n[relations]\nentities = [\"care-order\", \"specialist\"]\nroutes = [\"specialist-active-shift\"]\n",
+  "rawContent": "[event]\nid = \"shift-started\"\nname = \"Shift Started\"\ndescription = \"Specialist started working on an assigned order\"\ncategory = \"shift\"\n\n[trigger]\naction = \"click\"\nelement = \"Start Shift button\"\n\n[[payload]]\nname = \"orderId\"\ntype = \"string\"\ndescription = \"Order being worked on\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Specialist who started the shift\"\n\n[[payload]]\nname = \"startTime\"\ntype = \"string\"\ndescription = \"ISO timestamp when shift started\"\n\n[backend]\ndescription = \"Updates order status to 'in_progress', records actual start time, notifies client\"\n\n[relations]\nentities = [\"order\", \"specialist\"]\nroutes = [\"specialist-active-shift\"]\nuseCases = [\"start-shift\"]\ncomponents = [\"active-shift\", \"order-card\"]\n",
   "metadata": {
-    "size": 674,
-    "modified": "2025-12-14T15:38:54.743Z"
+    "size": 740,
+    "modified": "2025-12-15T08:30:17.383Z"
   }
 }

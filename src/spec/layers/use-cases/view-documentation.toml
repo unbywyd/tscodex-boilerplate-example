@@ -1,7 +1,7 @@
 # View Project Documentation
 
 [useCase]
-id = "uc_view_documentation"
+id = "view-documentation"
 name = "View Project Documentation"
 asRole = "visitor"
 iWant = "view project documentation"

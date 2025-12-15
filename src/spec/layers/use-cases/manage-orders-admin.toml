@@ -1,0 +1,88 @@
+# Manage Orders Admin Use Case
+
+[useCase]
+id = "manage-orders-admin"
+name = "Manage Orders"
+description = "Admin views all orders, filters by status, and manages assignments"
+asRole = "eldercare-admin"
+iWant = "to manage all care orders"
+soThat = "I can assign specialists and track order progress"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "admin-app"
+
+[useCase.conditions]
+pre = [
+  "Admin is authenticated",
+  "Orders exist in system"
+]
+post = [
+  "Admin sees all orders",
+  "Can filter by status",
+  "Can view order details",
+  "Can assign specialists"
+]
+
+[relations]
+roles = ["eldercare-admin"]
+guards = ["authenticated", "admin-only"]
+routes = ["admin-orders", "admin-dashboard"]
+entities = ["order", "specialist"]
+components = ["order-card", "order-list", "specialist-card"]
+events = ["order-created", "order-assigned"]
+platforms = ["admin-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/admin/orders"
+component = "AdminOrders"
+file = "src/prototype/pages/admin/AdminOrders.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Admin opens orders screen"
+
+[[flow]]
+id = "load_orders"
+type = "action"
+label = "Load all orders from API"
+
+[[flow]]
+id = "filter_status"
+type = "action"
+label = "Filter by status (optional)"
+
+[[flow]]
+id = "show_list"
+type = "action"
+label = "Display order cards"
+
+[[flow]]
+id = "select_order"
+type = "action"
+label = "Tap order card"
+
+[[flow]]
+id = "view_details"
+type = "action"
+label = "View order details"
+
+[[flow]]
+id = "assign_specialist"
+type = "action"
+label = "Assign specialist (if not assigned)"
+
+[[flow]]
+id = "update_status"
+type = "action"
+label = "Update order status (if needed)"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Admin manages orders"
+

@@ -24,6 +24,8 @@ guards = ["authenticated", "admin-only"]
 roles = ["eldercare-admin"]
 entities = ["specialist", "availability"]
 platforms = ["admin-app"]
+useCases = ["manage-specialists-admin"]
+components = ["specialist-card", "specialist-form", "specialist-list"]
 
 [implementation]
 component = "AdminSpecialists"

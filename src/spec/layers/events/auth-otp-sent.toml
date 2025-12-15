@@ -1,5 +1,5 @@
 [event]
-id = "auth.otp_sent"
+id = "auth-otp-sent"
 name = "OTP Code Sent"
 description = "Verification code sent to user phone"
 category = "auth"
@@ -23,4 +23,6 @@ description = "Generates 6-digit OTP, stores with 5 min expiry, sends SMS via pr
 
 [relations]
 entities = ["user"]
-routes = ["client-login", "specialist-login"]
+routes = ["client-login", "specialist-login", "admin-login"]
+useCases = ["authenticate-phone"]
+components = ["phone-auth-form"]

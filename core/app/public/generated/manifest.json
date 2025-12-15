@@ -1,11 +1,55 @@
 {
   "version": "1.0.0",
-  "generated": "2025-12-14T14:47:19.344Z",
+  "generated": "2025-12-15T08:40:07.933Z",
   "project": {
-    "id": "llm-boilerplate",
-    "name": "LLM Boilerplate",
-    "type": "application",
-    "description": "File-driven specification system for LLM-assisted development.\nAll project knowledge lives in Markdown and TOML files.\n",
+    "id": "eldercare",
+    "name": "ElderCare",
+    "description": "Digital platform for ordering and managing elderly care services in Israel",
+    "type": "mobile",
+    "version": "0.1.0",
+    "problem": {
+      "statement": "Manual handling of care orders via phone creates operational overhead",
+      "impact": "Difficult to track orders, specialist availability, and working hours"
+    },
+    "solution": {
+      "summary": "Simple mobile apps for clients, specialists, and admins",
+      "coreValue": "Easy ordering without registration, real-time tracking, efficient management"
+    },
+    "audience": {
+      "primary": "Families needing elderly care services",
+      "secondary": [
+        "Care specialists",
+        "Company administrators"
+      ],
+      "market": "Israel"
+    },
+    "scope": {
+      "inScope": [
+        "Client mobile app",
+        "Specialist mobile app",
+        "Admin mobile app",
+        "Order lifecycle management",
+        "Availability scheduling"
+      ],
+      "outOfScope": [
+        "Payment processing",
+        "Complex accounting",
+        "GPS tracking",
+        "In-app messaging"
+      ]
+    },
+    "platforms": {
+      "list": [
+        "client-app",
+        "specialist-app",
+        "admin-app"
+      ],
+      "shared": [
+        "entities",
+        "services",
+        "components"
+      ]
+    },
     "_meta": {
       "path": "layers/project/about.toml"
     }
@@ -13,343 +57,1011 @@
   "layers": {
     "entities": [
       {
-        "id": "category",
-        "name": "Category",
-        "description": "Product category for organizing catalog",
-        "table": "categories",
+        "id": "availability",
+        "name": "Availability",
+        "description": "A specialist's availability time slot",
+        "table": "availabilities",
         "fields": [
           {
             "name": "id",
             "type": "string",
             "format": "uuid",
-            "primary": true,
-            "description": "Unique category identifier"
-          },
-          {
-            "name": "name",
-            "type": "string",
             "required": true,
-            "minLength": 1,
-            "maxLength": 100,
-            "description": "Category name"
-          },
-          {
-            "name": "slug",
-            "type": "string",
             "unique": true,
-            "required": true,
-            "description": "URL-friendly identifier"
+            "description": "Unique availability slot identifier"
           },
           {
-            "name": "description",
-            "type": "text",
-            "required": false,
-            "description": "Category description"
-          },
-          {
-            "name": "parent",
+            "name": "specialistId",
             "type": "relation",
-            "target": "category",
-            "required": false,
-            "description": "Parent category for nesting"
+            "relatedEntity": "specialist",
+            "required": true,
+            "description": "Specialist this availability belongs to"
           },
           {
-            "name": "image",
-            "type": "string",
-            "format": "url",
-            "required": false,
-            "description": "Category image"
-          },
-          {
-            "name": "sortOrder",
-            "type": "integer",
-            "default": 0,
-            "description": "Display order"
-          },
-          {
-            "name": "isActive",
-            "type": "boolean",
-            "default": true,
-            "description": "Category visibility"
-          },
-          {
-            "name": "createdAt",
+            "name": "date",
             "type": "datetime",
-            "auto": "create"
-          },
-          {
-            "name": "updatedAt",
-            "type": "datetime",
-            "auto": "update"
-          }
-        ],
-        "_meta": {
-          "path": "layers/entities/category.toml"
-        }
-      },
-      {
-        "id": "product",
-        "name": "Product",
-        "description": "Catalog product item",
-        "table": "products",
-        "fields": [
-          {
-            "name": "id",
-            "type": "string",
-            "format": "uuid",
-            "primary": true,
-            "description": "Unique product identifier"
-          },
-          {
-            "name": "name",
-            "type": "string",
             "required": true,
-            "minLength": 1,
-            "maxLength": 200,
-            "description": "Product name"
+            "description": "Date of availability"
           },
           {
-            "name": "slug",
+            "name": "startTime",
             "type": "string",
-            "unique": true,
+            "format": "time",
             "required": true,
-            "description": "URL-friendly identifier"
+            "description": "Start time"
           },
           {
-            "name": "description",
-            "type": "text",
-            "required": false,
-            "description": "Product description"
-          },
-          {
-            "name": "price",
-            "type": "number",
-            "format": "decimal",
-            "min": 0,
+            "name": "endTime",
+            "type": "string",
+            "format": "time",
             "required": true,
-            "description": "Product price"
+            "description": "End time"
           },
           {
-            "name": "currency",
-            "type": "enum",
-            "values": [
-              "USD",
-              "EUR",
-              "RUB"
-            ],
-            "default": "USD",
-            "description": "Price currency"
-          },
-          {
-            "name": "stock",
-            "type": "integer",
-            "min": 0,
-            "default": 0,
-            "description": "Available quantity"
-          },
-          {
-            "name": "images",
-            "type": "array",
-            "items": "string",
-            "format": "url",
-            "description": "Product image URLs"
-          },
-          {
-            "name": "category",
-            "type": "relation",
-            "target": "category",
-            "required": false,
-            "description": "Product category"
-          },
-          {
-            "name": "isPublished",
+            "name": "isBooked",
             "type": "boolean",
             "default": false,
-            "description": "Visibility status"
-          },
-          {
-            "name": "createdAt",
-            "type": "datetime",
-            "auto": "create"
-          },
-          {
-            "name": "updatedAt",
-            "type": "datetime",
-            "auto": "update"
+            "required": true,
+            "description": "Whether this slot is booked"
           }
         ],
         "implementation": {
-          "interface": "Product",
-          "file": "core/app/src/pages/prototype/ProductsPage.tsx",
-          "mock": "core/app/public/generated/mocks/products.json",
-          "preview": "/prototype/products",
-          "status": "implemented"
+          "interface": "AvailabilityEntity",
+          "file": "src/prototype/factories/index.ts",
+          "mock": "src/prototype/mocks/availabilities.json",
+          "status": "planned"
         },
         "_meta": {
-          "path": "layers/entities/product.toml"
+          "path": "layers/entities/availability.toml"
         }
       },
       {
-        "id": "user",
-        "name": "User",
-        "description": "Application user account",
-        "table": "users",
+        "id": "order",
+        "name": "Order",
+        "description": "A care service order from a client",
+        "table": "orders",
         "fields": [
           {
             "name": "id",
             "type": "string",
             "format": "uuid",
-            "primary": true,
-            "description": "Unique user identifier"
+            "required": true,
+            "unique": true,
+            "description": "Unique order identifier"
+          },
+          {
+            "name": "phone",
+            "type": "string",
+            "format": "phone",
+            "required": true,
+            "description": "Client phone number (primary identifier)"
+          },
+          {
+            "name": "clientName",
+            "type": "string",
+            "required": false,
+            "description": "Client name (optional)"
+          },
+          {
+            "name": "serviceType",
+            "type": "enum",
+            "values": [
+              "caregiver",
+              "nurse",
+              "household",
+              "shopping",
+              "escort",
+              "medical"
+            ],
+            "required": true,
+            "description": "Type of care service needed"
+          },
+          {
+            "name": "address",
+            "type": "string",
+            "required": true,
+            "description": "Service location address"
+          },
+          {
+            "name": "city",
+            "type": "string",
+            "required": true,
+            "description": "City or area in Israel"
+          },
+          {
+            "name": "date",
+            "type": "datetime",
+            "required": true,
+            "description": "Requested service date"
+          },
+          {
+            "name": "startTime",
+            "type": "string",
+            "format": "time",
+            "required": true,
+            "description": "Preferred start time"
+          },
+          {
+            "name": "duration",
+            "type": "integer",
+            "required": false,
+            "description": "Expected duration in hours (optional)"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "required": false,
+            "description": "Additional notes or instructions"
+          },
+          {
+            "name": "status",
+            "type": "enum",
+            "values": [
+              "created",
+              "reviewing",
+              "assigned",
+              "on_way",
+              "in_progress",
+              "completed",
+              "paid",
+              "cancelled"
+            ],
+            "default": "created",
+            "required": true,
+            "description": "Current order status"
+          },
+          {
+            "name": "specialistId",
+            "type": "relation",
+            "relatedEntity": "specialist",
+            "required": false,
+            "description": "Assigned specialist"
+          },
+          {
+            "name": "actualStart",
+            "type": "datetime",
+            "required": false,
+            "description": "Actual work start time"
+          },
+          {
+            "name": "actualEnd",
+            "type": "datetime",
+            "required": false,
+            "description": "Actual work end time"
+          },
+          {
+            "name": "createdAt",
+            "type": "datetime",
+            "required": true,
+            "description": "Order creation timestamp"
+          }
+        ],
+        "implementation": {
+          "interface": "CareOrderEntity",
+          "file": "src/prototype/factories/index.ts",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/entities/order.toml"
+        }
+      },
+      {
+        "id": "review",
+        "name": "Review",
+        "description": "A client review after service completion",
+        "table": "reviews",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "unique": true,
+            "description": "Unique review identifier"
+          },
+          {
+            "name": "orderId",
+            "type": "relation",
+            "relatedEntity": "order",
+            "required": true,
+            "unique": true,
+            "description": "The order being reviewed"
+          },
+          {
+            "name": "rating",
+            "type": "integer",
+            "min": 1,
+            "max": 5,
+            "required": true,
+            "description": "Rating from 1 to 5 stars"
+          },
+          {
+            "name": "comment",
+            "type": "text",
+            "required": false,
+            "description": "Optional review comment"
+          },
+          {
+            "name": "createdAt",
+            "type": "datetime",
+            "required": true,
+            "description": "Review submission timestamp"
+          }
+        ],
+        "implementation": {
+          "interface": "ReviewEntity",
+          "file": "src/prototype/factories/index.ts",
+          "mock": "src/prototype/mocks/reviews.json",
+          "status": "planned"
+        },
+        "_meta": {
+          "path": "layers/entities/review.toml"
+        }
+      },
+      {
+        "id": "service",
+        "name": "Service",
+        "description": "A type of care service offered",
+        "table": "services",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "unique": true,
+            "description": "Service type identifier"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "description": "Service name"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "required": true,
+            "description": "Service description"
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "values": [
+              "care",
+              "medical",
+              "household",
+              "transport"
+            ],
+            "required": true,
+            "description": "Service category"
+          },
+          {
+            "name": "icon",
+            "type": "string",
+            "required": false,
+            "description": "Icon name for UI display"
+          }
+        ],
+        "implementation": {
+          "interface": "ServiceEntity",
+          "file": "src/prototype/factories/index.ts",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/entities/service.toml"
+        }
+      },
+      {
+        "id": "specialist",
+        "name": "Specialist",
+        "description": "A care specialist providing services",
+        "table": "specialists",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "unique": true,
+            "description": "Unique specialist identifier"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "description": "Full name"
+          },
+          {
+            "name": "phone",
+            "type": "string",
+            "format": "phone",
+            "required": true,
+            "unique": true,
+            "description": "Phone number"
           },
           {
             "name": "email",
             "type": "string",
             "format": "email",
-            "unique": true,
-            "required": true,
-            "description": "User email address"
-          },
-          {
-            "name": "name",
-            "type": "string",
-            "required": true,
-            "minLength": 2,
-            "maxLength": 100,
-            "description": "Display name"
-          },
-          {
-            "name": "password",
-            "type": "string",
-            "format": "password",
-            "required": true,
-            "hidden": true,
-            "description": "Hashed password"
+            "required": false,
+            "description": "Email address (optional)"
           },
           {
             "name": "avatar",
             "type": "string",
             "format": "url",
             "required": false,
-            "description": "Profile picture URL"
+            "description": "Profile photo URL"
           },
           {
-            "name": "role",
-            "type": "enum",
-            "values": [
-              "visitor",
-              "user",
-              "admin"
-            ],
-            "default": "user",
-            "description": "User role in the system"
+            "name": "serviceTypes",
+            "type": "array",
+            "items": "string",
+            "required": true,
+            "description": "Types of services the specialist can provide"
+          },
+          {
+            "name": "cities",
+            "type": "array",
+            "items": "string",
+            "required": true,
+            "description": "Cities/areas where specialist can work"
           },
           {
             "name": "isActive",
             "type": "boolean",
             "default": true,
-            "description": "Account active status"
+            "required": true,
+            "description": "Whether specialist is currently active"
           },
           {
             "name": "createdAt",
             "type": "datetime",
-            "auto": "create",
+            "required": true,
             "description": "Account creation timestamp"
-          },
-          {
-            "name": "updatedAt",
-            "type": "datetime",
-            "auto": "update",
-            "description": "Last update timestamp"
           }
         ],
         "implementation": {
-          "interface": "UserEntity",
-          "file": "core/app/src/pages/prototype/UsersPage.tsx",
-          "mock": "core/app/public/generated/mocks/users.json",
-          "preview": "/prototype/users",
+          "interface": "SpecialistEntity",
+          "file": "src/prototype/factories/index.ts",
           "status": "implemented"
         },
         "_meta": {
-          "path": "layers/entities/user.toml"
+          "path": "layers/entities/specialist.toml"
         }
       }
     ],
     "components": [
       {
-        "id": "user-card",
-        "name": "User Card",
-        "description": "Reusable card component that displays user information with avatar, name, email, role badge and actions",
-        "props": {
-          "user": "{ id: string, name: string, email: string, role: string, avatar: string, createdAt?: string }",
-          "onDelete": "(id: string) => void",
-          "showDelete": "boolean (default: true)"
+        "id": "dashboard-stats",
+        "name": "Dashboard Stats",
+        "description": "Statistics cards and metrics display for admin dashboard",
+        "sections": {
+          "quick-stats": {
+            "name": "Quick Stats",
+            "description": "Hero metric cards with gradient backgrounds",
+            "layout": "2-column grid",
+            "cards": [
+              {
+                "label": "Total Orders",
+                "value": "orders.data.length",
+                "badge": "Today's count",
+                "color": "cyan gradient",
+                "icon": "ClipboardList"
+              },
+              {
+                "label": "Specialists",
+                "value": "specialists.data.length",
+                "badge": "Active count",
+                "color": "teal gradient",
+                "icon": "Users"
+              }
+            ]
+          },
+          "order-status": {
+            "name": "Order Status Overview",
+            "description": "Order counts by status in 4-column grid",
+            "layout": "4-column grid",
+            "items": [
+              {
+                "status": "pending",
+                "label": "Pending",
+                "filter": "status in ['created', 'reviewing']",
+                "color": "amber",
+                "description": "Orders waiting for assignment"
+              },
+              {
+                "status": "assigned",
+                "label": "Assigned",
+                "filter": "status in ['assigned', 'on_way']",
+                "color": "purple",
+                "description": "Orders assigned to specialist, not yet started"
+              },
+              {
+                "status": "in_progress",
+                "label": "In Progress",
+                "filter": "status === 'in_progress'",
+                "color": "cyan",
+                "description": "Active shifts currently running"
+              },
+              {
+                "status": "completed",
+                "label": "Completed",
+                "filter": "status === 'completed'",
+                "color": "green",
+                "description": "Finished orders awaiting payment"
+              }
+            ]
+          },
+          "pending-actions": {
+            "name": "Pending Actions",
+            "description": "Alert card shown when orders need attention",
+            "condition": "pendingOrders.length > 0",
+            "styling": "amber border, amber background",
+            "action": "Navigate to orders page"
+          }
         },
         "features": {
           "list": [
-            "User avatar with fallback initials",
-            "Name and email display",
-            "Role badge (admin/user/moderator)",
-            "Join date formatting",
-            "Delete action on hover (optional)"
+            "Real-time order counts by status",
+            "Today's orders badge",
+            "Active specialists count",
+            "Color-coded status indicators",
+            "Action alert for pending orders",
+            "Click to navigate to relevant section"
           ]
         },
         "styling": {
-          "hover": "shadow-lg transition",
+          "quick_stats": "gradient backgrounds (cyan, teal)",
+          "status_grid": "colored backgrounds matching status",
           "responsive": true
         },
-        "usage": {
-          "code": "import { UserCard } from '@/prototype/components/UserCard'\n\n<UserCard\n  user={{ id: '1', name: 'John', email: 'john@example.com', role: 'admin', avatar: '...' }}\n  onDelete={(id) => console.log('Delete', id)}\n  showDelete={true}\n/>\n"
-        },
         "implementation": {
-          "component": "UserCard",
-          "file": "src/prototype/components/UserCard.tsx",
-          "preview": "/prototype/users",
-          "status": "implemented"
+          "note": "Implemented inline in AdminDashboard component",
+          "status": "implemented",
+          "file": "src/prototype/pages/admin/AdminDashboard.tsx"
         },
         "_meta": {
-          "path": "layers/components/user-card.toml"
+          "path": "layers/components/dashboard-stats.toml"
+        }
+      },
+      {
+        "id": "order-card",
+        "name": "Order Card",
+        "description": "Displays care order information with status, service type, location, and time details. Available as reusable component or inline render function.",
+        "props": {
+          "order": "CareOrderEntity (required)",
+          "onSelect": "(order: CareOrderEntity) => void (optional) - Navigate to order details",
+          "onAssign": "(order: CareOrderEntity) => void (optional) - Assign specialist to order",
+          "showActions": "boolean (default: false) - Show action buttons",
+          "variant": "'compact' | 'detailed' (default: 'compact') - Display density",
+          "isHighlighted": "boolean (default: false) - Highlight state with animation (admin only)",
+          "onEdit": "(order: CareOrderEntity) => void (optional, admin only)",
+          "onDelete": "(order: CareOrderEntity) => void (optional, admin only)",
+          "onStartShift": "(orderId: string) => void (optional, specialist only)"
+        },
+        "features": {
+          "list": [
+            "Service type with colored icon (ClipboardList icon)",
+            "Status badge with color coding (created=gray, reviewing=blue, assigned=purple, on_way=amber, in_progress=cyan, completed=green, paid=emerald, cancelled=red)",
+            "Client name display",
+            "Address and city display with MapPin icon",
+            "Date and time information (Calendar + Clock icons)",
+            "Client phone display with Phone icon",
+            "Specialist assignment info with UserCheck icon (admin view)",
+            "Shift duration stats for completed/paid orders (admin view)",
+            "Payment amount display for paid orders (admin view)",
+            "Notes display (if available)",
+            "Action buttons (edit, delete - admin; start shift - specialist)",
+            "Highlight state with ring animation and pulse effect",
+            "Click handler for navigation (onSelect prop)",
+            "Assign specialist button (shown for created/reviewing orders)"
+          ],
+          "admin": {
+            "list": [
+              "Edit/Delete buttons",
+              "Assigned specialist display",
+              "Shift duration stats",
+              "Payment amount display"
+            ]
+          },
+          "specialist": {
+            "list": [
+              "Start Shift button for assigned orders",
+              "View Active Shift button for in_progress orders"
+            ]
+          }
+        },
+        "styling": {
+          "hover": "border-cyan-300 transition-colors cursor-pointer (when onSelect provided)",
+          "highlighted": "ring-2 ring-cyan-500 ring-offset-2 bg-cyan-50 animate-pulse (admin only)",
+          "compact": "p-3 padding",
+          "detailed": "p-4 padding with additional fields",
+          "responsive": true,
+          "card_layout": "flex items-start justify-between layout",
+          "status_badge": "Capitalized status text with color-coded background"
+        },
+        "usage": {
+          "code": "import { OrderCard } from '@prototype/components'\n\n// Compact variant (default)\n<OrderCard\n  order={order}\n  onSelect={(order) => navigateToDetails(order.id)}\n  variant=\"compact\"\n/>\n\n// Detailed variant with all fields\n<OrderCard\n  order={order}\n  onSelect={(order) => navigateToDetails(order.id)}\n  onAssign={(order) => openAssignDialog(order)}\n  showActions={true}\n  variant=\"detailed\"\n/>\n\n// Admin inline usage (see AdminOrders.tsx renderOrderCard)\n// Includes: edit, delete, payment info, shift stats, highlight animation\n"
+        },
+        "implementation": {
+          "note": "Available as reusable OrderCard component and inline renderOrderCard function",
+          "status": "implemented",
+          "component": "OrderCard",
+          "files": [
+            "src/prototype/components/OrderCard.tsx (reusable component)",
+            "src/prototype/pages/admin/AdminOrders.tsx (inline renderOrderCard with admin features)",
+            "src/prototype/pages/specialist/SpecialistOrders.tsx (inline renderOrderCard with specialist features)"
+          ],
+          "variants": {
+            "reusable_component": "OrderCard.tsx - compact/detailed variants, onSelect, onAssign",
+            "admin_inline": "AdminOrders.tsx - full admin features: edit, delete, payment, shift stats, highlight animation",
+            "specialist_inline": "SpecialistOrders.tsx - specialist features: start shift, view active shift"
+          }
+        },
+        "_meta": {
+          "path": "layers/components/order-card.toml"
+        }
+      },
+      {
+        "id": "phone-auth-form",
+        "name": "Phone Auth Form",
+        "description": "Phone number authentication with SMS OTP verification",
+        "props": {
+          "app": "'client' | 'specialist' | 'admin'",
+          "onSuccess": "(user: UserEntity) => void",
+          "onSkip": "() => void (optional, client only)"
+        },
+        "features": {
+          "list": [
+            "Phone number input with Israeli format (05x-xxx-xxxx)",
+            "Auto-formatting as user types (formatPhone function)",
+            "Phone validation (10 digits, starts with 05)",
+            "Send 6-digit OTP code via SMS (auth.otp_sent event)",
+            "OTP input with 6 separate fields (OTPInput component)",
+            "Auto-submit when all 6 digits entered (onComplete callback)",
+            "OTP validation (exactly 6 digits)",
+            "Resend code option (optional, not shown in current implementation)",
+            "Skip auth for guest browsing (client only, onSkip prop)",
+            "Multi-step flow: phone → OTP → profile → permissions (client only)",
+            "Error messages display (validation errors)",
+            "Toast notifications for user feedback"
+          ]
+        },
+        "flow": {
+          "description": "Multi-step authentication flow (varies by app type)",
+          "steps": [
+            {
+              "step": 1,
+              "name": "Phone Input",
+              "description": "User enters phone number in format 05x-xxx-xxxx",
+              "validation": "10 digits, starts with 05 (isValidPhone check)",
+              "action": "Click 'Continue' button",
+              "formatting": "Auto-format as user types: 05x-xxx-xxxx",
+              "backend": "Generate 6-digit code, store with 5 min TTL, send via SMS provider",
+              "event": "auth-otp-sent",
+              "error": "Enter 10 digits (e.g. 050-123-4567)"
+            },
+            {
+              "step": 2,
+              "name": "OTP Verification",
+              "description": "User enters 6-digit code from SMS",
+              "validation": "Exactly 6 digits (isValidOtp check)",
+              "action": "Auto-verify on 6th digit (OTPInput onComplete) or click 'Continue'",
+              "formatting": "Auto-format: digits only, max 6 characters",
+              "backend": "Validate code, create session, return auth token",
+              "event": "auth-verified",
+              "error": "Enter 6-digit code",
+              "next_step": "profile (client) or success (specialist/admin)"
+            },
+            {
+              "step": 3,
+              "name": "Profile Setup (Client Only)",
+              "description": "User enters name, city, and address",
+              "fields": [
+                "name (required)",
+                "city (MobilePicker with ISRAELI_CITIES)",
+                "address (optional)"
+              ],
+              "validation": "Name is required",
+              "action": "Click 'Continue' button",
+              "next_step": "permissions"
+            },
+            {
+              "step": 4,
+              "name": "Permissions (Client Only)",
+              "description": "Request notifications and location permissions",
+              "fields": [
+                "notifications (Switch)",
+                "location (Switch)"
+              ],
+              "action": "Click 'Get Started' button",
+              "backend": "Save preferences, complete login, create user profile",
+              "event": "auth-login-success"
+            }
+          ]
+        },
+        "backend": {
+          "sms_provider": "Twilio / MessageBird (configurable)",
+          "otp_length": 6,
+          "otp_ttl": "5 minutes",
+          "rate_limit": "3 attempts per phone per 15 minutes",
+          "session_duration": "30 days"
+        },
+        "styling": {
+          "layout": "Screen layout with ScreenHeader, ScreenBody, ScreenFooter",
+          "phone_input": "Input with Phone icon, full-width, auto-format on change",
+          "otp_input": "OTPInput component with 6 separate fields, auto-focus next, auto-submit on complete",
+          "profile_form": "Card layout with name Input, city MobilePicker, address Input",
+          "permissions": "Card layout with Switch components for notifications and location",
+          "buttons": "Full width Button, primary color (cyan for client, amber for specialist, violet for admin)",
+          "error_display": "Error text below inputs, Toast notifications",
+          "skip_button": "Ghost variant Button, shown only on first step (client only)"
+        },
+        "implementation": {
+          "status": "implemented",
+          "note": "Implemented as LoginScreen component with multi-step flow",
+          "files": {
+            "client": "src/prototype/pages/client/LoginScreen.tsx - Full flow: phone → OTP → profile → permissions",
+            "specialist": "src/prototype/pages/specialist/LoginScreen.tsx - Two-step: phone → OTP",
+            "admin": "src/prototype/pages/admin/LoginScreen.tsx - Two-step: phone → OTP"
+          },
+          "details": {
+            "phone_formatting": "formatPhone function: auto-formats to 05x-xxx-xxxx as user types",
+            "otp_formatting": "formatOtp function: digits only, max 6 characters",
+            "validation": "isValidPhone (10 digits) and isValidOtp (6 digits) checks",
+            "error_handling": "Error state + Toast notifications for validation failures",
+            "events": "dispatchEvent for auth.otp_sent and auth.verified",
+            "user_creation": "login() hook creates user with phone, name, city, address, permissions"
+          }
+        },
+        "_meta": {
+          "path": "layers/components/phone-auth-form.toml"
+        }
+      },
+      {
+        "id": "service-card",
+        "name": "Service Card",
+        "description": "Displays a care service option with icon, name and description for selection",
+        "props": {
+          "service": "{ id: string, name: string, description: string, icon: string } (required) - Service data object",
+          "onSelect": "(service: ServiceCardProps['service']) => void (optional) - Selection callback",
+          "selected": "boolean (default: false) - Selected state styling"
+        },
+        "features": {
+          "list": [
+            "Service icon (dynamic from lucide-react iconMap: Heart, Stethoscope, Home, ShoppingBag, Users, Ambulance)",
+            "Service name (font-medium text-sm)",
+            "Short description (text-xs text-muted-foreground, line-clamp-2)",
+            "Selection state styling (border-cyan-500 bg-cyan-50 when selected)",
+            "Icon background color change (bg-cyan-200 when selected, bg-cyan-100 default)",
+            "Click to select (cursor-pointer, onClick handler)",
+            "Hover state (hover:border-cyan-300 transition-colors)"
+          ]
+        },
+        "styling": {
+          "hover": "hover:border-cyan-300 cursor-pointer transition-colors",
+          "selected": "border-cyan-500 bg-cyan-50 (card) + bg-cyan-200 (icon background)",
+          "default": "Standard card border, bg-cyan-100 icon background",
+          "responsive": true,
+          "layout": "flex items-start gap-3",
+          "icon_size": "h-5 w-5 text-cyan-600",
+          "icon_container": "rounded-lg p-2",
+          "description_limit": "line-clamp-2 (max 2 lines)"
+        },
+        "usage": {
+          "code": "import { ServiceCard } from '@prototype/components'\n\n// Service selection in order form\nconst [selectedService, setSelectedService] = useState(null)\n\n<ServiceCard\n  service={{\n    id: 'caregiver',\n    name: 'Caregiver',\n    description: 'Professional care and companionship services',\n    icon: 'Heart'\n  }}\n  onSelect={(service) => {\n    setSelectedService(service)\n    dispatchEvent('service.selected', { serviceId: service.id })\n  }}\n  selected={selectedService?.id === 'caregiver'}\n/>\n\n// Available icons: 'Heart', 'Stethoscope', 'Home', 'ShoppingBag', 'Users', 'Ambulance'\n"
+        },
+        "implementation": {
+          "component": "ServiceCard",
+          "file": "src/prototype/components/ServiceCard.tsx",
+          "status": "implemented",
+          "exports": "ServiceCard, ServiceCardProps, default",
+          "icon_map": {
+            "note": "Icons mapped from string names to LucideIcon components",
+            "icons": [
+              "Heart",
+              "Stethoscope",
+              "Home",
+              "ShoppingBag",
+              "Users",
+              "Ambulance"
+            ],
+            "default": "Heart (fallback if icon not found)"
+          },
+          "usage_locations": {
+            "client_home": "src/prototype/pages/client/ClientHome.tsx - Service selection grid",
+            "order_form": "src/prototype/pages/client/OrderForm.tsx - Service type selection"
+          }
+        },
+        "_meta": {
+          "path": "layers/components/service-card.toml"
+        }
+      },
+      {
+        "id": "specialist-card",
+        "name": "Specialist Card",
+        "description": "Displays specialist information with avatar, services, cities and status toggle",
+        "props": {
+          "specialist": "SpecialistEntity (required) - Specialist data object",
+          "onToggleActive": "(id: string, isActive: boolean) => void (optional) - Toggle active status",
+          "onDelete": "(id: string) => void (optional) - Delete specialist action",
+          "onSelect": "(specialist: SpecialistEntity) => void (optional) - Selection callback for assignment mode",
+          "selectable": "boolean (default: false) - Enable selection mode with hover border"
+        },
+        "features": {
+          "list": [
+            "Specialist avatar (h-12 w-12 rounded-full with border)",
+            "Name display (font-semibold, truncate)",
+            "Contact info (phone with Phone icon, email with Mail icon)",
+            "Service type badges (up to 3 shown, +N indicator if more)",
+            "City badges (up to 2 shown, +N indicator if more)",
+            "Active/inactive toggle switch (Switch component, top-right)",
+            "Delete action button (Trash2 icon, ghost variant, destructive color)",
+            "Selection mode (selectable prop enables hover border and click handler)",
+            "Inactive state styling (opacity-60 when isActive=false)"
+          ]
+        },
+        "styling": {
+          "hover": "hover:shadow-md transition-all (default) or hover:border-cyan-300 cursor-pointer (selectable)",
+          "inactive": "opacity-60 when specialist.isActive === false",
+          "responsive": true,
+          "layout": "flex items-start gap-3",
+          "avatar_size": "h-12 w-12 rounded-full border-2",
+          "badge_limit": "Service types: first 3 shown, +N for remainder",
+          "city_limit": "Cities: first 2 shown, +N for remainder",
+          "delete_button": "Bottom border-t separator, right-aligned, ghost variant"
+        },
+        "usage": {
+          "code": "import { SpecialistCard } from '@prototype/components'\n\n// Standard card with actions\n<SpecialistCard\n  specialist={specialist}\n  onToggleActive={(id, active) => {\n    updateSpecialist(id, { isActive: active })\n    dispatchEvent('specialist.status_changed', { id, isActive: active })\n  }}\n  onDelete={(id) => {\n    deleteSpecialist(id)\n    dispatchEvent('specialist.deleted', { id })\n  }}\n/>\n\n// Selection mode for assignment dialog\n<SpecialistCard\n  specialist={specialist}\n  selectable={true}\n  onSelect={(specialist) => {\n    assignToOrder(specialist.id)\n    dispatchEvent('order.specialist_selected', { specialistId: specialist.id })\n  }}\n/>\n"
+        },
+        "implementation": {
+          "component": "SpecialistCard",
+          "file": "src/prototype/components/SpecialistCard.tsx",
+          "status": "implemented",
+          "exports": "SpecialistCard, SpecialistCardProps, default",
+          "usage_locations": {
+            "admin_specialists": "src/prototype/pages/admin/AdminSpecialists.tsx - Specialist list",
+            "assign_dialog": "Assignment dialogs - Selection mode for order assignment"
+          }
+        },
+        "_meta": {
+          "path": "layers/components/specialist-card.toml"
+        }
+      },
+      {
+        "id": "stats-card",
+        "name": "Stats Card",
+        "description": "Displays a single metric with label, value and optional trend indicator",
+        "props": {
+          "label": "string (required) - Metric label text",
+          "value": "number | string (required) - Main metric value",
+          "icon": "LucideIcon (optional) - Icon component from lucide-react",
+          "trend": "{ value: number, direction: 'up' | 'down' } (optional) - Trend indicator with percentage",
+          "badge": "string (optional) - Badge text shown in top-right corner",
+          "variant": "'default' | 'gradient' (default: 'default') - Visual style variant",
+          "color": "'cyan' | 'teal' | 'amber' | 'green' | 'purple' (default: 'cyan') - Color theme for gradient variant"
+        },
+        "features": {
+          "list": [
+            "Large value display (text-3xl font-bold)",
+            "Label text (text-sm, muted-foreground or colored in gradient)",
+            "Optional icon (LucideIcon, positioned top-left)",
+            "Optional badge (positioned top-right, white/20 opacity in gradient)",
+            "Trend indicator with arrow (TrendingUp/TrendingDown icons, green/red colors)",
+            "Gradient variant for hero stats (bg-gradient-to-br from-{color}-500 to-{color}-600)",
+            "Color theming (5 color options with matching gradients)",
+            "Responsive layout (flex items-center justify-between)"
+          ]
+        },
+        "styling": {
+          "gradient": "bg-gradient-to-br from-{color}-500 to-{color}-600 text-white border-0",
+          "default": "bg-white border standard card styling",
+          "responsive": true,
+          "icon_position": "Top-left, opacity-80 in gradient variant",
+          "badge_position": "Top-right, bg-white/20 text-white in gradient, bg-muted in default",
+          "trend_position": "Bottom-right, text-xs with icon",
+          "value_size": "text-3xl font-bold",
+          "label_size": "text-sm"
+        },
+        "usage": {
+          "code": "import { StatsCard } from '@prototype/components'\nimport { ClipboardList, Users } from 'lucide-react'\n\n// Gradient hero stat with badge\n<StatsCard\n  label=\"Total Orders\"\n  value={42}\n  icon={ClipboardList}\n  badge=\"12 today\"\n  variant=\"gradient\"\n  color=\"cyan\"\n/>\n\n// Default stat with trend\n<StatsCard\n  label=\"Active Users\"\n  value={1234}\n  icon={Users}\n  trend={{ value: 8, direction: 'up' }}\n  variant=\"default\"\n  color=\"teal\"\n/>\n\n// Simple stat without icon/trend\n<StatsCard\n  label=\"Revenue\"\n  value=\"$45,231\"\n/>\n"
+        },
+        "implementation": {
+          "component": "StatsCard",
+          "file": "src/prototype/components/StatsCard.tsx",
+          "status": "implemented",
+          "exports": "StatsCard, StatsCardProps, default",
+          "usage_locations": {
+            "admin_dashboard": "src/prototype/pages/admin/AdminDashboard.tsx - Quick stats section",
+            "specialist_home": "src/prototype/pages/specialist/SpecialistHome.tsx - Metrics display"
+          }
+        },
+        "_meta": {
+          "path": "layers/components/stats-card.toml"
         }
       }
     ],
     "routes": [
       {
-        "id": "route_dashboard",
-        "path": "/prototype/dashboard",
+        "id": "admin-dashboard",
+        "path": "/prototype/admin",
         "title": "Dashboard",
-        "description": "Main dashboard with overview metrics and statistics",
         "page": {
           "type": "authenticated",
-          "role": "user"
-        },
-        "features": {
-          "list": [
-            "Display key metrics and KPIs",
-            "Recent activity feed",
-            "Quick action buttons",
-            "Notifications summary"
-          ]
-        },
-        "components": {
-          "used": [
-            "MetricCard",
-            "ActivityFeed",
-            "QuickActions"
-          ]
-        },
-        "api": {
-          "endpoints": [
-            "GET /api/metrics",
-            "GET /api/activity"
-          ]
+          "role": "eldercare-admin",
+          "description": {
+            "summary": "Admin dashboard with key metrics and quick actions",
+            "features": [
+              "Order statistics",
+              "Active specialists count",
+              "Pending assignments",
+              "Quick links to orders/specialists"
+            ]
+          }
         },
         "implementation": {
-          "component": "DashboardPage",
-          "file": "pages/DashboardPage.tsx",
+          "component": "AdminDashboard",
+          "file": "src/prototype/pages/admin/AdminDashboard.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/admin-dashboard.toml"
+        }
+      },
+      {
+        "id": "admin-login",
+        "path": "/prototype/admin/login",
+        "title": "Admin Login",
+        "page": {
+          "type": "public",
+          "role": "guest",
+          "description": {
+            "summary": "Admin panel authentication",
+            "features": [
+              "Quick login button",
+              "Demo user selection"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "LoginScreen",
+          "file": "src/prototype/pages/admin/LoginScreen.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/admin-login.toml"
+        }
+      },
+      {
+        "id": "admin-orders",
+        "path": "/prototype/admin/orders",
+        "title": "Orders",
+        "page": {
+          "type": "authenticated",
+          "role": "eldercare-admin",
+          "description": {
+            "summary": "Manage all care service orders",
+            "features": [
+              "All orders list",
+              "Filter by status",
+              "Assign specialist action",
+              "Order details"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "AdminOrders",
+          "file": "src/prototype/pages/admin/AdminOrders.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/admin-orders.toml"
+        }
+      },
+      {
+        "id": "admin-specialists",
+        "path": "/prototype/admin/specialists",
+        "title": "Specialists",
+        "page": {
+          "type": "authenticated",
+          "role": "eldercare-admin",
+          "description": {
+            "summary": "Manage care specialists",
+            "features": [
+              "Specialists list",
+              "Add new specialist",
+              "Activate/deactivate",
+              "View details and availability"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "AdminSpecialists",
+          "file": "src/prototype/pages/admin/AdminSpecialists.tsx",
           "status": "planned"
         },
         "_meta": {
-          "path": "layers/routes/dashboard.toml"
+          "path": "layers/routes/admin-specialists.toml"
+        }
+      },
+      {
+        "id": "client-home",
+        "path": "/prototype/client",
+        "title": "ElderCare",
+        "page": {
+          "type": "public",
+          "role": "client",
+          "description": {
+            "summary": "Client home screen with quick order and status tracking",
+            "features": [
+              "New order button",
+              "Track existing order by phone",
+              "Service types overview"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "ClientHome",
+          "file": "src/prototype/pages/client/ClientHome.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/client-home.toml"
+        }
+      },
+      {
+        "id": "client-login",
+        "path": "/prototype/client/login",
+        "title": "Client Login",
+        "page": {
+          "type": "public",
+          "role": "guest",
+          "description": {
+            "summary": "Client onboarding and phone authentication",
+            "features": [
+              "Phone number input with formatting",
+              "OTP verification (6 digits)",
+              "Profile setup (name, city, address)",
+              "Permission requests (notifications, location)",
+              "Skip option for guest browsing"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "LoginScreen",
+          "file": "src/prototype/pages/client/LoginScreen.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/client-login.toml"
+        }
+      },
+      {
+        "id": "client-order-form",
+        "path": "/prototype/client/order",
+        "title": "New Order",
+        "page": {
+          "type": "public",
+          "role": "client",
+          "description": {
+            "summary": "Form to create a new care service order",
+            "features": [
+              "Phone number input",
+              "Service type selection",
+              "Location input (address, city)",
+              "Date and time selection",
+              "Optional notes"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "OrderForm",
+          "file": "src/prototype/pages/client/OrderForm.tsx",
+          "status": "planned"
+        },
+        "_meta": {
+          "path": "layers/routes/client-order-form.toml"
         }
       },
       {
@@ -387,62 +1099,960 @@
         "_meta": {
           "path": "layers/routes/prototype-home.toml"
         }
-      }
-    ],
-    "pages": [
+      },
       {
-        "id": "products",
-        "name": "Products Page",
-        "description": "Browse product catalog with pricing plans",
-        "path": "/prototype/products",
-        "features": {
-          "list": [
-            "Display products in responsive grid",
-            "Show pricing with currency formatting",
-            "Highlight popular products",
-            "List product features",
-            "Select plan action"
-          ]
+        "id": "specialist-active-shift",
+        "path": "/prototype/specialist/shift",
+        "title": "Active Shift",
+        "page": {
+          "type": "authenticated",
+          "role": "specialist",
+          "description": {
+            "summary": "Active shift management screen",
+            "features": [
+              "Current order details",
+              "Start/End shift buttons",
+              "Time tracking display",
+              "Order address and client info"
+            ]
+          }
         },
         "implementation": {
-          "component": "ProductsPage",
-          "file": "core/app/src/pages/prototype/ProductsPage.tsx",
-          "preview": "/prototype/products",
-          "status": "implemented"
+          "component": "ActiveShift",
+          "file": "src/prototype/pages/specialist/ActiveShift.tsx",
+          "status": "planned"
         },
         "_meta": {
-          "path": "layers/pages/products.toml"
+          "path": "layers/routes/specialist-active-shift.toml"
         }
       },
       {
-        "id": "users",
-        "name": "Users Page",
-        "description": "Page for managing system users with CRUD operations",
-        "path": "/prototype/users",
-        "features": {
-          "list": [
-            "View all users in card grid",
-            "Add new users",
-            "Delete individual users",
-            "Bulk delete all users",
-            "Generate fake users for testing",
-            "Reset to mock data"
-          ]
+        "id": "specialist-availability",
+        "path": "/prototype/specialist/availability",
+        "title": "My Availability",
+        "page": {
+          "type": "authenticated",
+          "role": "specialist",
+          "description": {
+            "summary": "Set weekly availability schedule",
+            "features": [
+              "Week view calendar",
+              "Add/remove time slots",
+              "Day-by-day configuration"
+            ]
+          }
         },
         "implementation": {
-          "component": "UsersPage",
-          "file": "core/app/src/pages/prototype/UsersPage.tsx",
-          "preview": "/prototype/users",
+          "component": "AvailabilitySetup",
+          "file": "src/prototype/pages/specialist/AvailabilitySetup.tsx",
+          "status": "planned"
+        },
+        "_meta": {
+          "path": "layers/routes/specialist-availability.toml"
+        }
+      },
+      {
+        "id": "specialist-home",
+        "path": "/prototype/specialist",
+        "title": "My Work",
+        "page": {
+          "type": "authenticated",
+          "role": "specialist",
+          "description": {
+            "summary": "Specialist home screen with today's orders and active shift",
+            "features": [
+              "Today's assigned orders",
+              "Active shift status",
+              "Quick actions"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "SpecialistHome",
+          "file": "src/prototype/pages/specialist/SpecialistHome.tsx",
           "status": "implemented"
         },
         "_meta": {
-          "path": "layers/pages/users.toml"
+          "path": "layers/routes/specialist-home.toml"
+        }
+      },
+      {
+        "id": "specialist-login",
+        "path": "/prototype/specialist/login",
+        "title": "Specialist Login",
+        "page": {
+          "type": "public",
+          "role": "guest",
+          "description": {
+            "summary": "Specialist onboarding and phone authentication",
+            "features": [
+              "Phone number input with formatting",
+              "OTP verification (6 digits)",
+              "Onboarding slides explaining the app",
+              "Skip intro option"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "LoginScreen",
+          "file": "src/prototype/pages/specialist/LoginScreen.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/specialist-login.toml"
+        }
+      },
+      {
+        "id": "specialist-orders",
+        "path": "/prototype/specialist/orders",
+        "title": "My Orders",
+        "page": {
+          "type": "authenticated",
+          "role": "specialist",
+          "description": {
+            "summary": "List of orders assigned to the specialist",
+            "features": [
+              "Assigned orders list",
+              "Order details",
+              "Start shift action"
+            ]
+          }
+        },
+        "implementation": {
+          "component": "SpecialistOrders",
+          "file": "src/prototype/pages/specialist/SpecialistOrders.tsx",
+          "status": "implemented"
+        },
+        "_meta": {
+          "path": "layers/routes/specialist-orders.toml"
         }
       }
     ],
+    "pages": [],
     "useCases": [
       {
-        "id": "uc_view_documentation",
+        "id": "assign-specialist",
+        "name": "Assign Specialist",
+        "description": "Admin assigns an available specialist to a care order",
+        "asRole": "eldercare-admin",
+        "iWant": "to assign a specialist to an order",
+        "soThat": "The order can be fulfilled by a qualified specialist",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "admin-app"
+        },
+        "conditions": {
+          "pre": [
+            "Order exists and status is 'created' or 'reviewing'",
+            "Specialists are available",
+            "Specialist matches service type and city",
+            "Specialist has availability for order time"
+          ],
+          "post": [
+            "Order is assigned to specialist",
+            "Order status changes to 'assigned'",
+            "Specialist receives notification",
+            "Client receives assignment notification"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/admin/orders",
+          "component": "AdminOrders",
+          "file": "src/prototype/pages/admin/AdminOrders.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Admin selects order to assign"
+          },
+          {
+            "id": "view_order",
+            "type": "action",
+            "label": "View order details (service, location, time)"
+          },
+          {
+            "id": "tap_assign",
+            "type": "action",
+            "label": "Tap 'Assign Specialist' button"
+          },
+          {
+            "id": "load_specialists",
+            "type": "action",
+            "label": "Load available specialists"
+          },
+          {
+            "id": "filter_match",
+            "type": "action",
+            "label": "Filter by service type and city"
+          },
+          {
+            "id": "check_availability",
+            "type": "action",
+            "label": "Check specialist availability for order time"
+          },
+          {
+            "id": "show_list",
+            "type": "action",
+            "label": "Show matching specialists"
+          },
+          {
+            "id": "select_specialist",
+            "type": "action",
+            "label": "Select specialist"
+          },
+          {
+            "id": "confirm",
+            "type": "decision",
+            "label": "Confirm assignment?"
+          },
+          {
+            "id": "assign",
+            "type": "action",
+            "label": "Assign specialist to order"
+          },
+          {
+            "id": "update_status",
+            "type": "action",
+            "label": "Update order status to 'assigned'"
+          },
+          {
+            "id": "notify",
+            "type": "action",
+            "label": "Send notifications to specialist and client"
+          },
+          {
+            "id": "cancel",
+            "type": "action",
+            "label": "Cancel assignment"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Specialist assigned successfully"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/assign-specialist.toml"
+        }
+      },
+      {
+        "id": "authenticate-phone",
+        "name": "Phone Authentication",
+        "description": "User authenticates using phone number and OTP code",
+        "asRole": "visitor",
+        "iWant": "to log in using my phone",
+        "soThat": "I can access my account as specialist or admin",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "all"
+        },
+        "conditions": {
+          "pre": [
+            "User has phone number",
+            "Phone number is registered in system (for specialists/admins)"
+          ],
+          "post": [
+            "User is authenticated",
+            "Session is created",
+            "User redirected to appropriate home screen"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/{app}/login",
+          "component": "LoginScreen",
+          "files": [
+            "src/prototype/pages/client/LoginScreen.tsx",
+            "src/prototype/pages/specialist/LoginScreen.tsx",
+            "src/prototype/pages/admin/LoginScreen.tsx"
+          ],
+          "status": "implemented"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "User opens login screen"
+          },
+          {
+            "id": "enter_phone",
+            "type": "action",
+            "label": "Enter phone number"
+          },
+          {
+            "id": "validate_phone",
+            "type": "decision",
+            "label": "Phone valid?"
+          },
+          {
+            "id": "send_otp",
+            "type": "action",
+            "label": "Send OTP code via SMS"
+          },
+          {
+            "id": "show_otp_input",
+            "type": "action",
+            "label": "Show OTP input field"
+          },
+          {
+            "id": "enter_code",
+            "type": "action",
+            "label": "User enters 6-digit code"
+          },
+          {
+            "id": "verify_code",
+            "type": "decision",
+            "label": "Code valid?"
+          },
+          {
+            "id": "check_user",
+            "type": "decision",
+            "label": "User exists?"
+          },
+          {
+            "id": "create_session",
+            "type": "action",
+            "label": "Create user session"
+          },
+          {
+            "id": "redirect",
+            "type": "action",
+            "label": "Redirect to home screen"
+          },
+          {
+            "id": "invalid_code",
+            "type": "action",
+            "label": "Show error, allow retry"
+          },
+          {
+            "id": "resend_otp",
+            "type": "action",
+            "label": "Resend OTP code"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "User authenticated"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/authenticate-phone.toml"
+        }
+      },
+      {
+        "id": "create-order",
+        "name": "Create Order",
+        "description": "Client submits a new care service order without registration",
+        "asRole": "client",
+        "iWant": "to order a care service",
+        "soThat": "I can receive care assistance for myself or a family member",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "client-app"
+        },
+        "conditions": {
+          "pre": [
+            "Client has phone number",
+            "Client knows service type needed",
+            "Client knows location and preferred time"
+          ],
+          "post": [
+            "Order is created in system",
+            "Order status is 'created'",
+            "Admin receives notification",
+            "Client receives SMS confirmation"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/client/order",
+          "component": "OrderForm",
+          "file": "src/prototype/pages/client/OrderForm.tsx",
+          "status": "implemented"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Client opens order form"
+          },
+          {
+            "id": "enter_phone",
+            "type": "action",
+            "label": "Enter phone number"
+          },
+          {
+            "id": "select_service",
+            "type": "action",
+            "label": "Select service type"
+          },
+          {
+            "id": "enter_location",
+            "type": "action",
+            "label": "Enter address and city"
+          },
+          {
+            "id": "select_datetime",
+            "type": "action",
+            "label": "Select date and time"
+          },
+          {
+            "id": "add_notes",
+            "type": "action",
+            "label": "Add optional notes"
+          },
+          {
+            "id": "validate",
+            "type": "decision",
+            "label": "Form valid?"
+          },
+          {
+            "id": "submit",
+            "type": "action",
+            "label": "Submit order"
+          },
+          {
+            "id": "create_order",
+            "type": "action",
+            "label": "Create order record, send SMS"
+          },
+          {
+            "id": "show_confirmation",
+            "type": "action",
+            "label": "Show order confirmation"
+          },
+          {
+            "id": "error",
+            "type": "action",
+            "label": "Show validation errors"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Order created successfully"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/create-order.toml"
+        }
+      },
+      {
+        "id": "end-shift",
+        "name": "End Shift",
+        "description": "Specialist marks completion of work on an order",
+        "asRole": "specialist",
+        "iWant": "to end my work shift",
+        "soThat": "Work time is recorded and order is marked complete",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "specialist-app"
+        },
+        "conditions": {
+          "pre": [
+            "Specialist has active shift",
+            "Order status is 'in_progress'",
+            "Work is completed"
+          ],
+          "post": [
+            "Order status changes to 'completed'",
+            "Actual end time is recorded",
+            "Total work time is calculated",
+            "Client receives completion notification"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/specialist/shift",
+          "component": "ActiveShift",
+          "file": "src/prototype/pages/specialist/ActiveShift.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Specialist has active shift"
+          },
+          {
+            "id": "view_timer",
+            "type": "action",
+            "label": "View current work time"
+          },
+          {
+            "id": "tap_end",
+            "type": "action",
+            "label": "Tap 'End Shift' button"
+          },
+          {
+            "id": "confirm_end",
+            "type": "decision",
+            "label": "Confirm completion?"
+          },
+          {
+            "id": "record_end",
+            "type": "action",
+            "label": "Record end time, calculate duration"
+          },
+          {
+            "id": "update_status",
+            "type": "action",
+            "label": "Update order status to 'completed'"
+          },
+          {
+            "id": "notify_client",
+            "type": "action",
+            "label": "Send completion notification"
+          },
+          {
+            "id": "show_summary",
+            "type": "action",
+            "label": "Show work summary (duration, order details)"
+          },
+          {
+            "id": "cancel",
+            "type": "action",
+            "label": "Cancel end action"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Shift ended, order completed"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/end-shift.toml"
+        }
+      },
+      {
+        "id": "manage-availability",
+        "name": "Manage Availability",
+        "description": "Specialist sets available time slots for the week",
+        "asRole": "specialist",
+        "iWant": "to set my weekly availability",
+        "soThat": "Admin can assign orders to me during my available times",
+        "meta": {
+          "isActive": true,
+          "priority": 2,
+          "platform": "specialist-app"
+        },
+        "conditions": {
+          "pre": [
+            "Specialist is authenticated",
+            "Specialist knows their schedule"
+          ],
+          "post": [
+            "Availability slots are saved",
+            "Slots are visible to admin",
+            "Admin can assign orders to available times"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/specialist/availability",
+          "component": "AvailabilitySetup",
+          "file": "src/prototype/pages/specialist/AvailabilitySetup.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Specialist opens availability screen"
+          },
+          {
+            "id": "view_week",
+            "type": "action",
+            "label": "View week calendar"
+          },
+          {
+            "id": "select_day",
+            "type": "action",
+            "label": "Select day"
+          },
+          {
+            "id": "add_slot",
+            "type": "action",
+            "label": "Add time slot"
+          },
+          {
+            "id": "set_times",
+            "type": "action",
+            "label": "Set start and end time"
+          },
+          {
+            "id": "save_slot",
+            "type": "action",
+            "label": "Save availability slot"
+          },
+          {
+            "id": "remove_slot",
+            "type": "action",
+            "label": "Remove time slot (optional)"
+          },
+          {
+            "id": "save_week",
+            "type": "action",
+            "label": "Save all changes"
+          },
+          {
+            "id": "confirm",
+            "type": "action",
+            "label": "Show confirmation message"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Availability updated"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/manage-availability.toml"
+        }
+      },
+      {
+        "id": "manage-orders-admin",
+        "name": "Manage Orders",
+        "description": "Admin views all orders, filters by status, and manages assignments",
+        "asRole": "eldercare-admin",
+        "iWant": "to manage all care orders",
+        "soThat": "I can assign specialists and track order progress",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "admin-app"
+        },
+        "conditions": {
+          "pre": [
+            "Admin is authenticated",
+            "Orders exist in system"
+          ],
+          "post": [
+            "Admin sees all orders",
+            "Can filter by status",
+            "Can view order details",
+            "Can assign specialists"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/admin/orders",
+          "component": "AdminOrders",
+          "file": "src/prototype/pages/admin/AdminOrders.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Admin opens orders screen"
+          },
+          {
+            "id": "load_orders",
+            "type": "action",
+            "label": "Load all orders from API"
+          },
+          {
+            "id": "filter_status",
+            "type": "action",
+            "label": "Filter by status (optional)"
+          },
+          {
+            "id": "show_list",
+            "type": "action",
+            "label": "Display order cards"
+          },
+          {
+            "id": "select_order",
+            "type": "action",
+            "label": "Tap order card"
+          },
+          {
+            "id": "view_details",
+            "type": "action",
+            "label": "View order details"
+          },
+          {
+            "id": "assign_specialist",
+            "type": "action",
+            "label": "Assign specialist (if not assigned)"
+          },
+          {
+            "id": "update_status",
+            "type": "action",
+            "label": "Update order status (if needed)"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Admin manages orders"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/manage-orders-admin.toml"
+        }
+      },
+      {
+        "id": "manage-specialists-admin",
+        "name": "Manage Specialists",
+        "description": "Admin views, adds, edits, and manages specialist accounts",
+        "asRole": "eldercare-admin",
+        "iWant": "to manage specialists",
+        "soThat": "I can control who can receive order assignments",
+        "meta": {
+          "isActive": true,
+          "priority": 2,
+          "platform": "admin-app"
+        },
+        "conditions": {
+          "pre": [
+            "Admin is authenticated",
+            "Specialists exist or admin wants to add new"
+          ],
+          "post": [
+            "Admin sees specialist list",
+            "Can view specialist details",
+            "Can add/edit specialists",
+            "Can toggle specialist active status"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/admin/specialists",
+          "component": "AdminSpecialists",
+          "file": "src/prototype/pages/admin/AdminSpecialists.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Admin opens specialists screen"
+          },
+          {
+            "id": "load_specialists",
+            "type": "action",
+            "label": "Load all specialists from API"
+          },
+          {
+            "id": "show_list",
+            "type": "action",
+            "label": "Display specialist cards"
+          },
+          {
+            "id": "filter_active",
+            "type": "action",
+            "label": "Filter by active status (optional)"
+          },
+          {
+            "id": "select_specialist",
+            "type": "action",
+            "label": "Tap specialist card"
+          },
+          {
+            "id": "view_details",
+            "type": "action",
+            "label": "View specialist details (services, cities, orders)"
+          },
+          {
+            "id": "add_new",
+            "type": "action",
+            "label": "Tap 'Add Specialist' button"
+          },
+          {
+            "id": "edit",
+            "type": "action",
+            "label": "Edit specialist (name, phone, services, cities)"
+          },
+          {
+            "id": "toggle_active",
+            "type": "action",
+            "label": "Toggle active/inactive status"
+          },
+          {
+            "id": "save",
+            "type": "action",
+            "label": "Save changes"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Specialists managed"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/manage-specialists-admin.toml"
+        }
+      },
+      {
+        "id": "start-shift",
+        "name": "Start Shift",
+        "description": "Specialist marks the start of work on an assigned order",
+        "asRole": "specialist",
+        "iWant": "to start my work shift",
+        "soThat": "My work time is tracked and client is notified",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "specialist-app"
+        },
+        "conditions": {
+          "pre": [
+            "Specialist is authenticated",
+            "Order is assigned to specialist",
+            "Order status is 'assigned' or 'on_way'",
+            "Specialist is at location (manual confirmation)"
+          ],
+          "post": [
+            "Order status changes to 'in_progress'",
+            "Actual start time is recorded",
+            "Client receives notification",
+            "Time tracking begins"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/specialist/shift",
+          "component": "ActiveShift",
+          "file": "src/prototype/pages/specialist/ActiveShift.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Specialist opens active shift screen"
+          },
+          {
+            "id": "view_order",
+            "type": "action",
+            "label": "View current order details"
+          },
+          {
+            "id": "confirm_location",
+            "type": "decision",
+            "label": "At service location?"
+          },
+          {
+            "id": "tap_start",
+            "type": "action",
+            "label": "Tap 'Start Shift' button"
+          },
+          {
+            "id": "confirm_start",
+            "type": "decision",
+            "label": "Confirm start?"
+          },
+          {
+            "id": "record_start",
+            "type": "action",
+            "label": "Record start time, update status"
+          },
+          {
+            "id": "notify_client",
+            "type": "action",
+            "label": "Send notification to client"
+          },
+          {
+            "id": "show_timer",
+            "type": "action",
+            "label": "Show active timer"
+          },
+          {
+            "id": "cancel",
+            "type": "action",
+            "label": "Cancel start action"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Shift started, timer running"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/start-shift.toml"
+        }
+      },
+      {
+        "id": "track-order",
+        "name": "Track Order",
+        "description": "Client views order status and updates using phone number",
+        "asRole": "client",
+        "iWant": "to track my order status",
+        "soThat": "I know when the specialist will arrive and current progress",
+        "meta": {
+          "isActive": true,
+          "priority": 2,
+          "platform": "client-app"
+        },
+        "conditions": {
+          "pre": [
+            "Client has phone number",
+            "Order exists in system"
+          ],
+          "post": [
+            "Client sees order status",
+            "Client sees assigned specialist (if assigned)",
+            "Client sees estimated arrival time"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/client/track",
+          "component": "OrderTracking",
+          "file": "src/prototype/pages/client/OrderTracking.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Client opens tracking page"
+          },
+          {
+            "id": "enter_phone",
+            "type": "action",
+            "label": "Enter phone number"
+          },
+          {
+            "id": "search",
+            "type": "action",
+            "label": "Search for orders"
+          },
+          {
+            "id": "found",
+            "type": "decision",
+            "label": "Orders found?"
+          },
+          {
+            "id": "show_list",
+            "type": "action",
+            "label": "Show order list"
+          },
+          {
+            "id": "select_order",
+            "type": "action",
+            "label": "Select order to view"
+          },
+          {
+            "id": "show_details",
+            "type": "action",
+            "label": "Show order details and status"
+          },
+          {
+            "id": "no_orders",
+            "type": "action",
+            "label": "Show 'no orders found' message"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Client views order status"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/track-order.toml"
+        }
+      },
+      {
+        "id": "view-documentation",
         "name": "View Project Documentation",
         "asRole": "visitor",
         "iWant": "view project documentation",
@@ -504,7 +2114,7 @@
         }
       },
       {
-        "id": "uc_view_prototype",
+        "id": "view-prototype",
         "name": "View Prototype",
         "asRole": "visitor",
         "iWant": "view the React prototype",
@@ -562,6 +2172,81 @@
         "_meta": {
           "path": "layers/use-cases/view-prototype.toml"
         }
+      },
+      {
+        "id": "view-specialist-orders",
+        "name": "View My Orders",
+        "description": "Specialist views today's and upcoming assigned orders",
+        "asRole": "specialist",
+        "iWant": "to see my assigned orders",
+        "soThat": "I know where I need to go and when",
+        "meta": {
+          "isActive": true,
+          "priority": 1,
+          "platform": "specialist-app"
+        },
+        "conditions": {
+          "pre": [
+            "Specialist is authenticated",
+            "Specialist has assigned orders"
+          ],
+          "post": [
+            "Specialist sees order list",
+            "Orders sorted by date/time",
+            "Can see order details"
+          ]
+        },
+        "implementation": {
+          "route": "/prototype/specialist/orders",
+          "component": "SpecialistOrders",
+          "file": "src/prototype/pages/specialist/SpecialistOrders.tsx",
+          "status": "planned"
+        },
+        "flow": [
+          {
+            "id": "start",
+            "type": "start",
+            "label": "Specialist opens orders screen"
+          },
+          {
+            "id": "load_orders",
+            "type": "action",
+            "label": "Load assigned orders from API"
+          },
+          {
+            "id": "filter_today",
+            "type": "action",
+            "label": "Filter today's orders"
+          },
+          {
+            "id": "show_list",
+            "type": "action",
+            "label": "Display order cards"
+          },
+          {
+            "id": "select_order",
+            "type": "action",
+            "label": "Tap order card"
+          },
+          {
+            "id": "show_details",
+            "type": "action",
+            "label": "Show order details (address, client, time)"
+          },
+          {
+            "id": "start_shift",
+            "type": "action",
+            "label": "Start shift button (if at location)"
+          },
+          {
+            "id": "end",
+            "type": "end",
+            "label": "Specialist views orders"
+          }
+        ],
+        "_meta": {
+          "path": "layers/use-cases/view-specialist-orders.toml"
+        }
       }
     ],
     "roles": [
@@ -581,6 +2266,123 @@
         },
         "_meta": {
           "path": "layers/roles/admin.toml"
+        }
+      },
+      {
+        "id": "client",
+        "name": "Client",
+        "description": "Family members ordering care services for elderly relatives",
+        "level": 1,
+        "identification": {
+          "method": "phone",
+          "required": false,
+          "verification": "sms-otp"
+        },
+        "actions": {
+          "canDo": [
+            "Create new service orders",
+            "View own order history",
+            "Track order status",
+            "Leave reviews after service completion"
+          ],
+          "cannotDo": [
+            "View other clients' orders",
+            "Assign specialists",
+            "Manage specialists",
+            "Access admin dashboard"
+          ]
+        },
+        "permissions": {
+          "list": [
+            "order:create",
+            "order:read:own",
+            "order:track:own",
+            "review:create",
+            "review:read:own"
+          ]
+        },
+        "_meta": {
+          "path": "layers/roles/client.toml"
+        }
+      },
+      {
+        "id": "eldercare-admin",
+        "name": "Administrator",
+        "description": "Company administrators managing orders and specialists",
+        "level": 3,
+        "identification": {
+          "method": "phone",
+          "required": true,
+          "verification": "sms-otp"
+        },
+        "actions": {
+          "canDo": [
+            "View all orders",
+            "Assign specialists to orders",
+            "Create and manage specialists",
+            "Activate/deactivate specialists",
+            "Define specialist service areas",
+            "View dashboard metrics",
+            "View specialist availability"
+          ],
+          "cannotDo": [
+            "Delete orders permanently",
+            "Access financial/accounting",
+            "Modify system settings"
+          ]
+        },
+        "permissions": {
+          "list": [
+            "order:read:all",
+            "order:assign",
+            "order:update",
+            "specialist:create",
+            "specialist:read:all",
+            "specialist:update",
+            "specialist:activate",
+            "specialist:deactivate",
+            "availability:read:all",
+            "dashboard:view"
+          ]
+        },
+        "_meta": {
+          "path": "layers/roles/eldercare-admin.toml"
+        }
+      },
+      {
+        "id": "specialist",
+        "name": "Specialist",
+        "description": "Care specialists providing elderly care services",
+        "level": 2,
+        "identification": {
+          "method": "phone",
+          "required": true,
+          "verification": "sms-otp"
+        },
+        "actions": {
+          "canDo": [
+            "View assigned orders",
+            "Start and end work shifts",
+            "Set weekly availability",
+            "View own shift history"
+          ],
+          "cannotDo": [
+            "Create orders",
+            "Assign orders to self",
+            "View other specialists",
+            "Access admin features"
+          ]
+        },
+        "permissions": {
+          "list": [
+            "order:read:assigned",
+            "shift:start",
+            "shift:end",
+            "availability:manage:own"
+          ]
+        },
+        "_meta": {
+          "path": "layers/roles/specialist.toml"
         }
       },
       {
@@ -618,6 +2420,24 @@
     "guards": [
       {
         "id": "admin-only",
+        "name": "Admin Access",
+        "description": "Allows access only to authenticated administrators",
+        "access": {
+          "authenticated": true,
+          "roles": [
+            "eldercare-admin"
+          ]
+        },
+        "redirect": {
+          "unauthenticated": "/login",
+          "unauthorized": "/unauthorized"
+        },
+        "_meta": {
+          "path": "layers/guards/admin-only.toml"
+        }
+      },
+      {
+        "id": "admin-only",
         "name": "Admin Only",
         "description": "Only administrators can access this resource",
         "access": {
@@ -653,182 +2473,384 @@
         "_meta": {
           "path": "layers/guards/public.toml"
         }
+      },
+      {
+        "id": "specialist-only",
+        "name": "Specialist Access",
+        "description": "Allows access only to authenticated specialists",
+        "access": {
+          "authenticated": true,
+          "roles": [
+            "specialist"
+          ]
+        },
+        "redirect": {
+          "unauthenticated": "/login",
+          "unauthorized": "/unauthorized"
+        },
+        "_meta": {
+          "path": "layers/guards/specialist-only.toml"
+        }
       }
     ],
     "events": [
       {
-        "id": "cart.add",
-        "name": "Add to Cart",
-        "description": "Product added to shopping cart",
-        "category": "commerce",
+        "id": "auth-otp-sent",
+        "name": "OTP Code Sent",
+        "description": "Verification code sent to user phone",
+        "category": "auth",
         "trigger": {
           "action": "click",
-          "element": "Add to Cart button"
+          "element": "Send Code button"
         },
         "payload": [
           {
-            "name": "productId",
+            "name": "phone",
             "type": "string",
-            "description": "Product identifier"
+            "description": "Last 4 digits of phone number (masked)"
           },
           {
-            "name": "quantity",
-            "type": "number",
-            "description": "Quantity added"
-          },
-          {
-            "name": "price",
-            "type": "number",
-            "description": "Product price at time of adding"
+            "name": "app",
+            "type": "string",
+            "description": "Which app sent the OTP (client, specialist)"
           }
         ],
+        "backend": {
+          "description": "Generates 6-digit OTP, stores with 5 min expiry, sends SMS via provider"
+        },
         "_meta": {
-          "path": "layers/events/cart-add.toml"
+          "path": "layers/events/auth-otp-sent.toml"
         }
       },
       {
-        "id": "form.submit",
-        "name": "Form Submit",
-        "description": "User submitted a form",
-        "category": "form",
+        "id": "auth-verified",
+        "name": "Phone Verified",
+        "description": "User successfully verified phone with OTP",
+        "category": "auth",
         "trigger": {
           "action": "submit",
-          "element": "Form element"
+          "element": "OTP input field (auto-submit on 6 digits)"
         },
         "payload": [
           {
-            "name": "formId",
+            "name": "phone",
             "type": "string",
-            "description": "Form identifier"
+            "description": "Verified phone number"
           },
           {
-            "name": "formName",
+            "name": "app",
             "type": "string",
-            "description": "Human-readable form name"
+            "description": "Which app (client, specialist)"
           },
           {
-            "name": "success",
+            "name": "isNewUser",
             "type": "boolean",
-            "description": "Whether submission was successful"
+            "description": "Whether this is a new registration"
           }
         ],
+        "backend": {
+          "description": "Validates OTP, creates session token, marks phone as verified, proceeds to profile or home"
+        },
         "_meta": {
-          "path": "layers/events/form-submit.toml"
+          "path": "layers/events/auth-verified.toml"
         }
       },
       {
-        "id": "user.create",
-        "name": "User Created",
-        "description": "New user was created in the system",
-        "category": "auth",
+        "id": "availability-added",
+        "name": "Availability Slot Added",
+        "description": "Specialist added a new availability time slot",
+        "category": "availability",
         "trigger": {
           "action": "click",
-          "element": "Add User button"
+          "element": "Add Slot button in dialog"
         },
         "payload": [
           {
-            "name": "userId",
+            "name": "specialistId",
             "type": "string",
-            "description": "Created user ID"
+            "description": "Specialist who added the slot"
           },
           {
-            "name": "userName",
+            "name": "date",
             "type": "string",
-            "description": "Created user name"
+            "description": "Date of availability"
+          },
+          {
+            "name": "startTime",
+            "type": "string",
+            "description": "Slot start time (HH:MM)"
+          },
+          {
+            "name": "endTime",
+            "type": "string",
+            "description": "Slot end time (HH:MM)"
           }
         ],
-        "implementation": {
-          "handler": "handleAddUser",
-          "file": "core/app/src/pages/prototype/UsersPage.tsx",
-          "line": 42,
-          "preview": "/prototype/users",
-          "status": "implemented"
+        "backend": {
+          "description": "Creates availability record, updates specialist calendar, makes slot visible for order assignment"
         },
         "_meta": {
-          "path": "layers/events/user-create.toml"
+          "path": "layers/events/availability-added.toml"
         }
       },
       {
-        "id": "user.delete",
-        "name": "User Deleted",
-        "description": "User was removed from the system",
-        "category": "auth",
+        "id": "order-assigned",
+        "name": "Order Assigned",
+        "description": "Admin assigned a specialist to handle the order",
+        "category": "order",
         "trigger": {
           "action": "click",
-          "element": "Delete button on user card"
+          "element": "Assign specialist button in dialog"
         },
         "payload": [
           {
-            "name": "userId",
+            "name": "orderId",
             "type": "string",
-            "description": "Deleted user ID"
+            "description": "Order being assigned"
+          },
+          {
+            "name": "specialistId",
+            "type": "string",
+            "description": "Assigned specialist ID"
+          },
+          {
+            "name": "specialistName",
+            "type": "string",
+            "description": "Assigned specialist name"
           }
         ],
-        "implementation": {
-          "handler": "handleDeleteUser",
-          "file": "core/app/src/pages/prototype/UsersPage.tsx",
-          "line": 54,
-          "preview": "/prototype/users",
-          "status": "implemented"
+        "backend": {
+          "description": "Updates order status to 'assigned', links specialist, sends push notification to specialist app"
         },
         "_meta": {
-          "path": "layers/events/user-delete.toml"
+          "path": "layers/events/order-assigned.toml"
         }
       },
       {
-        "id": "auth.login",
-        "name": "User Login",
-        "description": "User successfully authenticated with credentials",
-        "category": "auth",
+        "id": "order-created",
+        "name": "Order Created",
+        "description": "Client submitted a new care order request",
+        "category": "order",
         "trigger": {
           "action": "submit",
-          "element": "Login form"
+          "element": "Order confirmation button"
         },
         "payload": [
+          {
+            "name": "orderId",
+            "type": "string",
+            "description": "Unique order identifier"
+          },
+          {
+            "name": "serviceType",
+            "type": "string",
+            "description": "Type of care service (caregiver, nurse, household, etc)"
+          },
+          {
+            "name": "city",
+            "type": "string",
+            "description": "City where service is needed"
+          },
+          {
+            "name": "date",
+            "type": "string",
+            "description": "Scheduled date for service"
+          }
+        ],
+        "backend": {
+          "description": "Creates order record in database, sends notification to admin dashboard, reserves time slot"
+        },
+        "_meta": {
+          "path": "layers/events/order-created.toml"
+        }
+      },
+      {
+        "id": "shift-ended",
+        "name": "Shift Ended",
+        "description": "Specialist completed the care session",
+        "category": "shift",
+        "trigger": {
+          "action": "click",
+          "element": "Complete Shift button in confirmation dialog"
+        },
+        "payload": [
+          {
+            "name": "orderId",
+            "type": "string",
+            "description": "Completed order ID"
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "description": "Total shift duration in seconds"
+          },
+          {
+            "name": "endTime",
+            "type": "string",
+            "description": "ISO timestamp when shift ended"
+          }
+        ],
+        "backend": {
+          "description": "Updates order status to 'completed', records actual end time, calculates billing, sends receipt to client"
+        },
+        "_meta": {
+          "path": "layers/events/shift-ended.toml"
+        }
+      },
+      {
+        "id": "shift-started",
+        "name": "Shift Started",
+        "description": "Specialist started working on an assigned order",
+        "category": "shift",
+        "trigger": {
+          "action": "click",
+          "element": "Start Shift button"
+        },
+        "payload": [
+          {
+            "name": "orderId",
+            "type": "string",
+            "description": "Order being worked on"
+          },
+          {
+            "name": "specialistId",
+            "type": "string",
+            "description": "Specialist who started the shift"
+          },
+          {
+            "name": "startTime",
+            "type": "string",
+            "description": "ISO timestamp when shift started"
+          }
+        ],
+        "backend": {
+          "description": "Updates order status to 'in_progress', records actual start time, notifies client"
+        },
+        "_meta": {
+          "path": "layers/events/shift-started.toml"
+        }
+      },
+      {
+        "id": "specialist-added",
+        "name": "Specialist Added",
+        "description": "Admin added a new specialist to the system",
+        "category": "specialist",
+        "trigger": {
+          "action": "click",
+          "element": "Add Specialist button in dialog"
+        },
+        "payload": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Specialist full name"
+          },
+          {
+            "name": "phone",
+            "type": "string",
+            "description": "Specialist phone number"
+          },
           {
             "name": "email",
             "type": "string",
-            "description": "User email address"
+            "description": "Specialist email"
           },
           {
-            "name": "method",
-            "type": "string",
-            "description": "Authentication method (email, oauth, etc)"
+            "name": "serviceTypes",
+            "type": "array",
+            "description": "List of services specialist can provide"
+          },
+          {
+            "name": "cities",
+            "type": "array",
+            "description": "Cities where specialist can work"
           }
         ],
+        "backend": {
+          "description": "Creates specialist record, generates login credentials, sends welcome SMS with app download link"
+        },
         "_meta": {
-          "path": "layers/events/user-login.toml"
+          "path": "layers/events/specialist-added.toml"
         }
       },
       {
-        "id": "user.populate",
-        "name": "Users Populated",
-        "description": "Fake users were generated for testing",
-        "category": "auth",
+        "id": "specialist-toggled",
+        "name": "Specialist Status Toggled",
+        "description": "Admin activated or deactivated a specialist",
+        "category": "specialist",
         "trigger": {
-          "action": "click",
-          "element": "Populate button (+20)"
+          "action": "toggle",
+          "element": "Active switch on specialist card"
         },
         "payload": [
           {
-            "name": "count",
-            "type": "number",
-            "description": "Number of users generated"
+            "name": "specialistId",
+            "type": "string",
+            "description": "Specialist being toggled"
+          },
+          {
+            "name": "isActive",
+            "type": "boolean",
+            "description": "New active status"
+          },
+          {
+            "name": "specialistName",
+            "type": "string",
+            "description": "Specialist name for logging"
           }
         ],
-        "implementation": {
-          "handler": "handlePopulate",
-          "file": "core/app/src/pages/prototype/UsersPage.tsx",
-          "line": 48,
-          "preview": "/prototype/users",
-          "status": "implemented"
+        "backend": {
+          "description": "Updates specialist active status, if deactivated - removes from available pool, cancels pending assignments"
         },
         "_meta": {
-          "path": "layers/events/user-populate.toml"
+          "path": "layers/events/specialist-toggled.toml"
         }
       }
     ],
     "platforms": [
+      {
+        "id": "admin-app",
+        "name": "ElderCare Admin",
+        "type": "mobile",
+        "description": "Mobile app for administrators to manage orders and specialists",
+        "config": {
+          "baseRoute": "/prototype/admin",
+          "theme": "light",
+          "primaryAction": "Assign Order"
+        },
+        "features": {
+          "core": [
+            "View all orders",
+            "Assign specialists to orders",
+            "Manage specialists",
+            "View dashboard metrics"
+          ],
+          "auth": "required"
+        },
+        "navigation": {
+          "type": "bottom-nav",
+          "items": [
+            {
+              "id": "dashboard",
+              "icon": "LayoutDashboard",
+              "label": "Dashboard"
+            },
+            {
+              "id": "orders",
+              "icon": "ClipboardList",
+              "label": "Orders"
+            },
+            {
+              "id": "specialists",
+              "icon": "Users",
+              "label": "Specialists"
+            }
+          ]
+        },
+        "_meta": {
+          "path": "layers/platforms/admin-app.toml"
+        }
+      },
       {
         "id": "admin-panel",
         "name": "Admin Panel",
@@ -840,6 +2862,92 @@
         },
         "_meta": {
           "path": "layers/platforms/admin-panel.toml"
+        }
+      },
+      {
+        "id": "client-app",
+        "name": "ElderCare Client",
+        "type": "mobile",
+        "description": "Mobile app for clients to order and track care services",
+        "config": {
+          "baseRoute": "/prototype/client",
+          "theme": "light",
+          "primaryAction": "Order Service"
+        },
+        "features": {
+          "core": [
+            "Order care services",
+            "Track order status",
+            "View order history",
+            "Leave reviews"
+          ],
+          "auth": "phone-optional"
+        },
+        "navigation": {
+          "type": "bottom-nav",
+          "items": [
+            {
+              "id": "home",
+              "icon": "Home",
+              "label": "Home"
+            },
+            {
+              "id": "orders",
+              "icon": "ClipboardList",
+              "label": "My Orders"
+            },
+            {
+              "id": "history",
+              "icon": "Clock",
+              "label": "History"
+            }
+          ]
+        },
+        "_meta": {
+          "path": "layers/platforms/client-app.toml"
+        }
+      },
+      {
+        "id": "specialist-app",
+        "name": "ElderCare Specialist",
+        "type": "mobile",
+        "description": "Mobile app for specialists to manage orders and track work time",
+        "config": {
+          "baseRoute": "/prototype/specialist",
+          "theme": "light",
+          "primaryAction": "Start Shift"
+        },
+        "features": {
+          "core": [
+            "View assigned orders",
+            "Mark work start/end",
+            "Set weekly availability",
+            "View shift history"
+          ],
+          "auth": "phone-required"
+        },
+        "navigation": {
+          "type": "bottom-nav",
+          "items": [
+            {
+              "id": "home",
+              "icon": "Home",
+              "label": "Home"
+            },
+            {
+              "id": "orders",
+              "icon": "ClipboardList",
+              "label": "Orders"
+            },
+            {
+              "id": "availability",
+              "icon": "Calendar",
+              "label": "Availability"
+            }
+          ]
+        },
+        "_meta": {
+          "path": "layers/platforms/specialist-app.toml"
         }
       },
       {
@@ -915,23 +3023,35 @@
       {
         "id": "auth",
         "name": "Authentication & Authorization",
-        "description": "Facts about how auth works in this project",
+        "description": "Phone-based authentication with SMS OTP",
         "facts": [
           {
             "question": "How does authentication work?",
-            "answer": "Mock authentication with zustand store. Login validates against hardcoded users, stores user in localStorage via persist middleware.",
+            "answer": "Phone number authentication with SMS verification. User enters phone number, receives 6-digit code via SMS, enters code to log in.",
             "tags": [
               "auth",
-              "state"
+              "otp",
+              "phone"
             ],
             "status": "verified"
           },
           {
-            "question": "What are the available test users?",
-            "answer": "admin@example.com / admin123 (admin role), user@example.com / user123 (user role)",
+            "question": "What is the authentication flow?",
+            "answer": "1. User enters phone number (Israeli format: 05x-xxx-xxxx)\n2. System generates 6-digit code and sends via SMS provider\n3. User enters received code\n4. System validates code, creates session, returns auth token\n5. User redirected to app home screen\n",
             "tags": [
               "auth",
-              "testing"
+              "flow",
+              "otp"
+            ],
+            "status": "verified"
+          },
+          {
+            "question": "What are OTP restrictions?",
+            "answer": "Code valid for 5 minutes. Rate limit: 3 send attempts per phone per 15 minutes. Session valid for 30 days.",
+            "tags": [
+              "auth",
+              "security",
+              "otp"
             ],
             "status": "verified"
           },
@@ -998,48 +3118,95 @@
   ],
   "relations": {
     "byId": {
-      "user-card": {
-        "path": "layers/components/user-card.toml",
+      "dashboard-stats": {
+        "path": "layers/components/dashboard-stats.toml",
         "folder": "components",
-        "title": "User Card"
+        "title": "Dashboard Stats"
       },
-      "category": {
-        "path": "layers/entities/category.toml",
+      "order-card": {
+        "path": "layers/components/order-card.toml",
+        "folder": "components",
+        "title": "Order Card"
+      },
+      "phone-auth-form": {
+        "path": "layers/components/phone-auth-form.toml",
+        "folder": "components",
+        "title": "Phone Auth Form"
+      },
+      "service-card": {
+        "path": "layers/components/service-card.toml",
+        "folder": "components",
+        "title": "Service Card"
+      },
+      "specialist-card": {
+        "path": "layers/components/specialist-card.toml",
+        "folder": "components",
+        "title": "Specialist Card"
+      },
+      "stats-card": {
+        "path": "layers/components/stats-card.toml",
+        "folder": "components",
+        "title": "Stats Card"
+      },
+      "availability": {
+        "path": "layers/entities/availability.toml",
         "folder": "entities",
-        "title": "Category"
+        "title": "Availability"
       },
-      "product": {
-        "path": "layers/entities/product.toml",
+      "order": {
+        "path": "layers/entities/order.toml",
         "folder": "entities",
-        "title": "Product"
+        "title": "Order"
       },
-      "user": {
-        "path": "layers/roles/user.toml",
+      "review": {
+        "path": "layers/entities/review.toml",
+        "folder": "entities",
+        "title": "Review"
+      },
+      "service": {
+        "path": "layers/entities/service.toml",
+        "folder": "entities",
+        "title": "Service"
+      },
+      "specialist": {
+        "path": "layers/roles/specialist.toml",
         "folder": "roles",
-        "title": "User"
+        "title": "Specialist"
       },
-      "cart-add": {
-        "path": "layers/events/cart-add.toml",
+      "auth-otp-sent": {
+        "path": "layers/events/auth-otp-sent.toml",
         "folder": "events"
       },
-      "form-submit": {
-        "path": "layers/events/form-submit.toml",
+      "auth-verified": {
+        "path": "layers/events/auth-verified.toml",
         "folder": "events"
       },
-      "user-create": {
-        "path": "layers/events/user-create.toml",
+      "availability-added": {
+        "path": "layers/events/availability-added.toml",
         "folder": "events"
       },
-      "user-delete": {
-        "path": "layers/events/user-delete.toml",
+      "order-assigned": {
+        "path": "layers/events/order-assigned.toml",
         "folder": "events"
       },
-      "user-login": {
-        "path": "layers/events/user-login.toml",
+      "order-created": {
+        "path": "layers/events/order-created.toml",
         "folder": "events"
       },
-      "user-populate": {
-        "path": "layers/events/user-populate.toml",
+      "shift-ended": {
+        "path": "layers/events/shift-ended.toml",
+        "folder": "events"
+      },
+      "shift-started": {
+        "path": "layers/events/shift-started.toml",
+        "folder": "events"
+      },
+      "specialist-added": {
+        "path": "layers/events/specialist-added.toml",
+        "folder": "events"
+      },
+      "specialist-toggled": {
+        "path": "layers/events/specialist-toggled.toml",
         "folder": "events"
       },
       "admin-only": {
@@ -1057,6 +3224,11 @@
         "folder": "guards",
         "title": "Public Access"
       },
+      "specialist-only": {
+        "path": "layers/guards/specialist-only.toml",
+        "folder": "guards",
+        "title": "Specialist Access"
+      },
       "architecture": {
         "path": "layers/knowledge/architecture.toml",
         "folder": "knowledge",
@@ -1067,26 +3239,30 @@
         "folder": "knowledge",
         "title": "Authentication & Authorization"
       },
-      "products": {
-        "path": "layers/pages/products.toml",
-        "folder": "pages"
-      },
-      "users": {
-        "path": "layers/pages/users.toml",
-        "folder": "pages"
+      "admin-app": {
+        "path": "layers/platforms/admin-app.toml",
+        "folder": "platforms"
       },
       "admin-panel": {
         "path": "layers/platforms/admin-panel.toml",
+        "folder": "platforms"
+      },
+      "client-app": {
+        "path": "layers/platforms/client-app.toml",
+        "folder": "platforms"
+      },
+      "specialist-app": {
+        "path": "layers/platforms/specialist-app.toml",
         "folder": "platforms"
       },
       "web-app": {
         "path": "layers/platforms/web-app.toml",
         "folder": "platforms"
       },
-      "llm-boilerplate": {
+      "eldercare": {
         "path": "layers/project/about.toml",
         "folder": "project",
-        "title": "LLM Boilerplate"
+        "title": "ElderCare"
       },
       "business": {
         "path": "layers/project/business.toml",
@@ -1105,136 +3281,416 @@
         "folder": "roles",
         "title": "Administrator"
       },
+      "client": {
+        "path": "layers/roles/client.toml",
+        "folder": "roles",
+        "title": "Client"
+      },
+      "eldercare-admin": {
+        "path": "layers/roles/eldercare-admin.toml",
+        "folder": "roles",
+        "title": "Administrator"
+      },
+      "user": {
+        "path": "layers/roles/user.toml",
+        "folder": "roles",
+        "title": "User"
+      },
       "visitor": {
         "path": "layers/roles/visitor.toml",
         "folder": "roles",
         "title": "Visitor"
       },
-      "route_dashboard": {
-        "path": "layers/routes/dashboard.toml",
+      "admin-dashboard": {
+        "path": "layers/routes/admin-dashboard.toml",
         "folder": "routes",
         "title": "Dashboard"
+      },
+      "admin-login": {
+        "path": "layers/routes/admin-login.toml",
+        "folder": "routes",
+        "title": "Admin Login"
+      },
+      "admin-orders": {
+        "path": "layers/routes/admin-orders.toml",
+        "folder": "routes",
+        "title": "Orders"
+      },
+      "admin-specialists": {
+        "path": "layers/routes/admin-specialists.toml",
+        "folder": "routes",
+        "title": "Specialists"
+      },
+      "client-home": {
+        "path": "layers/routes/client-home.toml",
+        "folder": "routes",
+        "title": "ElderCare"
+      },
+      "client-login": {
+        "path": "layers/routes/client-login.toml",
+        "folder": "routes",
+        "title": "Client Login"
+      },
+      "client-order-form": {
+        "path": "layers/routes/client-order-form.toml",
+        "folder": "routes",
+        "title": "New Order"
       },
       "route_prototype_home": {
         "path": "layers/routes/prototype-home.toml",
         "folder": "routes",
         "title": "Prototype Home"
       },
-      "uc_view_documentation": {
+      "specialist-active-shift": {
+        "path": "layers/routes/specialist-active-shift.toml",
+        "folder": "routes",
+        "title": "Active Shift"
+      },
+      "specialist-availability": {
+        "path": "layers/routes/specialist-availability.toml",
+        "folder": "routes",
+        "title": "My Availability"
+      },
+      "specialist-home": {
+        "path": "layers/routes/specialist-home.toml",
+        "folder": "routes",
+        "title": "My Work"
+      },
+      "specialist-login": {
+        "path": "layers/routes/specialist-login.toml",
+        "folder": "routes",
+        "title": "Specialist Login"
+      },
+      "specialist-orders": {
+        "path": "layers/routes/specialist-orders.toml",
+        "folder": "routes",
+        "title": "My Orders"
+      },
+      "assign-specialist": {
+        "path": "layers/use-cases/assign-specialist.toml",
+        "folder": "use-cases",
+        "title": "Assign Specialist"
+      },
+      "authenticate-phone": {
+        "path": "layers/use-cases/authenticate-phone.toml",
+        "folder": "use-cases",
+        "title": "Phone Authentication"
+      },
+      "create-order": {
+        "path": "layers/use-cases/create-order.toml",
+        "folder": "use-cases",
+        "title": "Create Order"
+      },
+      "end-shift": {
+        "path": "layers/use-cases/end-shift.toml",
+        "folder": "use-cases",
+        "title": "End Shift"
+      },
+      "manage-availability": {
+        "path": "layers/use-cases/manage-availability.toml",
+        "folder": "use-cases",
+        "title": "Manage Availability"
+      },
+      "manage-orders-admin": {
+        "path": "layers/use-cases/manage-orders-admin.toml",
+        "folder": "use-cases",
+        "title": "Manage Orders"
+      },
+      "manage-specialists-admin": {
+        "path": "layers/use-cases/manage-specialists-admin.toml",
+        "folder": "use-cases",
+        "title": "Manage Specialists"
+      },
+      "start-shift": {
+        "path": "layers/use-cases/start-shift.toml",
+        "folder": "use-cases",
+        "title": "Start Shift"
+      },
+      "track-order": {
+        "path": "layers/use-cases/track-order.toml",
+        "folder": "use-cases",
+        "title": "Track Order"
+      },
+      "view-documentation": {
         "path": "layers/use-cases/view-documentation.toml",
         "folder": "use-cases",
         "title": "View Project Documentation"
       },
-      "uc_view_prototype": {
+      "view-prototype": {
         "path": "layers/use-cases/view-prototype.toml",
         "folder": "use-cases",
         "title": "View Prototype"
+      },
+      "view-specialist-orders": {
+        "path": "layers/use-cases/view-specialist-orders.toml",
+        "folder": "use-cases",
+        "title": "View My Orders"
       }
     },
     "graph": {
-      "user-card": {
+      "dashboard-stats": {
         "entities": [
-          "user"
-        ],
-        "pages": [
-          "users"
-        ]
-      },
-      "category": {
-        "entities": [
-          "category"
-        ]
-      },
-      "product": {
-        "entities": [
-          "category"
-        ],
-        "pages": [
-          "products"
-        ],
-        "components": [
-          "product-card"
-        ]
-      },
-      "user": {
-        "roles": [
-          "user",
-          "admin"
-        ],
-        "pages": [
-          "users"
-        ],
-        "components": [
-          "user-card"
-        ]
-      },
-      "cart-add": {
-        "entities": [
-          "product"
+          "order",
+          "specialist"
         ],
         "routes": [
-          "route_product_detail"
+          "admin-dashboard"
         ]
       },
-      "form-submit": {
-        "components": [
-          "form"
-        ]
-      },
-      "user-create": {
-        "pages": [
-          "users"
+      "order-card": {
+        "entities": [
+          "order"
         ],
-        "entities": [
-          "user"
-        ]
-      },
-      "user-delete": {
-        "pages": [
-          "users"
-        ],
-        "entities": [
-          "user"
-        ]
-      },
-      "user-login": {
-        "entities": [
-          "user"
+        "routes": [
+          "admin-orders",
+          "specialist-orders",
+          "client-home"
         ],
         "useCases": [
-          "uc_login"
-        ],
-        "guards": [
-          "guest"
-        ]
-      },
-      "user-populate": {
-        "pages": [
-          "users"
-        ],
-        "entities": [
-          "user"
-        ]
-      },
-      "products": {
-        "components": [
-          "product-card"
-        ],
-        "entities": [
-          "product"
-        ]
-      },
-      "users": {
-        "components": [
-          "user-card"
-        ],
-        "entities": [
-          "user"
+          "create-order",
+          "track-order",
+          "view-specialist-orders",
+          "manage-orders-admin",
+          "assign-specialist"
         ],
         "events": [
-          "user-create",
-          "user-delete",
-          "user-populate"
+          "order-created",
+          "order-assigned",
+          "shift-started",
+          "shift-ended"
+        ]
+      },
+      "phone-auth-form": {
+        "routes": [
+          "client-login",
+          "specialist-login",
+          "admin-login"
+        ],
+        "events": [
+          "auth-otp-sent",
+          "auth-verified"
+        ],
+        "useCases": [
+          "authenticate-phone"
+        ],
+        "entities": [
+          "user"
+        ]
+      },
+      "service-card": {
+        "entities": [
+          "service"
+        ],
+        "routes": [
+          "client-home",
+          "client-order-form"
+        ]
+      },
+      "specialist-card": {
+        "entities": [
+          "specialist"
+        ],
+        "routes": [
+          "admin-specialists",
+          "admin-orders"
+        ],
+        "useCases": [
+          "manage-specialists-admin",
+          "assign-specialist"
+        ],
+        "events": [
+          "specialist-added",
+          "specialist-toggled"
+        ]
+      },
+      "stats-card": {
+        "routes": [
+          "admin-dashboard",
+          "specialist-home"
+        ]
+      },
+      "auth-otp-sent": {
+        "entities": [
+          "user"
+        ],
+        "routes": [
+          "client-login",
+          "specialist-login",
+          "admin-login"
+        ],
+        "useCases": [
+          "authenticate-phone"
+        ],
+        "components": [
+          "phone-auth-form"
+        ]
+      },
+      "auth-verified": {
+        "entities": [
+          "user"
+        ],
+        "routes": [
+          "client-login",
+          "specialist-login",
+          "admin-login"
+        ],
+        "useCases": [
+          "authenticate-phone"
+        ],
+        "components": [
+          "phone-auth-form"
+        ]
+      },
+      "availability-added": {
+        "entities": [
+          "availability",
+          "specialist"
+        ],
+        "routes": [
+          "specialist-availability"
+        ],
+        "useCases": [
+          "manage-availability"
+        ],
+        "components": [
+          "availability-calendar",
+          "time-slot-picker"
+        ]
+      },
+      "order-assigned": {
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "routes": [
+          "admin-orders"
+        ],
+        "useCases": [
+          "assign-specialist",
+          "view-specialist-orders"
+        ],
+        "components": [
+          "order-card",
+          "specialist-card",
+          "assignment-modal"
+        ]
+      },
+      "order-created": {
+        "entities": [
+          "order"
+        ],
+        "routes": [
+          "client-order-form"
+        ],
+        "useCases": [
+          "create-order"
+        ],
+        "components": [
+          "order-form"
+        ]
+      },
+      "shift-ended": {
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "routes": [
+          "specialist-active-shift"
+        ],
+        "useCases": [
+          "end-shift"
+        ],
+        "components": [
+          "active-shift"
+        ]
+      },
+      "shift-started": {
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "routes": [
+          "specialist-active-shift"
+        ],
+        "useCases": [
+          "start-shift"
+        ],
+        "components": [
+          "active-shift",
+          "order-card"
+        ]
+      },
+      "specialist-added": {
+        "entities": [
+          "specialist"
+        ],
+        "routes": [
+          "admin-specialists"
+        ],
+        "useCases": [
+          "manage-specialists-admin"
+        ],
+        "components": [
+          "specialist-card",
+          "specialist-form"
+        ]
+      },
+      "specialist-toggled": {
+        "entities": [
+          "specialist"
+        ],
+        "routes": [
+          "admin-specialists"
+        ],
+        "useCases": [
+          "manage-specialists-admin"
+        ],
+        "components": [
+          "specialist-card"
+        ]
+      },
+      "admin-only": {
+        "roles": [
+          "eldercare-admin"
+        ],
+        "routes": [
+          "admin-dashboard",
+          "admin-orders",
+          "admin-specialists",
+          "specialist-detail",
+          "order-assignment"
+        ]
+      },
+      "specialist-only": {
+        "roles": [
+          "specialist"
+        ],
+        "routes": [
+          "specialist-home",
+          "specialist-orders",
+          "active-shift",
+          "availability-setup"
+        ]
+      },
+      "admin-app": {
+        "routes": [
+          "admin-dashboard",
+          "admin-orders",
+          "admin-specialists",
+          "admin-login"
+        ],
+        "roles": [
+          "eldercare-admin"
+        ],
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "useCases": [
+          "manage-orders-admin",
+          "assign-specialist",
+          "manage-specialists-admin",
+          "authenticate-phone"
         ]
       },
       "admin-panel": {
@@ -1248,6 +3704,48 @@
         ],
         "guards": [
           "admin"
+        ]
+      },
+      "client-app": {
+        "routes": [
+          "client-home",
+          "client-order-form",
+          "client-login"
+        ],
+        "roles": [
+          "client",
+          "visitor"
+        ],
+        "guards": [
+          "public"
+        ],
+        "useCases": [
+          "create-order",
+          "track-order",
+          "authenticate-phone"
+        ]
+      },
+      "specialist-app": {
+        "routes": [
+          "specialist-home",
+          "specialist-orders",
+          "specialist-active-shift",
+          "specialist-availability",
+          "specialist-login"
+        ],
+        "roles": [
+          "specialist"
+        ],
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "useCases": [
+          "view-specialist-orders",
+          "start-shift",
+          "end-shift",
+          "manage-availability",
+          "authenticate-phone"
         ]
       },
       "web-app": {
@@ -1267,12 +3765,200 @@
           "authenticated"
         ]
       },
-      "route_dashboard": {
+      "client": {
         "guards": [
-          "authenticated"
+          "public"
+        ],
+        "routes": [
+          "client-home",
+          "order-form",
+          "order-tracking",
+          "order-history",
+          "review-form"
+        ],
+        "platforms": [
+          "client-app"
+        ]
+      },
+      "eldercare-admin": {
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "routes": [
+          "admin-dashboard",
+          "admin-orders",
+          "admin-specialists",
+          "specialist-detail",
+          "order-assignment"
+        ],
+        "platforms": [
+          "admin-app"
+        ]
+      },
+      "specialist": {
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "routes": [
+          "specialist-home",
+          "specialist-orders",
+          "active-shift",
+          "availability-setup"
+        ],
+        "platforms": [
+          "specialist-app"
+        ]
+      },
+      "admin-dashboard": {
+        "guards": [
+          "authenticated",
+          "admin-only"
         ],
         "roles": [
-          "user"
+          "eldercare-admin"
+        ],
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "components": [
+          "dashboard-stats"
+        ]
+      },
+      "admin-login": {
+        "guards": [
+          "public"
+        ],
+        "roles": [
+          "eldercare-admin"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "useCases": [
+          "authenticate-phone"
+        ],
+        "components": [
+          "phone-auth-form"
+        ],
+        "events": [
+          "auth-otp-sent",
+          "auth-verified"
+        ]
+      },
+      "admin-orders": {
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "roles": [
+          "eldercare-admin"
+        ],
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "useCases": [
+          "manage-orders-admin",
+          "assign-specialist"
+        ],
+        "components": [
+          "order-card",
+          "specialist-card"
+        ]
+      },
+      "admin-specialists": {
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "roles": [
+          "eldercare-admin"
+        ],
+        "entities": [
+          "specialist",
+          "availability"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "useCases": [
+          "manage-specialists-admin"
+        ],
+        "components": [
+          "specialist-card",
+          "specialist-form",
+          "specialist-list"
+        ]
+      },
+      "client-home": {
+        "guards": [
+          "public"
+        ],
+        "roles": [
+          "client"
+        ],
+        "platforms": [
+          "client-app"
+        ],
+        "useCases": [
+          "create-order",
+          "track-order"
+        ],
+        "components": [
+          "order-card",
+          "service-card"
+        ]
+      },
+      "client-login": {
+        "guards": [
+          "public"
+        ],
+        "roles": [
+          "client"
+        ],
+        "platforms": [
+          "client-app"
+        ],
+        "useCases": [
+          "authenticate-phone"
+        ],
+        "components": [
+          "phone-auth-form"
+        ],
+        "events": [
+          "auth-otp-sent",
+          "auth-verified"
+        ]
+      },
+      "client-order-form": {
+        "guards": [
+          "public"
+        ],
+        "roles": [
+          "client"
+        ],
+        "entities": [
+          "order",
+          "service"
+        ],
+        "platforms": [
+          "client-app"
+        ],
+        "useCases": [
+          "create-order"
+        ],
+        "components": [
+          "order-form",
+          "service-card"
         ]
       },
       "route_prototype_home": {
@@ -1283,7 +3969,366 @@
           "visitor"
         ]
       },
-      "uc_view_documentation": {
+      "specialist-active-shift": {
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "roles": [
+          "specialist"
+        ],
+        "entities": [
+          "order"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": [
+          "start-shift",
+          "end-shift"
+        ],
+        "components": [
+          "active-shift",
+          "order-card"
+        ],
+        "events": [
+          "shift-started",
+          "shift-ended"
+        ]
+      },
+      "specialist-availability": {
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "roles": [
+          "specialist"
+        ],
+        "entities": [
+          "availability"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": [
+          "manage-availability"
+        ],
+        "components": [
+          "availability-calendar",
+          "time-slot-picker"
+        ],
+        "events": [
+          "availability-added"
+        ]
+      },
+      "specialist-home": {
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "roles": [
+          "specialist"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": [
+          "view-specialist-orders"
+        ],
+        "components": [
+          "order-card"
+        ]
+      },
+      "specialist-login": {
+        "guards": [
+          "public"
+        ],
+        "roles": [
+          "specialist"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": [
+          "authenticate-phone"
+        ],
+        "components": [
+          "phone-auth-form"
+        ],
+        "events": [
+          "auth-otp-sent",
+          "auth-verified"
+        ]
+      },
+      "specialist-orders": {
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "roles": [
+          "specialist"
+        ],
+        "entities": [
+          "order"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": [
+          "view-specialist-orders",
+          "start-shift"
+        ],
+        "components": [
+          "order-card"
+        ]
+      },
+      "assign-specialist": {
+        "roles": [
+          "eldercare-admin"
+        ],
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "routes": [
+          "admin-orders"
+        ],
+        "entities": [
+          "order",
+          "specialist",
+          "availability"
+        ],
+        "components": [
+          "specialist-card",
+          "order-card",
+          "assignment-modal"
+        ],
+        "events": [
+          "order-assigned"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "useCases": []
+      },
+      "authenticate-phone": {
+        "roles": [
+          "visitor",
+          "client",
+          "specialist",
+          "eldercare-admin"
+        ],
+        "guards": [
+          "public"
+        ],
+        "routes": [
+          "client-login",
+          "specialist-login",
+          "admin-login"
+        ],
+        "components": [
+          "phone-auth-form"
+        ],
+        "events": [
+          "auth-otp-sent",
+          "auth-verified"
+        ],
+        "platforms": [
+          "client-app",
+          "specialist-app",
+          "admin-app"
+        ]
+      },
+      "create-order": {
+        "roles": [
+          "client",
+          "visitor"
+        ],
+        "guards": [
+          "public"
+        ],
+        "routes": [
+          "client-order-form"
+        ],
+        "entities": [
+          "order",
+          "service"
+        ],
+        "components": [
+          "service-card"
+        ],
+        "events": [
+          "order-created"
+        ],
+        "platforms": [
+          "client-app"
+        ]
+      },
+      "end-shift": {
+        "roles": [
+          "specialist"
+        ],
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "routes": [
+          "specialist-active-shift"
+        ],
+        "entities": [
+          "order"
+        ],
+        "components": [
+          "active-shift"
+        ],
+        "events": [
+          "shift-ended"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": []
+      },
+      "manage-availability": {
+        "roles": [
+          "specialist"
+        ],
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "routes": [
+          "specialist-availability"
+        ],
+        "entities": [
+          "availability"
+        ],
+        "components": [
+          "availability-calendar",
+          "time-slot-picker"
+        ],
+        "events": [
+          "availability-added"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": []
+      },
+      "manage-orders-admin": {
+        "roles": [
+          "eldercare-admin"
+        ],
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "routes": [
+          "admin-orders",
+          "admin-dashboard"
+        ],
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "components": [
+          "order-card",
+          "order-list",
+          "specialist-card"
+        ],
+        "events": [
+          "order-created",
+          "order-assigned"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "useCases": []
+      },
+      "manage-specialists-admin": {
+        "roles": [
+          "eldercare-admin"
+        ],
+        "guards": [
+          "authenticated",
+          "admin-only"
+        ],
+        "routes": [
+          "admin-specialists"
+        ],
+        "entities": [
+          "specialist"
+        ],
+        "components": [
+          "specialist-card",
+          "specialist-form",
+          "specialist-list"
+        ],
+        "events": [
+          "specialist-added",
+          "specialist-toggled"
+        ],
+        "platforms": [
+          "admin-app"
+        ],
+        "useCases": []
+      },
+      "start-shift": {
+        "roles": [
+          "specialist"
+        ],
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "routes": [
+          "specialist-active-shift"
+        ],
+        "entities": [
+          "order"
+        ],
+        "components": [
+          "active-shift",
+          "order-card"
+        ],
+        "events": [
+          "shift-started"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": []
+      },
+      "track-order": {
+        "roles": [
+          "client",
+          "visitor"
+        ],
+        "guards": [
+          "public"
+        ],
+        "routes": [
+          "client-home"
+        ],
+        "entities": [
+          "order",
+          "specialist"
+        ],
+        "components": [
+          "order-card",
+          "order-tracking"
+        ],
+        "events": [
+          "order-assigned",
+          "shift-started",
+          "shift-ended"
+        ],
+        "platforms": [
+          "client-app"
+        ],
+        "useCases": []
+      },
+      "view-documentation": {
         "roles": [
           "visitor",
           "user"
@@ -1292,7 +4337,7 @@
           "public"
         ]
       },
-      "uc_view_prototype": {
+      "view-prototype": {
         "roles": [
           "visitor",
           "user"
@@ -1304,6 +4349,33 @@
           "users",
           "products"
         ]
+      },
+      "view-specialist-orders": {
+        "roles": [
+          "specialist"
+        ],
+        "guards": [
+          "authenticated",
+          "specialist-only"
+        ],
+        "routes": [
+          "specialist-home",
+          "specialist-orders"
+        ],
+        "entities": [
+          "order"
+        ],
+        "components": [
+          "order-card",
+          "specialist-orders-list"
+        ],
+        "events": [
+          "order-assigned"
+        ],
+        "platforms": [
+          "specialist-app"
+        ],
+        "useCases": []
       }
     }
   }

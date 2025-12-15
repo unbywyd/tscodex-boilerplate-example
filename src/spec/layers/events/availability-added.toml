@@ -1,5 +1,5 @@
 [event]
-id = "availability.added"
+id = "availability-added"
 name = "Availability Slot Added"
 description = "Specialist added a new availability time slot"
 category = "availability"
@@ -34,3 +34,5 @@ description = "Creates availability record, updates specialist calendar, makes s
 [relations]
 entities = ["availability", "specialist"]
 routes = ["specialist-availability"]
+useCases = ["manage-availability"]
+components = ["availability-calendar", "time-slot-picker"]

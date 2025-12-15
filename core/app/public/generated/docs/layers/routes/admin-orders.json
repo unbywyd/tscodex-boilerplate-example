@@ -35,17 +35,25 @@
       ],
       "platforms": [
         "admin-app"
+      ],
+      "useCases": [
+        "manage-orders-admin",
+        "assign-specialist"
+      ],
+      "components": [
+        "order-card",
+        "specialist-card"
       ]
     },
     "implementation": {
       "component": "AdminOrders",
       "file": "src/prototype/pages/admin/AdminOrders.tsx",
-      "status": "planned"
+      "status": "implemented"
     }
   },
-  "rawContent": "# Admin Orders Route\n# All orders management\n\n[route]\nid = \"admin-orders\"\npath = \"/prototype/admin/orders\"\ntitle = \"Orders\"\n\n[page]\ntype = \"authenticated\"\nrole = \"eldercare-admin\"\n\n[page.description]\nsummary = \"Manage all care service orders\"\nfeatures = [\n  \"All orders list\",\n  \"Filter by status\",\n  \"Assign specialist action\",\n  \"Order details\"\n]\n\n[relations]\nguards = [\"authenticated\", \"admin-only\"]\nroles = [\"eldercare-admin\"]\nentities = [\"order\", \"specialist\"]\nplatforms = [\"admin-app\"]\n\n[implementation]\ncomponent = \"AdminOrders\"\nfile = \"src/prototype/pages/admin/AdminOrders.tsx\"\nstatus = \"planned\"\n",
+  "rawContent": "# Admin Orders Route\n# All orders management\n\n[route]\nid = \"admin-orders\"\npath = \"/prototype/admin/orders\"\ntitle = \"Orders\"\n\n[page]\ntype = \"authenticated\"\nrole = \"eldercare-admin\"\n\n[page.description]\nsummary = \"Manage all care service orders\"\nfeatures = [\n  \"All orders list\",\n  \"Filter by status\",\n  \"Assign specialist action\",\n  \"Order details\"\n]\n\n[relations]\nguards = [\"authenticated\", \"admin-only\"]\nroles = [\"eldercare-admin\"]\nentities = [\"order\", \"specialist\"]\nplatforms = [\"admin-app\"]\nuseCases = [\"manage-orders-admin\", \"assign-specialist\"]\ncomponents = [\"order-card\", \"specialist-card\"]\n\n[implementation]\ncomponent = \"AdminOrders\"\nfile = \"src/prototype/pages/admin/AdminOrders.tsx\"\nstatus = \"implemented\"\n",
   "metadata": {
-    "size": 606,
-    "modified": "2025-12-14T14:13:39.999Z"
+    "size": 713,
+    "modified": "2025-12-15T08:31:53.569Z"
   }
 }

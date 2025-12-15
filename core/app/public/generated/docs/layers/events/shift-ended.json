@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "event": {
-      "id": "shift.ended",
+      "id": "shift-ended",
       "name": "Shift Ended",
       "description": "Specialist completed the care session",
       "category": "shift"
@@ -35,17 +35,23 @@
     },
     "relations": {
       "entities": [
-        "care-order",
+        "order",
         "specialist"
       ],
       "routes": [
         "specialist-active-shift"
+      ],
+      "useCases": [
+        "end-shift"
+      ],
+      "components": [
+        "active-shift"
       ]
     }
   },
-  "rawContent": "[event]\nid = \"shift.ended\"\nname = \"Shift Ended\"\ndescription = \"Specialist completed the care session\"\ncategory = \"shift\"\n\n[trigger]\naction = \"click\"\nelement = \"Complete Shift button in confirmation dialog\"\n\n[[payload]]\nname = \"orderId\"\ntype = \"string\"\ndescription = \"Completed order ID\"\n\n[[payload]]\nname = \"duration\"\ntype = \"number\"\ndescription = \"Total shift duration in seconds\"\n\n[[payload]]\nname = \"endTime\"\ntype = \"string\"\ndescription = \"ISO timestamp when shift ended\"\n\n[backend]\ndescription = \"Updates order status to 'completed', records actual end time, calculates billing, sends receipt to client\"\n\n[relations]\nentities = [\"care-order\", \"specialist\"]\nroutes = [\"specialist-active-shift\"]\n",
+  "rawContent": "[event]\nid = \"shift-ended\"\nname = \"Shift Ended\"\ndescription = \"Specialist completed the care session\"\ncategory = \"shift\"\n\n[trigger]\naction = \"click\"\nelement = \"Complete Shift button in confirmation dialog\"\n\n[[payload]]\nname = \"orderId\"\ntype = \"string\"\ndescription = \"Completed order ID\"\n\n[[payload]]\nname = \"duration\"\ntype = \"number\"\ndescription = \"Total shift duration in seconds\"\n\n[[payload]]\nname = \"endTime\"\ntype = \"string\"\ndescription = \"ISO timestamp when shift ended\"\n\n[backend]\ndescription = \"Updates order status to 'completed', records actual end time, calculates billing, sends receipt to client\"\n\n[relations]\nentities = [\"order\", \"specialist\"]\nroutes = [\"specialist-active-shift\"]\nuseCases = [\"end-shift\"]\ncomponents = [\"active-shift\"]\n",
   "metadata": {
-    "size": 698,
-    "modified": "2025-12-14T15:38:57.647Z"
+    "size": 748,
+    "modified": "2025-12-15T08:30:21.349Z"
   }
 }

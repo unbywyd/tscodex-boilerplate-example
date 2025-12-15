@@ -30,6 +30,7 @@ items = [
 ]
 
 [relations]
-routes = ["admin-dashboard", "admin-orders", "admin-specialists", "specialist-detail", "order-assignment"]
-roles = ["admin"]
+routes = ["admin-dashboard", "admin-orders", "admin-specialists", "admin-login"]
+roles = ["eldercare-admin"]
 guards = ["authenticated", "admin-only"]
+useCases = ["manage-orders-admin", "assign-specialist", "manage-specialists-admin", "authenticate-phone"]

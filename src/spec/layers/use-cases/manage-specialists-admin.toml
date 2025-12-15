@@ -1,0 +1,98 @@
+# Manage Specialists Admin Use Case
+
+[useCase]
+id = "manage-specialists-admin"
+name = "Manage Specialists"
+description = "Admin views, adds, edits, and manages specialist accounts"
+asRole = "eldercare-admin"
+iWant = "to manage specialists"
+soThat = "I can control who can receive order assignments"
+
+[useCase.meta]
+isActive = true
+priority = 2
+platform = "admin-app"
+
+[useCase.conditions]
+pre = [
+  "Admin is authenticated",
+  "Specialists exist or admin wants to add new"
+]
+post = [
+  "Admin sees specialist list",
+  "Can view specialist details",
+  "Can add/edit specialists",
+  "Can toggle specialist active status"
+]
+
+[relations]
+roles = ["eldercare-admin"]
+guards = ["authenticated", "admin-only"]
+routes = ["admin-specialists"]
+entities = ["specialist"]
+components = ["specialist-card", "specialist-form", "specialist-list"]
+events = ["specialist-added", "specialist-toggled"]
+platforms = ["admin-app"]
+useCases = []
+
+[implementation]
+route = "/prototype/admin/specialists"
+component = "AdminSpecialists"
+file = "src/prototype/pages/admin/AdminSpecialists.tsx"
+status = "planned"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Admin opens specialists screen"
+
+[[flow]]
+id = "load_specialists"
+type = "action"
+label = "Load all specialists from API"
+
+[[flow]]
+id = "show_list"
+type = "action"
+label = "Display specialist cards"
+
+[[flow]]
+id = "filter_active"
+type = "action"
+label = "Filter by active status (optional)"
+
+[[flow]]
+id = "select_specialist"
+type = "action"
+label = "Tap specialist card"
+
+[[flow]]
+id = "view_details"
+type = "action"
+label = "View specialist details (services, cities, orders)"
+
+[[flow]]
+id = "add_new"
+type = "action"
+label = "Tap 'Add Specialist' button"
+
+[[flow]]
+id = "edit"
+type = "action"
+label = "Edit specialist (name, phone, services, cities)"
+
+[[flow]]
+id = "toggle_active"
+type = "action"
+label = "Toggle active/inactive status"
+
+[[flow]]
+id = "save"
+type = "action"
+label = "Save changes"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Specialists managed"
+

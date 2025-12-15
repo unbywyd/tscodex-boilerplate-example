@@ -77,5 +77,4 @@ availabilities = { entity = "availability", type = "one-to-many", mappedBy = "sp
 [implementation]
 interface = "SpecialistEntity"
 file = "src/prototype/factories/index.ts"
-mock = "src/prototype/mocks/specialists.json"
-status = "planned"
+status = "implemented"

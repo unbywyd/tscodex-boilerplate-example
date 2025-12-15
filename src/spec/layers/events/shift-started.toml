@@ -1,5 +1,5 @@
 [event]
-id = "shift.started"
+id = "shift-started"
 name = "Shift Started"
 description = "Specialist started working on an assigned order"
 category = "shift"
@@ -27,5 +27,7 @@ description = "ISO timestamp when shift started"
 description = "Updates order status to 'in_progress', records actual start time, notifies client"
 
 [relations]
-entities = ["care-order", "specialist"]
+entities = ["order", "specialist"]
 routes = ["specialist-active-shift"]
+useCases = ["start-shift"]
+components = ["active-shift", "order-card"]

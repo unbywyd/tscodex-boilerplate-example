@@ -1,7 +1,7 @@
 # View Prototype
 
 [useCase]
-id = "uc_view_prototype"
+id = "view-prototype"
 name = "View Prototype"
 asRole = "visitor"
 iWant = "view the React prototype"

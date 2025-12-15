@@ -1,5 +1,5 @@
 [event]
-id = "auth.verified"
+id = "auth-verified"
 name = "Phone Verified"
 description = "User successfully verified phone with OTP"
 category = "auth"
@@ -28,4 +28,6 @@ description = "Validates OTP, creates session token, marks phone as verified, pr
 
 [relations]
 entities = ["user"]
-routes = ["client-login", "specialist-login"]
+routes = ["client-login", "specialist-login", "admin-login"]
+useCases = ["authenticate-phone"]
+components = ["phone-auth-form"]

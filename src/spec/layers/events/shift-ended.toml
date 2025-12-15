@@ -1,5 +1,5 @@
 [event]
-id = "shift.ended"
+id = "shift-ended"
 name = "Shift Ended"
 description = "Specialist completed the care session"
 category = "shift"
@@ -27,5 +27,7 @@ description = "ISO timestamp when shift ended"
 description = "Updates order status to 'completed', records actual end time, calculates billing, sends receipt to client"
 
 [relations]
-entities = ["care-order", "specialist"]
+entities = ["order", "specialist"]
 routes = ["specialist-active-shift"]
+useCases = ["end-shift"]
+components = ["active-shift"]

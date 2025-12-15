@@ -46,23 +46,26 @@
     "relations": {
       "routes": [
         "client-home",
-        "order-form",
-        "order-tracking",
-        "order-history",
-        "review-form"
+        "client-order-form",
+        "client-login"
       ],
       "roles": [
         "client",
-        "guest"
+        "visitor"
       ],
       "guards": [
         "public"
+      ],
+      "useCases": [
+        "create-order",
+        "track-order",
+        "authenticate-phone"
       ]
     }
   },
-  "rawContent": "# Client Application Platform\n# For clients ordering care services\n\n[platform]\nid = \"client-app\"\nname = \"ElderCare Client\"\ntype = \"mobile\"\ndescription = \"Mobile app for clients to order and track care services\"\n\n[platform.config]\nbaseRoute = \"/prototype/client\"\ntheme = \"light\"\nprimaryAction = \"Order Service\"\n\n[platform.features]\ncore = [\n  \"Order care services\",\n  \"Track order status\",\n  \"View order history\",\n  \"Leave reviews\"\n]\nauth = \"phone-optional\"  # Can order without registration\n\n[platform.navigation]\ntype = \"bottom-nav\"\nitems = [\n  { id = \"home\", icon = \"Home\", label = \"Home\" },\n  { id = \"orders\", icon = \"ClipboardList\", label = \"My Orders\" },\n  { id = \"history\", icon = \"Clock\", label = \"History\" }\n]\n\n[relations]\nroutes = [\"client-home\", \"order-form\", \"order-tracking\", \"order-history\", \"review-form\"]\nroles = [\"client\", \"guest\"]\nguards = [\"public\"]\n",
+  "rawContent": "# Client Application Platform\n# For clients ordering care services\n\n[platform]\nid = \"client-app\"\nname = \"ElderCare Client\"\ntype = \"mobile\"\ndescription = \"Mobile app for clients to order and track care services\"\n\n[platform.config]\nbaseRoute = \"/prototype/client\"\ntheme = \"light\"\nprimaryAction = \"Order Service\"\n\n[platform.features]\ncore = [\n  \"Order care services\",\n  \"Track order status\",\n  \"View order history\",\n  \"Leave reviews\"\n]\nauth = \"phone-optional\"  # Can order without registration\n\n[platform.navigation]\ntype = \"bottom-nav\"\nitems = [\n  { id = \"home\", icon = \"Home\", label = \"Home\" },\n  { id = \"orders\", icon = \"ClipboardList\", label = \"My Orders\" },\n  { id = \"history\", icon = \"Clock\", label = \"History\" }\n]\n\n[relations]\nroutes = [\"client-home\", \"client-order-form\", \"client-login\"]\nroles = [\"client\", \"visitor\"]\nguards = [\"public\"]\nuseCases = [\"create-order\", \"track-order\", \"authenticate-phone\"]\n",
   "metadata": {
-    "size": 868,
-    "modified": "2025-12-14T14:10:47.629Z"
+    "size": 908,
+    "modified": "2025-12-15T08:33:50.627Z"
   }
 }

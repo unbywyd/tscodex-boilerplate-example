@@ -23,6 +23,9 @@ features = [
 guards = ["public"]
 roles = ["specialist"]
 platforms = ["specialist-app"]
+useCases = ["authenticate-phone"]
+components = ["phone-auth-form"]
+events = ["auth-otp-sent", "auth-verified"]
 
 [implementation]
 component = "LoginScreen"

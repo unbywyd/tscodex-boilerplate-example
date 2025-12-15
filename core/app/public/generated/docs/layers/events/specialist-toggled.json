@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "event": {
-      "id": "specialist.toggled",
+      "id": "specialist-toggled",
       "name": "Specialist Status Toggled",
       "description": "Admin activated or deactivated a specialist",
       "category": "specialist"
@@ -39,12 +39,18 @@
       ],
       "routes": [
         "admin-specialists"
+      ],
+      "useCases": [
+        "manage-specialists-admin"
+      ],
+      "components": [
+        "specialist-card"
       ]
     }
   },
-  "rawContent": "[event]\nid = \"specialist.toggled\"\nname = \"Specialist Status Toggled\"\ndescription = \"Admin activated or deactivated a specialist\"\ncategory = \"specialist\"\n\n[trigger]\naction = \"toggle\"\nelement = \"Active switch on specialist card\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Specialist being toggled\"\n\n[[payload]]\nname = \"isActive\"\ntype = \"boolean\"\ndescription = \"New active status\"\n\n[[payload]]\nname = \"specialistName\"\ntype = \"string\"\ndescription = \"Specialist name for logging\"\n\n[backend]\ndescription = \"Updates specialist active status, if deactivated - removes from available pool, cancels pending assignments\"\n\n[relations]\nentities = [\"specialist\"]\nroutes = [\"admin-specialists\"]\n",
+  "rawContent": "[event]\nid = \"specialist-toggled\"\nname = \"Specialist Status Toggled\"\ndescription = \"Admin activated or deactivated a specialist\"\ncategory = \"specialist\"\n\n[trigger]\naction = \"toggle\"\nelement = \"Active switch on specialist card\"\n\n[[payload]]\nname = \"specialistId\"\ntype = \"string\"\ndescription = \"Specialist being toggled\"\n\n[[payload]]\nname = \"isActive\"\ntype = \"boolean\"\ndescription = \"New active status\"\n\n[[payload]]\nname = \"specialistName\"\ntype = \"string\"\ndescription = \"Specialist name for logging\"\n\n[backend]\ndescription = \"Updates specialist active status, if deactivated - removes from available pool, cancels pending assignments\"\n\n[relations]\nentities = [\"specialist\"]\nroutes = [\"admin-specialists\"]\nuseCases = [\"manage-specialists-admin\"]\ncomponents = [\"specialist-card\"]\n",
   "metadata": {
-    "size": 703,
-    "modified": "2025-12-14T15:39:04.738Z"
+    "size": 776,
+    "modified": "2025-12-15T08:31:05.673Z"
   }
 }

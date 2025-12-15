@@ -1,0 +1,57 @@
+{
+  "path": "layers/routes/client-login.toml",
+  "name": "client-login.toml",
+  "type": "toml",
+  "content": {
+    "route": {
+      "id": "client-login",
+      "path": "/prototype/client/login",
+      "title": "Client Login"
+    },
+    "page": {
+      "type": "public",
+      "role": "guest",
+      "description": {
+        "summary": "Client onboarding and phone authentication",
+        "features": [
+          "Phone number input with formatting",
+          "OTP verification (6 digits)",
+          "Profile setup (name, city, address)",
+          "Permission requests (notifications, location)",
+          "Skip option for guest browsing"
+        ]
+      }
+    },
+    "relations": {
+      "guards": [
+        "public"
+      ],
+      "roles": [
+        "client"
+      ],
+      "platforms": [
+        "client-app"
+      ],
+      "useCases": [
+        "authenticate-phone"
+      ],
+      "components": [
+        "phone-auth-form"
+      ],
+      "events": [
+        "auth-otp-sent",
+        "auth-verified"
+      ]
+    },
+    "implementation": {
+      "component": "LoginScreen",
+      "file": "src/prototype/pages/client/LoginScreen.tsx",
+      "status": "implemented"
+    }
+  },
+  "rawContent": "# Client Login Route\n# Phone-based authentication for clients\n\n[route]\nid = \"client-login\"\npath = \"/prototype/client/login\"\ntitle = \"Client Login\"\n\n[page]\ntype = \"public\"\nrole = \"guest\"\n\n[page.description]\nsummary = \"Client onboarding and phone authentication\"\nfeatures = [\n  \"Phone number input with formatting\",\n  \"OTP verification (6 digits)\",\n  \"Profile setup (name, city, address)\",\n  \"Permission requests (notifications, location)\",\n  \"Skip option for guest browsing\"\n]\n\n[relations]\nguards = [\"public\"]\nroles = [\"client\"]\nplatforms = [\"client-app\"]\nuseCases = [\"authenticate-phone\"]\ncomponents = [\"phone-auth-form\"]\nevents = [\"auth-otp-sent\", \"auth-verified\"]\n\n[implementation]\ncomponent = \"LoginScreen\"\nfile = \"src/prototype/pages/client/LoginScreen.tsx\"\nstatus = \"implemented\"\n",
+  "metadata": {
+    "size": 785,
+    "modified": "2025-12-15T08:32:42.709Z"
+  }
+}

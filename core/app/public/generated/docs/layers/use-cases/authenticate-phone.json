@@ -1,0 +1,141 @@
+{
+  "path": "layers/use-cases/authenticate-phone.toml",
+  "name": "authenticate-phone.toml",
+  "type": "toml",
+  "content": {
+    "useCase": {
+      "id": "authenticate-phone",
+      "name": "Phone Authentication",
+      "description": "User authenticates using phone number and OTP code",
+      "asRole": "visitor",
+      "iWant": "to log in using my phone",
+      "soThat": "I can access my account as specialist or admin",
+      "meta": {
+        "isActive": true,
+        "priority": 1,
+        "platform": "all"
+      },
+      "conditions": {
+        "pre": [
+          "User has phone number",
+          "Phone number is registered in system (for specialists/admins)"
+        ],
+        "post": [
+          "User is authenticated",
+          "Session is created",
+          "User redirected to appropriate home screen"
+        ]
+      }
+    },
+    "relations": {
+      "roles": [
+        "visitor",
+        "client",
+        "specialist",
+        "eldercare-admin"
+      ],
+      "guards": [
+        "public"
+      ],
+      "routes": [
+        "client-login",
+        "specialist-login",
+        "admin-login"
+      ],
+      "components": [
+        "phone-auth-form"
+      ],
+      "events": [
+        "auth-otp-sent",
+        "auth-verified"
+      ],
+      "platforms": [
+        "client-app",
+        "specialist-app",
+        "admin-app"
+      ]
+    },
+    "implementation": {
+      "route": "/prototype/{app}/login",
+      "component": "LoginScreen",
+      "files": [
+        "src/prototype/pages/client/LoginScreen.tsx",
+        "src/prototype/pages/specialist/LoginScreen.tsx",
+        "src/prototype/pages/admin/LoginScreen.tsx"
+      ],
+      "status": "implemented"
+    },
+    "flow": [
+      {
+        "id": "start",
+        "type": "start",
+        "label": "User opens login screen"
+      },
+      {
+        "id": "enter_phone",
+        "type": "action",
+        "label": "Enter phone number"
+      },
+      {
+        "id": "validate_phone",
+        "type": "decision",
+        "label": "Phone valid?"
+      },
+      {
+        "id": "send_otp",
+        "type": "action",
+        "label": "Send OTP code via SMS"
+      },
+      {
+        "id": "show_otp_input",
+        "type": "action",
+        "label": "Show OTP input field"
+      },
+      {
+        "id": "enter_code",
+        "type": "action",
+        "label": "User enters 6-digit code"
+      },
+      {
+        "id": "verify_code",
+        "type": "decision",
+        "label": "Code valid?"
+      },
+      {
+        "id": "check_user",
+        "type": "decision",
+        "label": "User exists?"
+      },
+      {
+        "id": "create_session",
+        "type": "action",
+        "label": "Create user session"
+      },
+      {
+        "id": "redirect",
+        "type": "action",
+        "label": "Redirect to home screen"
+      },
+      {
+        "id": "invalid_code",
+        "type": "action",
+        "label": "Show error, allow retry"
+      },
+      {
+        "id": "resend_otp",
+        "type": "action",
+        "label": "Resend OTP code"
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "label": "User authenticated"
+      }
+    ]
+  },
+  "rawContent": "# Authenticate Phone Use Case\n\n[useCase]\nid = \"authenticate-phone\"\nname = \"Phone Authentication\"\ndescription = \"User authenticates using phone number and OTP code\"\nasRole = \"visitor\"\niWant = \"to log in using my phone\"\nsoThat = \"I can access my account as specialist or admin\"\n\n[useCase.meta]\nisActive = true\npriority = 1\nplatform = \"all\"\n\n[useCase.conditions]\npre = [\n  \"User has phone number\",\n  \"Phone number is registered in system (for specialists/admins)\"\n]\npost = [\n  \"User is authenticated\",\n  \"Session is created\",\n  \"User redirected to appropriate home screen\"\n]\n\n[relations]\nroles = [\"visitor\", \"client\", \"specialist\", \"eldercare-admin\"]\nguards = [\"public\"]\nroutes = [\"client-login\", \"specialist-login\", \"admin-login\"]\ncomponents = [\"phone-auth-form\"]\nevents = [\"auth-otp-sent\", \"auth-verified\"]\nplatforms = [\"client-app\", \"specialist-app\", \"admin-app\"]\n\n[implementation]\nroute = \"/prototype/{app}/login\"\ncomponent = \"LoginScreen\"\nfiles = [\n  \"src/prototype/pages/client/LoginScreen.tsx\",\n  \"src/prototype/pages/specialist/LoginScreen.tsx\",\n  \"src/prototype/pages/admin/LoginScreen.tsx\"\n]\nstatus = \"implemented\"\n\n[[flow]]\nid = \"start\"\ntype = \"start\"\nlabel = \"User opens login screen\"\n\n[[flow]]\nid = \"enter_phone\"\ntype = \"action\"\nlabel = \"Enter phone number\"\n\n[[flow]]\nid = \"validate_phone\"\ntype = \"decision\"\nlabel = \"Phone valid?\"\n\n[[flow]]\nid = \"send_otp\"\ntype = \"action\"\nlabel = \"Send OTP code via SMS\"\n\n[[flow]]\nid = \"show_otp_input\"\ntype = \"action\"\nlabel = \"Show OTP input field\"\n\n[[flow]]\nid = \"enter_code\"\ntype = \"action\"\nlabel = \"User enters 6-digit code\"\n\n[[flow]]\nid = \"verify_code\"\ntype = \"decision\"\nlabel = \"Code valid?\"\n\n[[flow]]\nid = \"check_user\"\ntype = \"decision\"\nlabel = \"User exists?\"\n\n[[flow]]\nid = \"create_session\"\ntype = \"action\"\nlabel = \"Create user session\"\n\n[[flow]]\nid = \"redirect\"\ntype = \"action\"\nlabel = \"Redirect to home screen\"\n\n[[flow]]\nid = \"invalid_code\"\ntype = \"action\"\nlabel = \"Show error, allow retry\"\n\n[[flow]]\nid = \"resend_otp\"\ntype = \"action\"\nlabel = \"Resend OTP code\"\n\n[[flow]]\nid = \"end\"\ntype = \"end\"\nlabel = \"User authenticated\"\n\n",
+  "metadata": {
+    "size": 2079,
+    "modified": "2025-12-15T08:37:04.478Z"
+  }
+}

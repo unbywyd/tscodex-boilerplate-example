@@ -22,8 +22,10 @@ features = [
 guards = ["authenticated", "specialist-only"]
 roles = ["specialist"]
 platforms = ["specialist-app"]
+useCases = ["view-specialist-orders"]
+components = ["order-card"]
 
 [implementation]
 component = "SpecialistHome"
 file = "src/prototype/pages/specialist/SpecialistHome.tsx"
-status = "planned"
+status = "implemented"

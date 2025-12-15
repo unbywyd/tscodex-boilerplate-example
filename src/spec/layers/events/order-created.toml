@@ -1,5 +1,5 @@
 [event]
-id = "order.created"
+id = "order-created"
 name = "Order Created"
 description = "Client submitted a new care order request"
 category = "order"
@@ -32,5 +32,7 @@ description = "Scheduled date for service"
 description = "Creates order record in database, sends notification to admin dashboard, reserves time slot"
 
 [relations]
-entities = ["care-order"]
+entities = ["order"]
 routes = ["client-order-form"]
+useCases = ["create-order"]
+components = ["order-form"]

@@ -4,7 +4,7 @@
   "type": "toml",
   "content": {
     "useCase": {
-      "id": "uc_view_prototype",
+      "id": "view-prototype",
       "name": "View Prototype",
       "asRole": "visitor",
       "iWant": "view the React prototype",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "rawContent": "# View Prototype\n\n[useCase]\nid = \"uc_view_prototype\"\nname = \"View Prototype\"\nasRole = \"visitor\"\niWant = \"view the React prototype\"\nsoThat = \"I can see a working demo of the application\"\n\n[useCase.meta]\nisActive = true\npriority = 2\n\n[useCase.conditions]\npre = [\n  \"Prototype is built and available\",\n  \"Mock data files exist\"\n]\npost = [\n  \"User has viewed prototype\",\n  \"Prototype is functional\"\n]\n\n# Relations - keys match folder names in layers/\n[relations]\nroles = [\"visitor\", \"user\"]\nguards = [\"public\"]\npages = [\"users\", \"products\"]\n\n[implementation]\nroute = \"/prototype\"\npages = [\"users\", \"products\"]\npreview = \"/prototype\"\nstatus = \"implemented\"\n\n# Flow diagram\n[[flow]]\nid = \"navigate\"\ntype = \"start\"\nlabel = \"User navigates to /prototype\"\n\n[[flow]]\nid = \"serve\"\ntype = \"action\"\nlabel = \"Server serves React app\"\n\n[[flow]]\nid = \"load_mocks\"\ntype = \"action\"\nlabel = \"Load mock JSON data\"\n\n[[flow]]\nid = \"interact\"\ntype = \"action\"\nlabel = \"User interacts with screens\"\n\n[[flow]]\nid = \"complete\"\ntype = \"end\"\nlabel = \"Prototype displays data\"\n",
+  "rawContent": "# View Prototype\n\n[useCase]\nid = \"view-prototype\"\nname = \"View Prototype\"\nasRole = \"visitor\"\niWant = \"view the React prototype\"\nsoThat = \"I can see a working demo of the application\"\n\n[useCase.meta]\nisActive = true\npriority = 2\n\n[useCase.conditions]\npre = [\n  \"Prototype is built and available\",\n  \"Mock data files exist\"\n]\npost = [\n  \"User has viewed prototype\",\n  \"Prototype is functional\"\n]\n\n# Relations - keys match folder names in layers/\n[relations]\nroles = [\"visitor\", \"user\"]\nguards = [\"public\"]\npages = [\"users\", \"products\"]\n\n[implementation]\nroute = \"/prototype\"\npages = [\"users\", \"products\"]\npreview = \"/prototype\"\nstatus = \"implemented\"\n\n# Flow diagram\n[[flow]]\nid = \"navigate\"\ntype = \"start\"\nlabel = \"User navigates to /prototype\"\n\n[[flow]]\nid = \"serve\"\ntype = \"action\"\nlabel = \"Server serves React app\"\n\n[[flow]]\nid = \"load_mocks\"\ntype = \"action\"\nlabel = \"Load mock JSON data\"\n\n[[flow]]\nid = \"interact\"\ntype = \"action\"\nlabel = \"User interacts with screens\"\n\n[[flow]]\nid = \"complete\"\ntype = \"end\"\nlabel = \"Prototype displays data\"\n",
   "metadata": {
-    "size": 1047,
-    "modified": "2025-12-11T08:14:37.403Z"
+    "size": 1044,
+    "modified": "2025-12-15T08:29:20.560Z"
   }
 }

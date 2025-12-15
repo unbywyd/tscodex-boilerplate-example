@@ -1,5 +1,5 @@
 [event]
-id = "specialist.added"
+id = "specialist-added"
 name = "Specialist Added"
 description = "Admin added a new specialist to the system"
 category = "specialist"
@@ -39,3 +39,5 @@ description = "Creates specialist record, generates login credentials, sends wel
 [relations]
 entities = ["specialist"]
 routes = ["admin-specialists"]
+useCases = ["manage-specialists-admin"]
+components = ["specialist-card", "specialist-form"]

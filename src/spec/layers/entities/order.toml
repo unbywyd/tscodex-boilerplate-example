@@ -75,7 +75,7 @@ description = "Additional notes or instructions"
 [[fields]]
 name = "status"
 type = "enum"
-values = ["created", "reviewing", "assigned", "on_way", "in_progress", "completed", "cancelled"]
+values = ["created", "reviewing", "assigned", "on_way", "in_progress", "completed", "paid", "cancelled"]
 default = "created"
 required = true
 description = "Current order status"
@@ -112,5 +112,4 @@ review = { entity = "review", type = "one-to-one", mappedBy = "orderId" }
 [implementation]
 interface = "CareOrderEntity"
 file = "src/prototype/factories/index.ts"
-mock = "src/prototype/mocks/orders.json"
-status = "planned"
+status = "implemented"

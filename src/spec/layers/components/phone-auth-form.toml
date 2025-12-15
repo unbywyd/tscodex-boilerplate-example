@@ -35,7 +35,7 @@ validation = "10 digits, starts with 05 (isValidPhone check)"
 action = "Click 'Continue' button"
 formatting = "Auto-format as user types: 05x-xxx-xxxx"
 backend = "Generate 6-digit code, store with 5 min TTL, send via SMS provider"
-event = "auth.otp_sent"
+event = "auth-otp-sent"
 error = "Enter 10 digits (e.g. 050-123-4567)"
 
 [[component.flow.steps]]
@@ -46,7 +46,7 @@ validation = "Exactly 6 digits (isValidOtp check)"
 action = "Auto-verify on 6th digit (OTPInput onComplete) or click 'Continue'"
 formatting = "Auto-format: digits only, max 6 characters"
 backend = "Validate code, create session, return auth token"
-event = "auth.verified"
+event = "auth-verified"
 error = "Enter 6-digit code"
 next_step = "profile (client) or success (specialist/admin)"
 
@@ -66,7 +66,7 @@ description = "Request notifications and location permissions"
 fields = ["notifications (Switch)", "location (Switch)"]
 action = "Click 'Get Started' button"
 backend = "Save preferences, complete login, create user profile"
-event = "auth.login_success"
+event = "auth-login-success"
 
 [component.backend]
 sms_provider = "Twilio / MessageBird (configurable)"
@@ -88,6 +88,8 @@ skip_button = "Ghost variant Button, shown only on first step (client only)"
 [relations]
 routes = ["client-login", "specialist-login", "admin-login"]
 events = ["auth-otp-sent", "auth-verified"]
+useCases = ["authenticate-phone"]
+entities = ["user"]
 
 [implementation]
 status = "implemented"

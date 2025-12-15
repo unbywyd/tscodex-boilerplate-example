@@ -1,0 +1,103 @@
+# Create Order Use Case
+
+[useCase]
+id = "create-order"
+name = "Create Order"
+description = "Client submits a new care service order without registration"
+asRole = "client"
+iWant = "to order a care service"
+soThat = "I can receive care assistance for myself or a family member"
+
+[useCase.meta]
+isActive = true
+priority = 1
+platform = "client-app"
+
+[useCase.conditions]
+pre = [
+  "Client has phone number",
+  "Client knows service type needed",
+  "Client knows location and preferred time"
+]
+post = [
+  "Order is created in system",
+  "Order status is 'created'",
+  "Admin receives notification",
+  "Client receives SMS confirmation"
+]
+
+[relations]
+roles = ["client", "visitor"]
+guards = ["public"]
+routes = ["client-order-form"]
+entities = ["order", "service"]
+components = ["service-card"]
+events = ["order-created"]
+platforms = ["client-app"]
+
+[implementation]
+route = "/prototype/client/order"
+component = "OrderForm"
+file = "src/prototype/pages/client/OrderForm.tsx"
+status = "implemented"
+
+[[flow]]
+id = "start"
+type = "start"
+label = "Client opens order form"
+
+[[flow]]
+id = "enter_phone"
+type = "action"
+label = "Enter phone number"
+
+[[flow]]
+id = "select_service"
+type = "action"
+label = "Select service type"
+
+[[flow]]
+id = "enter_location"
+type = "action"
+label = "Enter address and city"
+
+[[flow]]
+id = "select_datetime"
+type = "action"
+label = "Select date and time"
+
+[[flow]]
+id = "add_notes"
+type = "action"
+label = "Add optional notes"
+
+[[flow]]
+id = "validate"
+type = "decision"
+label = "Form valid?"
+
+[[flow]]
+id = "submit"
+type = "action"
+label = "Submit order"
+
+[[flow]]
+id = "create_order"
+type = "action"
+label = "Create order record, send SMS"
+
+[[flow]]
+id = "show_confirmation"
+type = "action"
+label = "Show order confirmation"
+
+[[flow]]
+id = "error"
+type = "action"
+label = "Show validation errors"
+
+[[flow]]
+id = "end"
+type = "end"
+label = "Order created successfully"
+

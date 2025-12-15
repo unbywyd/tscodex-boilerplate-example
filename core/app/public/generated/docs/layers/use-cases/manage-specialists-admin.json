@@ -1,0 +1,128 @@
+{
+  "path": "layers/use-cases/manage-specialists-admin.toml",
+  "name": "manage-specialists-admin.toml",
+  "type": "toml",
+  "content": {
+    "useCase": {
+      "id": "manage-specialists-admin",
+      "name": "Manage Specialists",
+      "description": "Admin views, adds, edits, and manages specialist accounts",
+      "asRole": "eldercare-admin",
+      "iWant": "to manage specialists",
+      "soThat": "I can control who can receive order assignments",
+      "meta": {
+        "isActive": true,
+        "priority": 2,
+        "platform": "admin-app"
+      },
+      "conditions": {
+        "pre": [
+          "Admin is authenticated",
+          "Specialists exist or admin wants to add new"
+        ],
+        "post": [
+          "Admin sees specialist list",
+          "Can view specialist details",
+          "Can add/edit specialists",
+          "Can toggle specialist active status"
+        ]
+      }
+    },
+    "relations": {
+      "roles": [
+        "eldercare-admin"
+      ],
+      "guards": [
+        "authenticated",
+        "admin-only"
+      ],
+      "routes": [
+        "admin-specialists"
+      ],
+      "entities": [
+        "specialist"
+      ],
+      "components": [
+        "specialist-card",
+        "specialist-form",
+        "specialist-list"
+      ],
+      "events": [
+        "specialist-added",
+        "specialist-toggled"
+      ],
+      "platforms": [
+        "admin-app"
+      ],
+      "useCases": []
+    },
+    "implementation": {
+      "route": "/prototype/admin/specialists",
+      "component": "AdminSpecialists",
+      "file": "src/prototype/pages/admin/AdminSpecialists.tsx",
+      "status": "planned"
+    },
+    "flow": [
+      {
+        "id": "start",
+        "type": "start",
+        "label": "Admin opens specialists screen"
+      },
+      {
+        "id": "load_specialists",
+        "type": "action",
+        "label": "Load all specialists from API"
+      },
+      {
+        "id": "show_list",
+        "type": "action",
+        "label": "Display specialist cards"
+      },
+      {
+        "id": "filter_active",
+        "type": "action",
+        "label": "Filter by active status (optional)"
+      },
+      {
+        "id": "select_specialist",
+        "type": "action",
+        "label": "Tap specialist card"
+      },
+      {
+        "id": "view_details",
+        "type": "action",
+        "label": "View specialist details (services, cities, orders)"
+      },
+      {
+        "id": "add_new",
+        "type": "action",
+        "label": "Tap 'Add Specialist' button"
+      },
+      {
+        "id": "edit",
+        "type": "action",
+        "label": "Edit specialist (name, phone, services, cities)"
+      },
+      {
+        "id": "toggle_active",
+        "type": "action",
+        "label": "Toggle active/inactive status"
+      },
+      {
+        "id": "save",
+        "type": "action",
+        "label": "Save changes"
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "label": "Specialists managed"
+      }
+    ]
+  },
+  "rawContent": "# Manage Specialists Admin Use Case\n\n[useCase]\nid = \"manage-specialists-admin\"\nname = \"Manage Specialists\"\ndescription = \"Admin views, adds, edits, and manages specialist accounts\"\nasRole = \"eldercare-admin\"\niWant = \"to manage specialists\"\nsoThat = \"I can control who can receive order assignments\"\n\n[useCase.meta]\nisActive = true\npriority = 2\nplatform = \"admin-app\"\n\n[useCase.conditions]\npre = [\n  \"Admin is authenticated\",\n  \"Specialists exist or admin wants to add new\"\n]\npost = [\n  \"Admin sees specialist list\",\n  \"Can view specialist details\",\n  \"Can add/edit specialists\",\n  \"Can toggle specialist active status\"\n]\n\n[relations]\nroles = [\"eldercare-admin\"]\nguards = [\"authenticated\", \"admin-only\"]\nroutes = [\"admin-specialists\"]\nentities = [\"specialist\"]\ncomponents = [\"specialist-card\", \"specialist-form\", \"specialist-list\"]\nevents = [\"specialist-added\", \"specialist-toggled\"]\nplatforms = [\"admin-app\"]\nuseCases = []\n\n[implementation]\nroute = \"/prototype/admin/specialists\"\ncomponent = \"AdminSpecialists\"\nfile = \"src/prototype/pages/admin/AdminSpecialists.tsx\"\nstatus = \"planned\"\n\n[[flow]]\nid = \"start\"\ntype = \"start\"\nlabel = \"Admin opens specialists screen\"\n\n[[flow]]\nid = \"load_specialists\"\ntype = \"action\"\nlabel = \"Load all specialists from API\"\n\n[[flow]]\nid = \"show_list\"\ntype = \"action\"\nlabel = \"Display specialist cards\"\n\n[[flow]]\nid = \"filter_active\"\ntype = \"action\"\nlabel = \"Filter by active status (optional)\"\n\n[[flow]]\nid = \"select_specialist\"\ntype = \"action\"\nlabel = \"Tap specialist card\"\n\n[[flow]]\nid = \"view_details\"\ntype = \"action\"\nlabel = \"View specialist details (services, cities, orders)\"\n\n[[flow]]\nid = \"add_new\"\ntype = \"action\"\nlabel = \"Tap 'Add Specialist' button\"\n\n[[flow]]\nid = \"edit\"\ntype = \"action\"\nlabel = \"Edit specialist (name, phone, services, cities)\"\n\n[[flow]]\nid = \"toggle_active\"\ntype = \"action\"\nlabel = \"Toggle active/inactive status\"\n\n[[flow]]\nid = \"save\"\ntype = \"action\"\nlabel = \"Save changes\"\n\n[[flow]]\nid = \"end\"\ntype = \"end\"\nlabel = \"Specialists managed\"\n\n",
+  "metadata": {
+    "size": 2001,
+    "modified": "2025-12-15T08:37:04.475Z"
+  }
+}

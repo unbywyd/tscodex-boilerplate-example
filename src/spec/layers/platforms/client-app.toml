@@ -30,6 +30,7 @@ items = [
 ]
 
 [relations]
-routes = ["client-home", "order-form", "order-tracking", "order-history", "review-form"]
-roles = ["client", "guest"]
+routes = ["client-home", "client-order-form", "client-login"]
+roles = ["client", "visitor"]
 guards = ["public"]
+useCases = ["create-order", "track-order", "authenticate-phone"]

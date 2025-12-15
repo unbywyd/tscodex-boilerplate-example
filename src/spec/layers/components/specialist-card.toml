@@ -63,7 +63,9 @@ import { SpecialistCard } from '@prototype/components'
 
 [relations]
 entities = ["specialist"]
-routes = ["admin-specialists"]
+routes = ["admin-specialists", "admin-orders"]
+useCases = ["manage-specialists-admin", "assign-specialist"]
+events = ["specialist-added", "specialist-toggled"]
 
 [implementation]
 component = "SpecialistCard"

@@ -23,8 +23,10 @@ guards = ["authenticated", "specialist-only"]
 roles = ["specialist"]
 entities = ["order"]
 platforms = ["specialist-app"]
+useCases = ["view-specialist-orders", "start-shift"]
+components = ["order-card"]
 
 [implementation]
 component = "SpecialistOrders"
 file = "src/prototype/pages/specialist/SpecialistOrders.tsx"
-status = "planned"
+status = "implemented"
