@@ -35,7 +35,7 @@ const statusConfig: Record<string, { label: string; color: string }> = {
   on_way: { label: 'On the Way', color: 'bg-amber-100 text-amber-700' },
   in_progress: { label: 'In Progress', color: 'bg-cyan-100 text-cyan-700' },
   completed: { label: 'Completed', color: 'bg-green-100 text-green-700' },
-  paid: { label: 'Paid', color: 'bg-green-100 text-green-700' },
+  paid: { label: 'Completed', color: 'bg-green-100 text-green-700' }, // Show as completed for client
   cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-700' },
 }
 

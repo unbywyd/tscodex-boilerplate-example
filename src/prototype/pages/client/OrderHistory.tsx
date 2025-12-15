@@ -30,7 +30,14 @@ const statusColors: Record<string, string> = {
   on_way: 'bg-amber-100 text-amber-700',
   in_progress: 'bg-cyan-100 text-cyan-700',
   completed: 'bg-green-100 text-green-700',
+  paid: 'bg-green-100 text-green-700', // Show same as completed for client
   cancelled: 'bg-red-100 text-red-700',
+}
+
+// For client, show paid as completed
+const getDisplayStatus = (status: string) => {
+  if (status === 'paid') return 'completed'
+  return status
 }
 
 export default function OrderHistory({ onBack, onNavigate }: OrderHistoryProps) {
@@ -153,7 +160,7 @@ export default function OrderHistory({ onBack, onNavigate }: OrderHistoryProps) 
                       </p>
                     </div>
                     <Badge className={statusColors[order.status]}>
-                      {order.status.replace('_', ' ')}
+                      {getDisplayStatus(order.status).replace('_', ' ')}
                     </Badge>
                   </div>
 
@@ -168,7 +175,7 @@ export default function OrderHistory({ onBack, onNavigate }: OrderHistoryProps) 
                     </div>
                   </div>
 
-                  {order.status === 'completed' && (
+                  {['completed', 'paid'].includes(order.status) && (
                     <div className="mt-3 pt-3 border-t flex items-center justify-between">
                       <div className="flex items-center gap-1 text-amber-500">
                         <Star className="h-4 w-4 fill-current" />

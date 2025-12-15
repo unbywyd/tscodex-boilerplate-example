@@ -31,7 +31,7 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.E
   on_way: { label: 'On the Way', color: 'bg-amber-500', icon: Truck },
   in_progress: { label: 'In Progress', color: 'bg-cyan-500', icon: Play },
   completed: { label: 'Completed', color: 'bg-green-500', icon: CheckCircle2 },
-  paid: { label: 'Paid', color: 'bg-emerald-500', icon: CheckCircle2 },
+  paid: { label: 'Completed', color: 'bg-green-500', icon: CheckCircle2 }, // Show as completed for client
   cancelled: { label: 'Cancelled', color: 'bg-red-500', icon: XCircle },
 }
 
