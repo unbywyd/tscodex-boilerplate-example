@@ -6,7 +6,7 @@ import { Heart, Stethoscope, Home, ShoppingBag, Users, Ambulance, Calendar, MapP
 import {
   Screen, ScreenHeader, ScreenBody, ScreenFooter,
   TopBar, Card, CardContent, Button, Input,
-  Select, DatePicker, TimePicker,
+  MobilePicker, DatePicker, TimePicker,
   Doc, useToast
 } from '@/components/ui'
 import { useRepo } from '@/hooks/useRepo'
@@ -193,11 +193,11 @@ export default function OrderForm({ onBack, onSuccess }: OrderFormProps) {
               </div>
 
               {/* Address - Pre-filled from profile */}
-              <Select
+              <MobilePicker
                 label="City"
                 placeholder="Select city"
                 value={formData.city}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, city: value }))}
+                onChange={(value) => setFormData(prev => ({ ...prev, city: value }))}
                 options={ISRAELI_CITIES}
               />
 

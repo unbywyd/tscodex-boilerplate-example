@@ -7,8 +7,8 @@
       "name": "interview.toml",
       "type": "toml",
       "metadata": {
-        "size": 10383,
-        "modified": "2025-12-14T19:47:38.891Z"
+        "size": 7661,
+        "modified": "2025-12-13T18:37:29.330Z"
       }
     },
     {
@@ -16,8 +16,8 @@
       "name": "status.toml",
       "type": "toml",
       "metadata": {
-        "size": 2778,
-        "modified": "2025-12-14T19:42:32.628Z"
+        "size": 3390,
+        "modified": "2025-12-13T18:53:00.392Z"
       }
     }
   ],
@@ -80,42 +80,6 @@
           "name": "components",
           "files": [
             {
-              "path": "layers/components/order-card.toml",
-              "name": "order-card.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1143,
-                "modified": "2025-12-14T15:39:44.404Z"
-              }
-            },
-            {
-              "path": "layers/components/service-card.toml",
-              "name": "service-card.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1059,
-                "modified": "2025-12-14T15:39:46.340Z"
-              }
-            },
-            {
-              "path": "layers/components/specialist-card.toml",
-              "name": "specialist-card.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1096,
-                "modified": "2025-12-14T15:39:48.392Z"
-              }
-            },
-            {
-              "path": "layers/components/stats-card.toml",
-              "name": "stats-card.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1162,
-                "modified": "2025-12-14T15:39:50.358Z"
-              }
-            },
-            {
               "path": "layers/components/user-card.toml",
               "name": "user-card.toml",
               "type": "toml",
@@ -132,15 +96,6 @@
           "name": "entities",
           "files": [
             {
-              "path": "layers/entities/availability.toml",
-              "name": "availability.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1163,
-                "modified": "2025-12-14T14:12:40.030Z"
-              }
-            },
-            {
               "path": "layers/entities/category.toml",
               "name": "category.toml",
               "type": "toml",
@@ -150,48 +105,12 @@
               }
             },
             {
-              "path": "layers/entities/order.toml",
-              "name": "order.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 2327,
-                "modified": "2025-12-14T14:12:33.729Z"
-              }
-            },
-            {
               "path": "layers/entities/product.toml",
               "name": "product.toml",
               "type": "toml",
               "metadata": {
                 "size": 1645,
                 "modified": "2025-12-11T08:13:46.281Z"
-              }
-            },
-            {
-              "path": "layers/entities/review.toml",
-              "name": "review.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 999,
-                "modified": "2025-12-14T14:12:42.114Z"
-              }
-            },
-            {
-              "path": "layers/entities/service.toml",
-              "name": "service.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 852,
-                "modified": "2025-12-14T14:12:37.931Z"
-              }
-            },
-            {
-              "path": "layers/entities/specialist.toml",
-              "name": "specialist.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1596,
-                "modified": "2025-12-14T14:12:35.792Z"
               }
             },
             {
@@ -211,33 +130,6 @@
           "name": "events",
           "files": [
             {
-              "path": "layers/events/auth-otp-sent.toml",
-              "name": "auth-otp-sent.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 559,
-                "modified": "2025-12-14T15:39:07.162Z"
-              }
-            },
-            {
-              "path": "layers/events/auth-verified.toml",
-              "name": "auth-verified.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 680,
-                "modified": "2025-12-14T15:39:09.525Z"
-              }
-            },
-            {
-              "path": "layers/events/availability-added.toml",
-              "name": "availability-added.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 787,
-                "modified": "2025-12-14T15:38:59.961Z"
-              }
-            },
-            {
               "path": "layers/events/cart-add.toml",
               "name": "cart-add.toml",
               "type": "toml",
@@ -253,60 +145,6 @@
               "metadata": {
                 "size": 455,
                 "modified": "2025-12-09T07:05:34.211Z"
-              }
-            },
-            {
-              "path": "layers/events/order-assigned.toml",
-              "name": "order-assigned.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 681,
-                "modified": "2025-12-14T15:38:52.431Z"
-              }
-            },
-            {
-              "path": "layers/events/order-created.toml",
-              "name": "order-created.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 767,
-                "modified": "2025-12-14T15:38:49.224Z"
-              }
-            },
-            {
-              "path": "layers/events/shift-ended.toml",
-              "name": "shift-ended.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 698,
-                "modified": "2025-12-14T15:38:57.647Z"
-              }
-            },
-            {
-              "path": "layers/events/shift-started.toml",
-              "name": "shift-started.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 674,
-                "modified": "2025-12-14T15:38:54.743Z"
-              }
-            },
-            {
-              "path": "layers/events/specialist-added.toml",
-              "name": "specialist-added.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 847,
-                "modified": "2025-12-14T15:39:02.280Z"
-              }
-            },
-            {
-              "path": "layers/events/specialist-toggled.toml",
-              "name": "specialist-toggled.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 703,
-                "modified": "2025-12-14T15:39:04.738Z"
               }
             },
             {
@@ -353,15 +191,6 @@
           "name": "guards",
           "files": [
             {
-              "path": "layers/guards/admin-only.toml",
-              "name": "admin-only.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 449,
-                "modified": "2025-12-14T14:11:57.787Z"
-              }
-            },
-            {
               "path": "layers/guards/admin.toml",
               "name": "admin.toml",
               "type": "toml",
@@ -386,15 +215,6 @@
               "metadata": {
                 "size": 175,
                 "modified": "2025-12-08T18:39:24.636Z"
-              }
-            },
-            {
-              "path": "layers/guards/specialist-only.toml",
-              "name": "specialist-only.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 443,
-                "modified": "2025-12-14T14:11:55.719Z"
               }
             }
           ],
@@ -461,39 +281,12 @@
           "name": "platforms",
           "files": [
             {
-              "path": "layers/platforms/admin-app.toml",
-              "name": "admin-app.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 892,
-                "modified": "2025-12-14T14:10:51.805Z"
-              }
-            },
-            {
               "path": "layers/platforms/admin-panel.toml",
               "name": "admin-panel.toml",
               "type": "toml",
               "metadata": {
                 "size": 414,
                 "modified": "2025-12-09T09:34:20.870Z"
-              }
-            },
-            {
-              "path": "layers/platforms/client-app.toml",
-              "name": "client-app.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 868,
-                "modified": "2025-12-14T14:10:47.629Z"
-              }
-            },
-            {
-              "path": "layers/platforms/specialist-app.toml",
-              "name": "specialist-app.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 904,
-                "modified": "2025-12-14T14:10:49.761Z"
               }
             },
             {
@@ -517,8 +310,8 @@
               "name": "about.toml",
               "type": "toml",
               "metadata": {
-                "size": 1451,
-                "modified": "2025-12-14T14:11:14.094Z"
+                "size": 819,
+                "modified": "2025-12-11T07:52:06.632Z"
               }
             },
             {
@@ -535,8 +328,8 @@
               "name": "design.toml",
               "type": "toml",
               "metadata": {
-                "size": 1994,
-                "modified": "2025-12-14T14:11:16.181Z"
+                "size": 1110,
+                "modified": "2025-12-11T07:54:34.914Z"
               }
             },
             {
@@ -565,33 +358,6 @@
               }
             },
             {
-              "path": "layers/roles/client.toml",
-              "name": "client.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 827,
-                "modified": "2025-12-14T14:11:42.367Z"
-              }
-            },
-            {
-              "path": "layers/roles/eldercare-admin.toml",
-              "name": "eldercare-admin.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 1051,
-                "modified": "2025-12-14T14:11:46.444Z"
-              }
-            },
-            {
-              "path": "layers/roles/specialist.toml",
-              "name": "specialist.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 799,
-                "modified": "2025-12-14T14:11:44.425Z"
-              }
-            },
-            {
               "path": "layers/roles/user.toml",
               "name": "user.toml",
               "type": "toml",
@@ -617,60 +383,6 @@
           "name": "routes",
           "files": [
             {
-              "path": "layers/routes/active-shift.toml",
-              "name": "active-shift.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 637,
-                "modified": "2025-12-14T14:13:33.654Z"
-              }
-            },
-            {
-              "path": "layers/routes/admin-dashboard.toml",
-              "name": "admin-dashboard.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 663,
-                "modified": "2025-12-14T14:13:37.889Z"
-              }
-            },
-            {
-              "path": "layers/routes/admin-orders.toml",
-              "name": "admin-orders.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 606,
-                "modified": "2025-12-14T14:13:39.999Z"
-              }
-            },
-            {
-              "path": "layers/routes/admin-specialists.toml",
-              "name": "admin-specialists.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 651,
-                "modified": "2025-12-14T14:13:42.147Z"
-              }
-            },
-            {
-              "path": "layers/routes/availability-setup.toml",
-              "name": "availability-setup.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 648,
-                "modified": "2025-12-14T14:13:35.685Z"
-              }
-            },
-            {
-              "path": "layers/routes/client-home.toml",
-              "name": "client-home.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 546,
-                "modified": "2025-12-14T14:13:21.279Z"
-              }
-            },
-            {
               "path": "layers/routes/dashboard.toml",
               "name": "dashboard.toml",
               "type": "toml",
@@ -680,57 +392,12 @@
               }
             },
             {
-              "path": "layers/routes/order-form.toml",
-              "name": "order-form.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 614,
-                "modified": "2025-12-14T14:13:23.474Z"
-              }
-            },
-            {
-              "path": "layers/routes/order-history.toml",
-              "name": "order-history.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 562,
-                "modified": "2025-12-14T14:13:27.461Z"
-              }
-            },
-            {
-              "path": "layers/routes/order-tracking.toml",
-              "name": "order-tracking.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 608,
-                "modified": "2025-12-14T14:13:25.478Z"
-              }
-            },
-            {
               "path": "layers/routes/prototype-home.toml",
               "name": "prototype-home.toml",
               "type": "toml",
               "metadata": {
                 "size": 608,
                 "modified": "2025-12-08T19:09:34.723Z"
-              }
-            },
-            {
-              "path": "layers/routes/specialist-home.toml",
-              "name": "specialist-home.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 609,
-                "modified": "2025-12-14T14:13:29.464Z"
-              }
-            },
-            {
-              "path": "layers/routes/specialist-orders.toml",
-              "name": "specialist-orders.toml",
-              "type": "toml",
-              "metadata": {
-                "size": 615,
-                "modified": "2025-12-14T14:13:31.535Z"
               }
             }
           ],

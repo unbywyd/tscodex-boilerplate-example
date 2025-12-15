@@ -8,7 +8,7 @@ import {
   TopBar, BottomNav, Card, CardContent, Button, Badge, Input,
   Tabs, TabsList, TabsTrigger, TabsContent,
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
-  Avatar, useToast, EmptyState, Doc, Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
+  Avatar, useToast, EmptyState, Doc, MobilePicker,
   DatePicker, TimePicker,
   type BottomNavItem
 } from '@/components/ui'
@@ -69,7 +69,6 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
   // Edit dialog state
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [editingOrder, setEditingOrder] = useState<CareOrderEntity | null>(null)
-  const editDialogRef = useRef<HTMLDivElement>(null)
   const [editForm, setEditForm] = useState({
     clientName: '',
     phone: '',
@@ -623,7 +622,7 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
 
       {/* Edit Order Dialog */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-        <DialogContent inline className="max-h-[80vh] overflow-auto" ref={editDialogRef}>
+        <DialogContent inline className="max-h-[80vh] overflow-auto">
           <DialogHeader>
             <DialogTitle>Edit Order</DialogTitle>
           </DialogHeader>
@@ -655,38 +654,20 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">City</label>
-                <Select
-                  value={editForm.city}
-                  onValueChange={(value) => setEditForm(prev => ({ ...prev, city: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select city" />
-                  </SelectTrigger>
-                  <SelectContent container={editDialogRef.current}>
-                    {ISRAELI_CITIES.map(city => (
-                      <SelectItem key={city} value={city}>{city}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">Service</label>
-                <Select
-                  value={editForm.serviceType}
-                  onValueChange={(value) => setEditForm(prev => ({ ...prev, serviceType: value as CareOrderEntity['serviceType'] }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select service" />
-                  </SelectTrigger>
-                  <SelectContent container={editDialogRef.current}>
-                    {SERVICES.map(service => (
-                      <SelectItem key={service.id} value={service.id}>{service.name}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <MobilePicker
+                label="City"
+                value={editForm.city}
+                onChange={(value) => setEditForm(prev => ({ ...prev, city: value }))}
+                options={ISRAELI_CITIES}
+                placeholder="Select city"
+              />
+              <MobilePicker
+                label="Service"
+                value={editForm.serviceType}
+                onChange={(value) => setEditForm(prev => ({ ...prev, serviceType: value as CareOrderEntity['serviceType'] }))}
+                options={SERVICES.map(s => ({ value: s.id, label: s.name }))}
+                placeholder="Select service"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -706,44 +687,25 @@ export default function AdminOrders({ onBack, onNavigate }: AdminOrdersProps) {
               />
             </div>
 
-            <div>
-              <label className="text-sm font-medium mb-1.5 block">Status</label>
-              <Select
-                value={editForm.status}
-                onValueChange={(value) => setEditForm(prev => ({ ...prev, status: value as CareOrderEntity['status'] }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent container={editDialogRef.current}>
-                  {allStatuses.map(status => (
-                    <SelectItem key={status} value={status} className="capitalize">
-                      {status.replace('_', ' ')}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <MobilePicker
+              label="Status"
+              value={editForm.status}
+              onChange={(value) => setEditForm(prev => ({ ...prev, status: value as CareOrderEntity['status'] }))}
+              options={allStatuses.map(s => ({ value: s, label: s.replace('_', ' ') }))}
+              placeholder="Select status"
+              searchable={false}
+            />
 
-            <div>
-              <label className="text-sm font-medium mb-1.5 block">Assigned Specialist</label>
-              <Select
-                value={editForm.specialistId || 'none'}
-                onValueChange={(value) => setEditForm(prev => ({ ...prev, specialistId: value === 'none' ? null : value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select specialist" />
-                </SelectTrigger>
-                <SelectContent container={editDialogRef.current}>
-                  <SelectItem value="none">Not assigned</SelectItem>
-                  {specialists.data.filter(s => s.isActive).map(specialist => (
-                    <SelectItem key={specialist.id} value={specialist.id}>
-                      {specialist.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <MobilePicker
+              label="Assigned Specialist"
+              value={editForm.specialistId || 'none'}
+              onChange={(value) => setEditForm(prev => ({ ...prev, specialistId: value === 'none' ? null : value }))}
+              options={[
+                { value: 'none', label: 'Not assigned' },
+                ...specialists.data.filter(s => s.isActive).map(s => ({ value: s.id, label: s.name }))
+              ]}
+              placeholder="Select specialist"
+            />
 
             <div>
               <label className="text-sm font-medium mb-1.5 block">Notes</label>

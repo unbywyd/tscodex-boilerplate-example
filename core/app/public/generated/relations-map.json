@@ -1,81 +1,24 @@
 {
   "byId": {
-    "order-card": {
-      "path": "layers/components/order-card.toml",
-      "folder": "components",
-      "title": "Order Card"
-    },
-    "service-card": {
-      "path": "layers/components/service-card.toml",
-      "folder": "components",
-      "title": "Service Card"
-    },
-    "specialist-card": {
-      "path": "layers/components/specialist-card.toml",
-      "folder": "components",
-      "title": "Specialist Card"
-    },
-    "stats-card": {
-      "path": "layers/components/stats-card.toml",
-      "folder": "components",
-      "title": "Stats Card"
-    },
     "user-card": {
       "path": "layers/components/user-card.toml",
       "folder": "components",
       "title": "User Card"
-    },
-    "availability": {
-      "path": "layers/entities/availability.toml",
-      "folder": "entities",
-      "title": "Availability"
     },
     "category": {
       "path": "layers/entities/category.toml",
       "folder": "entities",
       "title": "Category"
     },
-    "order": {
-      "path": "layers/entities/order.toml",
-      "folder": "entities",
-      "title": "Order"
-    },
     "product": {
       "path": "layers/entities/product.toml",
       "folder": "entities",
       "title": "Product"
     },
-    "review": {
-      "path": "layers/entities/review.toml",
-      "folder": "entities",
-      "title": "Review"
-    },
-    "service": {
-      "path": "layers/entities/service.toml",
-      "folder": "entities",
-      "title": "Service"
-    },
-    "specialist": {
-      "path": "layers/roles/specialist.toml",
-      "folder": "roles",
-      "title": "Specialist"
-    },
     "user": {
       "path": "layers/roles/user.toml",
       "folder": "roles",
       "title": "User"
-    },
-    "auth-otp-sent": {
-      "path": "layers/events/auth-otp-sent.toml",
-      "folder": "events"
-    },
-    "auth-verified": {
-      "path": "layers/events/auth-verified.toml",
-      "folder": "events"
-    },
-    "availability-added": {
-      "path": "layers/events/availability-added.toml",
-      "folder": "events"
     },
     "cart-add": {
       "path": "layers/events/cart-add.toml",
@@ -83,30 +26,6 @@
     },
     "form-submit": {
       "path": "layers/events/form-submit.toml",
-      "folder": "events"
-    },
-    "order-assigned": {
-      "path": "layers/events/order-assigned.toml",
-      "folder": "events"
-    },
-    "order-created": {
-      "path": "layers/events/order-created.toml",
-      "folder": "events"
-    },
-    "shift-ended": {
-      "path": "layers/events/shift-ended.toml",
-      "folder": "events"
-    },
-    "shift-started": {
-      "path": "layers/events/shift-started.toml",
-      "folder": "events"
-    },
-    "specialist-added": {
-      "path": "layers/events/specialist-added.toml",
-      "folder": "events"
-    },
-    "specialist-toggled": {
-      "path": "layers/events/specialist-toggled.toml",
       "folder": "events"
     },
     "user-create": {
@@ -140,11 +59,6 @@
       "folder": "guards",
       "title": "Public Access"
     },
-    "specialist-only": {
-      "path": "layers/guards/specialist-only.toml",
-      "folder": "guards",
-      "title": "Specialist Access"
-    },
     "architecture": {
       "path": "layers/knowledge/architecture.toml",
       "folder": "knowledge",
@@ -163,30 +77,18 @@
       "path": "layers/pages/users.toml",
       "folder": "pages"
     },
-    "admin-app": {
-      "path": "layers/platforms/admin-app.toml",
-      "folder": "platforms"
-    },
     "admin-panel": {
       "path": "layers/platforms/admin-panel.toml",
-      "folder": "platforms"
-    },
-    "client-app": {
-      "path": "layers/platforms/client-app.toml",
-      "folder": "platforms"
-    },
-    "specialist-app": {
-      "path": "layers/platforms/specialist-app.toml",
       "folder": "platforms"
     },
     "web-app": {
       "path": "layers/platforms/web-app.toml",
       "folder": "platforms"
     },
-    "eldercare": {
+    "llm-boilerplate": {
       "path": "layers/project/about.toml",
       "folder": "project",
-      "title": "ElderCare"
+      "title": "LLM Boilerplate"
     },
     "business": {
       "path": "layers/project/business.toml",
@@ -205,85 +107,20 @@
       "folder": "roles",
       "title": "Administrator"
     },
-    "client": {
-      "path": "layers/roles/client.toml",
-      "folder": "roles",
-      "title": "Client"
-    },
-    "eldercare-admin": {
-      "path": "layers/roles/eldercare-admin.toml",
-      "folder": "roles",
-      "title": "Administrator"
-    },
     "visitor": {
       "path": "layers/roles/visitor.toml",
       "folder": "roles",
       "title": "Visitor"
-    },
-    "active-shift": {
-      "path": "layers/routes/active-shift.toml",
-      "folder": "routes",
-      "title": "Active Shift"
-    },
-    "admin-dashboard": {
-      "path": "layers/routes/admin-dashboard.toml",
-      "folder": "routes",
-      "title": "Dashboard"
-    },
-    "admin-orders": {
-      "path": "layers/routes/admin-orders.toml",
-      "folder": "routes",
-      "title": "Orders"
-    },
-    "admin-specialists": {
-      "path": "layers/routes/admin-specialists.toml",
-      "folder": "routes",
-      "title": "Specialists"
-    },
-    "availability-setup": {
-      "path": "layers/routes/availability-setup.toml",
-      "folder": "routes",
-      "title": "My Availability"
-    },
-    "client-home": {
-      "path": "layers/routes/client-home.toml",
-      "folder": "routes",
-      "title": "ElderCare"
     },
     "route_dashboard": {
       "path": "layers/routes/dashboard.toml",
       "folder": "routes",
       "title": "Dashboard"
     },
-    "order-form": {
-      "path": "layers/routes/order-form.toml",
-      "folder": "routes",
-      "title": "New Order"
-    },
-    "order-history": {
-      "path": "layers/routes/order-history.toml",
-      "folder": "routes",
-      "title": "Order History"
-    },
-    "order-tracking": {
-      "path": "layers/routes/order-tracking.toml",
-      "folder": "routes",
-      "title": "Track Order"
-    },
     "route_prototype_home": {
       "path": "layers/routes/prototype-home.toml",
       "folder": "routes",
       "title": "Prototype Home"
-    },
-    "specialist-home": {
-      "path": "layers/routes/specialist-home.toml",
-      "folder": "routes",
-      "title": "My Work"
-    },
-    "specialist-orders": {
-      "path": "layers/routes/specialist-orders.toml",
-      "folder": "routes",
-      "title": "My Orders"
     },
     "uc_view_documentation": {
       "path": "layers/use-cases/view-documentation.toml",
@@ -298,34 +135,16 @@
   },
   "byFolder": {
     "components": [
-      "order-card",
-      "service-card",
-      "specialist-card",
-      "stats-card",
       "user-card"
     ],
     "entities": [
-      "availability",
       "category",
-      "order",
       "product",
-      "review",
-      "service",
-      "specialist",
       "user"
     ],
     "events": [
-      "auth-otp-sent",
-      "auth-verified",
-      "availability-added",
       "cart-add",
       "form-submit",
-      "order-assigned",
-      "order-created",
-      "shift-ended",
-      "shift-started",
-      "specialist-added",
-      "specialist-toggled",
       "user-create",
       "user-delete",
       "user-login",
@@ -333,10 +152,8 @@
     ],
     "guards": [
       "admin-only",
-      "admin-only",
       "authenticated",
-      "public",
-      "specialist-only"
+      "public"
     ],
     "knowledge": [
       "architecture",
@@ -348,40 +165,23 @@
       "users"
     ],
     "platforms": [
-      "admin-app",
       "admin-panel",
-      "client-app",
-      "specialist-app",
       "web-app"
     ],
     "project": [
-      "eldercare",
+      "llm-boilerplate",
       "business",
       "design",
       "tech"
     ],
     "roles": [
       "admin",
-      "client",
-      "eldercare-admin",
-      "specialist",
       "user",
       "visitor"
     ],
     "routes": [
-      "active-shift",
-      "admin-dashboard",
-      "admin-orders",
-      "admin-specialists",
-      "availability-setup",
-      "client-home",
       "route_dashboard",
-      "order-form",
-      "order-history",
-      "order-tracking",
-      "route_prototype_home",
-      "specialist-home",
-      "specialist-orders"
+      "route_prototype_home"
     ],
     "use-cases": [
       "uc_view_documentation",
@@ -389,87 +189,9 @@
     ]
   },
   "referencedBy": {
-    "care-order": [
-      "order-card",
-      "order-assigned",
-      "order-created",
-      "shift-ended",
-      "shift-started"
-    ],
-    "client-orders": [
-      "order-card"
-    ],
-    "admin-orders": [
-      "order-card",
-      "order-assigned",
-      "admin-only",
-      "admin-app",
-      "eldercare-admin"
-    ],
-    "specialist-orders": [
-      "order-card",
-      "specialist-only",
-      "specialist-app",
-      "specialist"
-    ],
-    "service": [
-      "service-card",
-      "order-form"
-    ],
-    "client-home": [
-      "service-card",
-      "client-app",
-      "client"
-    ],
-    "client-order-form": [
-      "service-card",
-      "order-created"
-    ],
-    "specialist": [
-      "specialist-card",
-      "availability-added",
-      "order-assigned",
-      "shift-ended",
-      "shift-started",
-      "specialist-added",
-      "specialist-toggled",
-      "specialist-only",
-      "specialist-app",
-      "active-shift",
-      "admin-dashboard",
-      "admin-orders",
-      "admin-specialists",
-      "availability-setup",
-      "order-tracking",
-      "specialist-home",
-      "specialist-orders"
-    ],
-    "admin-specialists": [
-      "specialist-card",
-      "specialist-added",
-      "specialist-toggled",
-      "admin-only",
-      "admin-app",
-      "eldercare-admin"
-    ],
-    "admin-dashboard": [
-      "stats-card",
-      "admin-only",
-      "admin-app",
-      "admin-panel",
-      "eldercare-admin"
-    ],
-    "specialist-home": [
-      "stats-card",
-      "specialist-only",
-      "specialist-app",
-      "specialist"
-    ],
     "user": [
       "user-card",
       "user",
-      "auth-otp-sent",
-      "auth-verified",
       "user-create",
       "user-delete",
       "user-login",
@@ -502,29 +224,12 @@
     ],
     "admin": [
       "user",
-      "admin-app",
       "admin-panel",
       "web-app"
     ],
     "user-card": [
       "user",
       "users"
-    ],
-    "client-login": [
-      "auth-otp-sent",
-      "auth-verified"
-    ],
-    "specialist-login": [
-      "auth-otp-sent",
-      "auth-verified"
-    ],
-    "availability": [
-      "availability-added",
-      "admin-specialists",
-      "availability-setup"
-    ],
-    "specialist-availability": [
-      "availability-added"
     ],
     "product": [
       "cart-add",
@@ -536,42 +241,11 @@
     "form": [
       "form-submit"
     ],
-    "specialist-active-shift": [
-      "shift-ended",
-      "shift-started"
-    ],
     "uc_login": [
       "user-login"
     ],
     "guest": [
-      "user-login",
-      "client-app"
-    ],
-    "eldercare-admin": [
-      "admin-only",
-      "admin-dashboard",
-      "admin-orders",
-      "admin-specialists"
-    ],
-    "specialist-detail": [
-      "admin-only",
-      "admin-app",
-      "eldercare-admin"
-    ],
-    "order-assignment": [
-      "admin-only",
-      "admin-app",
-      "eldercare-admin"
-    ],
-    "active-shift": [
-      "specialist-only",
-      "specialist-app",
-      "specialist"
-    ],
-    "availability-setup": [
-      "specialist-only",
-      "specialist-app",
-      "specialist"
+      "user-login"
     ],
     "user-create": [
       "users"
@@ -582,76 +256,14 @@
     "user-populate": [
       "users"
     ],
-    "authenticated": [
-      "admin-app",
-      "specialist-app",
-      "web-app",
-      "eldercare-admin",
-      "specialist",
-      "active-shift",
-      "admin-dashboard",
-      "admin-orders",
-      "admin-specialists",
-      "availability-setup",
-      "route_dashboard",
-      "specialist-home",
-      "specialist-orders"
-    ],
-    "admin-only": [
-      "admin-app",
-      "eldercare-admin",
-      "admin-dashboard",
-      "admin-orders",
-      "admin-specialists"
+    "admin-dashboard": [
+      "admin-panel"
     ],
     "admin-users": [
       "admin-panel"
     ],
     "admin-settings": [
       "admin-panel"
-    ],
-    "order-form": [
-      "client-app",
-      "client"
-    ],
-    "order-tracking": [
-      "client-app",
-      "client"
-    ],
-    "order-history": [
-      "client-app",
-      "client"
-    ],
-    "review-form": [
-      "client-app",
-      "client"
-    ],
-    "client": [
-      "client-app",
-      "client-home",
-      "order-form",
-      "order-history",
-      "order-tracking"
-    ],
-    "public": [
-      "client-app",
-      "web-app",
-      "client",
-      "client-home",
-      "order-form",
-      "order-history",
-      "order-tracking",
-      "route_prototype_home",
-      "uc_view_documentation",
-      "uc_view_prototype"
-    ],
-    "specialist-only": [
-      "specialist-app",
-      "specialist",
-      "active-shift",
-      "availability-setup",
-      "specialist-home",
-      "specialist-orders"
     ],
     "home": [
       "web-app"
@@ -671,73 +283,18 @@
       "uc_view_documentation",
       "uc_view_prototype"
     ],
-    "client-app": [
-      "client",
-      "client-home",
-      "order-form",
-      "order-history",
-      "order-tracking"
+    "public": [
+      "web-app",
+      "route_prototype_home",
+      "uc_view_documentation",
+      "uc_view_prototype"
     ],
-    "admin-app": [
-      "eldercare-admin",
-      "admin-dashboard",
-      "admin-orders",
-      "admin-specialists"
-    ],
-    "specialist-app": [
-      "specialist",
-      "active-shift",
-      "availability-setup",
-      "specialist-home",
-      "specialist-orders"
-    ],
-    "order": [
-      "active-shift",
-      "admin-dashboard",
-      "admin-orders",
-      "order-form",
-      "order-history",
-      "order-tracking",
-      "specialist-orders"
-    ],
-    "review": [
-      "order-history"
+    "authenticated": [
+      "web-app",
+      "route_dashboard"
     ]
   },
   "relations": {
-    "order-card": {
-      "entities": [
-        "care-order"
-      ],
-      "routes": [
-        "client-orders",
-        "admin-orders",
-        "specialist-orders"
-      ]
-    },
-    "service-card": {
-      "entities": [
-        "service"
-      ],
-      "routes": [
-        "client-home",
-        "client-order-form"
-      ]
-    },
-    "specialist-card": {
-      "entities": [
-        "specialist"
-      ],
-      "routes": [
-        "admin-specialists"
-      ]
-    },
-    "stats-card": {
-      "routes": [
-        "admin-dashboard",
-        "specialist-home"
-      ]
-    },
     "user-card": {
       "entities": [
         "user"
@@ -774,33 +331,6 @@
         "user-card"
       ]
     },
-    "auth-otp-sent": {
-      "entities": [
-        "user"
-      ],
-      "routes": [
-        "client-login",
-        "specialist-login"
-      ]
-    },
-    "auth-verified": {
-      "entities": [
-        "user"
-      ],
-      "routes": [
-        "client-login",
-        "specialist-login"
-      ]
-    },
-    "availability-added": {
-      "entities": [
-        "availability",
-        "specialist"
-      ],
-      "routes": [
-        "specialist-availability"
-      ]
-    },
     "cart-add": {
       "entities": [
         "product"
@@ -812,57 +342,6 @@
     "form-submit": {
       "components": [
         "form"
-      ]
-    },
-    "order-assigned": {
-      "entities": [
-        "care-order",
-        "specialist"
-      ],
-      "routes": [
-        "admin-orders"
-      ]
-    },
-    "order-created": {
-      "entities": [
-        "care-order"
-      ],
-      "routes": [
-        "client-order-form"
-      ]
-    },
-    "shift-ended": {
-      "entities": [
-        "care-order",
-        "specialist"
-      ],
-      "routes": [
-        "specialist-active-shift"
-      ]
-    },
-    "shift-started": {
-      "entities": [
-        "care-order",
-        "specialist"
-      ],
-      "routes": [
-        "specialist-active-shift"
-      ]
-    },
-    "specialist-added": {
-      "entities": [
-        "specialist"
-      ],
-      "routes": [
-        "admin-specialists"
-      ]
-    },
-    "specialist-toggled": {
-      "entities": [
-        "specialist"
-      ],
-      "routes": [
-        "admin-specialists"
       ]
     },
     "user-create": {
@@ -900,29 +379,6 @@
         "user"
       ]
     },
-    "admin-only": {
-      "roles": [
-        "eldercare-admin"
-      ],
-      "routes": [
-        "admin-dashboard",
-        "admin-orders",
-        "admin-specialists",
-        "specialist-detail",
-        "order-assignment"
-      ]
-    },
-    "specialist-only": {
-      "roles": [
-        "specialist"
-      ],
-      "routes": [
-        "specialist-home",
-        "specialist-orders",
-        "active-shift",
-        "availability-setup"
-      ]
-    },
     "products": {
       "components": [
         "product-card"
@@ -944,22 +400,6 @@
         "user-populate"
       ]
     },
-    "admin-app": {
-      "routes": [
-        "admin-dashboard",
-        "admin-orders",
-        "admin-specialists",
-        "specialist-detail",
-        "order-assignment"
-      ],
-      "roles": [
-        "admin"
-      ],
-      "guards": [
-        "authenticated",
-        "admin-only"
-      ]
-    },
     "admin-panel": {
       "routes": [
         "admin-dashboard",
@@ -971,37 +411,6 @@
       ],
       "guards": [
         "admin"
-      ]
-    },
-    "client-app": {
-      "routes": [
-        "client-home",
-        "order-form",
-        "order-tracking",
-        "order-history",
-        "review-form"
-      ],
-      "roles": [
-        "client",
-        "guest"
-      ],
-      "guards": [
-        "public"
-      ]
-    },
-    "specialist-app": {
-      "routes": [
-        "specialist-home",
-        "specialist-orders",
-        "active-shift",
-        "availability-setup"
-      ],
-      "roles": [
-        "specialist"
-      ],
-      "guards": [
-        "authenticated",
-        "specialist-only"
       ]
     },
     "web-app": {
@@ -1021,141 +430,6 @@
         "authenticated"
       ]
     },
-    "client": {
-      "guards": [
-        "public"
-      ],
-      "routes": [
-        "client-home",
-        "order-form",
-        "order-tracking",
-        "order-history",
-        "review-form"
-      ],
-      "platforms": [
-        "client-app"
-      ]
-    },
-    "eldercare-admin": {
-      "guards": [
-        "authenticated",
-        "admin-only"
-      ],
-      "routes": [
-        "admin-dashboard",
-        "admin-orders",
-        "admin-specialists",
-        "specialist-detail",
-        "order-assignment"
-      ],
-      "platforms": [
-        "admin-app"
-      ]
-    },
-    "specialist": {
-      "guards": [
-        "authenticated",
-        "specialist-only"
-      ],
-      "routes": [
-        "specialist-home",
-        "specialist-orders",
-        "active-shift",
-        "availability-setup"
-      ],
-      "platforms": [
-        "specialist-app"
-      ]
-    },
-    "active-shift": {
-      "guards": [
-        "authenticated",
-        "specialist-only"
-      ],
-      "roles": [
-        "specialist"
-      ],
-      "entities": [
-        "order"
-      ],
-      "platforms": [
-        "specialist-app"
-      ]
-    },
-    "admin-dashboard": {
-      "guards": [
-        "authenticated",
-        "admin-only"
-      ],
-      "roles": [
-        "eldercare-admin"
-      ],
-      "entities": [
-        "order",
-        "specialist"
-      ],
-      "platforms": [
-        "admin-app"
-      ]
-    },
-    "admin-orders": {
-      "guards": [
-        "authenticated",
-        "admin-only"
-      ],
-      "roles": [
-        "eldercare-admin"
-      ],
-      "entities": [
-        "order",
-        "specialist"
-      ],
-      "platforms": [
-        "admin-app"
-      ]
-    },
-    "admin-specialists": {
-      "guards": [
-        "authenticated",
-        "admin-only"
-      ],
-      "roles": [
-        "eldercare-admin"
-      ],
-      "entities": [
-        "specialist",
-        "availability"
-      ],
-      "platforms": [
-        "admin-app"
-      ]
-    },
-    "availability-setup": {
-      "guards": [
-        "authenticated",
-        "specialist-only"
-      ],
-      "roles": [
-        "specialist"
-      ],
-      "entities": [
-        "availability"
-      ],
-      "platforms": [
-        "specialist-app"
-      ]
-    },
-    "client-home": {
-      "guards": [
-        "public"
-      ],
-      "roles": [
-        "client"
-      ],
-      "platforms": [
-        "client-app"
-      ]
-    },
     "route_dashboard": {
       "guards": [
         "authenticated"
@@ -1164,84 +438,12 @@
         "user"
       ]
     },
-    "order-form": {
-      "guards": [
-        "public"
-      ],
-      "roles": [
-        "client"
-      ],
-      "entities": [
-        "order",
-        "service"
-      ],
-      "platforms": [
-        "client-app"
-      ]
-    },
-    "order-history": {
-      "guards": [
-        "public"
-      ],
-      "roles": [
-        "client"
-      ],
-      "entities": [
-        "order",
-        "review"
-      ],
-      "platforms": [
-        "client-app"
-      ]
-    },
-    "order-tracking": {
-      "guards": [
-        "public"
-      ],
-      "roles": [
-        "client"
-      ],
-      "entities": [
-        "order",
-        "specialist"
-      ],
-      "platforms": [
-        "client-app"
-      ]
-    },
     "route_prototype_home": {
       "guards": [
         "public"
       ],
       "roles": [
         "visitor"
-      ]
-    },
-    "specialist-home": {
-      "guards": [
-        "authenticated",
-        "specialist-only"
-      ],
-      "roles": [
-        "specialist"
-      ],
-      "platforms": [
-        "specialist-app"
-      ]
-    },
-    "specialist-orders": {
-      "guards": [
-        "authenticated",
-        "specialist-only"
-      ],
-      "roles": [
-        "specialist"
-      ],
-      "entities": [
-        "order"
-      ],
-      "platforms": [
-        "specialist-app"
       ]
     },
     "uc_view_documentation": {

@@ -6,7 +6,7 @@ import { Phone, ArrowRight, User, Bell, MapPin, Check, Home } from 'lucide-react
 import {
   Screen, ScreenHeader, ScreenBody, ScreenFooter,
   TopBar, Card, CardContent, Button, Input,
-  Select, Doc, useToast, OTPInput
+  MobilePicker, Doc, useToast, OTPInput
 } from '@/components/ui'
 import { useAuth } from '@/hooks/useAuth'
 import { dispatchEvent } from '@/lib/events'
@@ -217,11 +217,11 @@ export default function LoginScreen({ onLogin, onSkip }: LoginScreenProps) {
         </div>
 
         {/* City - optional */}
-        <Select
+        <MobilePicker
           label="City"
           placeholder="Select your city"
           value={city}
-          onValueChange={setCity}
+          onChange={setCity}
           options={ISRAELI_CITIES}
         />
 
